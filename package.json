@@ -1,0 +1,24 @@
+{
+  "name": "gah-datepicker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "r-dropdown-button": "^2.1.9",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammadFeiz/gah-datepicker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohammadFeiz/gah-datepicker/issues"
+  },
+  "homepage": "https://github.com/mohammadFeiz/gah-datepicker#readme"
+}
