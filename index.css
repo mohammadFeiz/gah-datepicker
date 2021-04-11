@@ -51,10 +51,7 @@
   border:1px solid #f5f5f5;
 }
 :root{
-  --rdp-size:48px;
   --rdp-color:rgb(138, 190, 224);
-  --rdp-text-color:#888;
-  --rdp-border-color:#eee;
   --rdp-border-radius:3px;
 }
 .rdp{
@@ -64,7 +61,7 @@
   background: #f8fbfd;
   display:flex;
   flex-direction: column;
-  color:#888;
+  color:inherit;
   border-radius:var(--rdp-border-radius);
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
@@ -131,6 +128,7 @@
   outline:none;
   background:#fff;
   flex:1;
+  color:inherit;
   height:36px;
   width:72px;
   font-size:inherit;
@@ -187,7 +185,6 @@
   position:absolute;
   top:-1px;
   left:-2px;
-  color:#666;
   display:flex;
   align-items: center;
   justify-content: center;
@@ -230,6 +227,7 @@
 }
 .rdp-cell.start{
   background: var(--rdp-color);
+  color:#fff;
   border-radius:24px 0px 0px 24px !important;
 }
 .rdp-cell.start.is-jalali{
@@ -247,7 +245,7 @@
 .rdp-weekday{
   font-weight:bold;
   font-size:120%;
-  color:#555;
+
   
 }
 .rdp-header-icon{
@@ -270,6 +268,7 @@
   background:none;
   border:none;
   outline:none;
+  color:inherit;
 }
 
 .rdp-list-header{
