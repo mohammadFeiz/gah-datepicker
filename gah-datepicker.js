@@ -1,5 +1,6 @@
-import React,{Component,Fragment,createContext} from 'react';
+import React,{Component,Fragment,createContext,createRef} from 'react';
 import RDropdownButton from 'r-dropdown-button';
+import $ from 'jquery';
 import {
   getPlusIcon,getMinusIcon,getGridIcon,getMonthDaysLength,getWeekDay,jalali_to_gregorian,
   getToday,getMonths,getNextDay,getPrevDay,compaireDate,getNextMonth,getPrevMonth
@@ -148,7 +149,12 @@ export default class GAH extends Component{
     }
   }
   getValue(){
-    var {range,splitter,type} = this.props;
+    var {jalali,range,splitter,type,value,placeHolder} = this.props;
+    if(!value){
+      if(placeHolder){return placeHolder}
+      if(jalali){return 'انتخاب تاریخ'}
+      return 'Select Date'
+    }
     if(range){
       let {start,end} = this.state;
       if(type === 'day'){return start.year + splitter + start.month + splitter + start.day + ' - ' + end.year + splitter + end.month + splitter + end.day}
@@ -168,15 +174,23 @@ export default class GAH extends Component{
       if(type === 'year'){return year }
     }
   }
+  getIcon(){
+    var {icon} = this.props;
+    if(icon === false){return false}
+    if(icon === undefined){return getGridIcon()}
+    return icon;
+  }
   render(){
-    var {jalali,range} = this.props;
+    var {jalali,range,value} = this.props;
     this.getDateDetails();
     var Value = this.getValue();
+    var icon = this.getIcon();
     return (
       <div className='gah-datepicker' style={{direction:jalali?'rtl':'ltr'}}> 
-        <div className='gah-datepicker-icon'>{getGridIcon()}</div>
+        {icon !== false && <div className='gah-datepicker-icon'>{this.getIcon()}</div>}
         <RDropdownButton 
           rtl={jalali}
+          open={true}
           animate={true}
           className='gah-datepicker-button'
           text={Value}
@@ -196,7 +210,7 @@ export default class GAH extends Component{
           )}}
         />
         {
-          !range &&
+          !range && value &&
           <div className='gah-step'>
             <div className='gah-step-up' onClick={()=>this.setNext(1)}></div>
             <div className='gah-step-down' onClick={()=>this.setNext(-1)}></div>  
@@ -429,7 +443,8 @@ class GAHDatePickerGrid extends Component{
   constructor(props){
     super(props);
     var {details} = this.props;
-    this.state = {activeYear:details.year,activeMonth:details.month}
+    this.state = {activeYear:details.year,activeMonth:details.month};
+    this.dom = createRef();
   }
   getWeekDays(){
     var {mode} = this.context;
@@ -472,6 +487,9 @@ class GAHDatePickerGrid extends Component{
     var {type} = this.context;
     return this['getCellsBy' + type]()
   }
+  componentDidMount(){
+    $(this.dom.current).find('.active').focus();
+  }
   getCellsByday(){
     var {activeYear,activeMonth} = this.state;
     var {isDisabled,mode} = this.context;
@@ -481,7 +499,7 @@ class GAHDatePickerGrid extends Component{
       let disabled = isDisabled([activeYear,activeMonth,day]);
       let className = this.getCellClassName(activeYear,activeMonth,day,disabled);
       let onClick = disabled || this.context.disabled?undefined:()=>this.change(activeYear,activeMonth,day);
-      Days.push(<div onClick={onClick} key={'day' + day} className={className}>{day}</div>)
+      Days.push(<div tabIndex={0} onClick={onClick} key={'day' + day} className={className}>{day}</div>)
     }
     return Days;
   }
@@ -494,6 +512,7 @@ class GAHDatePickerGrid extends Component{
       let disabled = isDisabled([activeYear,month + 1,1]);
       Months.push(
         <div 
+          tabIndex={0}
           key={month} 
           style={{borderRadius:0}} 
           className={this.getCellClassName(activeYear,month + 1,1,disabled)}
@@ -510,6 +529,7 @@ class GAHDatePickerGrid extends Component{
       let disabled = isDisabled([years[year],1,1]);
       Years.push(
         <div 
+          tabIndex={0}
           key={year} 
           style={{borderRadius:0,minHeight:'24px'}} 
           className={this.getCellClassName(years[year],1,1,disabled)}
@@ -626,7 +646,7 @@ class GAHDatePickerGrid extends Component{
     return (
       <Fragment>
         {this.getHeader()}
-        <div className='rdp-grid' style={this.getStyle()}>{this['getContent' + type]()}</div>
+        <div ref={this.dom} className='rdp-grid' style={this.getStyle()}>{this['getContent' + type]()}</div>
       </Fragment>
     )
   }

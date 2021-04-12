@@ -11,6 +11,7 @@
   display: flex;
   align-items: center;
   justify-content:center;
+  width:36px;
 }
 .gah-datepicker-button{
   flex:1;
@@ -201,11 +202,32 @@
   overflow-y:auto;
   overflow-x: hidden;
 }
+/* custom scrollbar */
+  .rdp-grid::-webkit-scrollbar {
+    width: 10px !important;
+    height:10px !important;
+  }
+  
+  .rdp-grid::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  .rdp-grid::-webkit-scrollbar-thumb {
+    background-color: #e6e7e9;
+    border-radius: 20px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  
+  .rdp-grid::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+  }
 .rdp-cell{
   display:flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  outline:none;
 }
 .rdp-cell.active{
   background: rgba(138, 190, 224);

@@ -11,6 +11,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _rDropdownButton = _interopRequireDefault(require("r-dropdown-button"));
 
+var _jquery = _interopRequireDefault(require("jquery"));
+
 var _functions = require("./functions");
 
 require("./index.css");
@@ -390,9 +392,24 @@ var GAH = /*#__PURE__*/function (_Component) {
     key: "getValue",
     value: function getValue() {
       var _this$props6 = this.props,
+          jalali = _this$props6.jalali,
           range = _this$props6.range,
           splitter = _this$props6.splitter,
-          type = _this$props6.type;
+          type = _this$props6.type,
+          value = _this$props6.value,
+          placeHolder = _this$props6.placeHolder;
+
+      if (!value) {
+        if (placeHolder) {
+          return placeHolder;
+        }
+
+        if (jalali) {
+          return 'انتخاب تاریخ';
+        }
+
+        return 'Select Date';
+      }
 
       if (range) {
         var _this$state4 = this.state,
@@ -433,24 +450,42 @@ var GAH = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
+    key: "getIcon",
+    value: function getIcon() {
+      var icon = this.props.icon;
+
+      if (icon === false) {
+        return false;
+      }
+
+      if (icon === undefined) {
+        return (0, _functions.getGridIcon)();
+      }
+
+      return icon;
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
       var _this$props7 = this.props,
           jalali = _this$props7.jalali,
-          range = _this$props7.range;
+          range = _this$props7.range,
+          value = _this$props7.value;
       this.getDateDetails();
       var Value = this.getValue();
+      var icon = this.getIcon();
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "gah-datepicker",
         style: {
           direction: jalali ? 'rtl' : 'ltr'
         }
-      }, /*#__PURE__*/_react.default.createElement("div", {
+      }, icon !== false && /*#__PURE__*/_react.default.createElement("div", {
         className: "gah-datepicker-icon"
-      }, (0, _functions.getGridIcon)()), /*#__PURE__*/_react.default.createElement(_rDropdownButton.default, {
+      }, this.getIcon()), /*#__PURE__*/_react.default.createElement(_rDropdownButton.default, {
         rtl: jalali,
+        open: true,
         animate: true,
         className: "gah-datepicker-button",
         text: Value,
@@ -471,7 +506,7 @@ var GAH = /*#__PURE__*/function (_Component) {
             setActiveRange: _this3.setActiveRange.bind(_this3)
           }));
         }
-      }), !range && /*#__PURE__*/_react.default.createElement("div", {
+      }), !range && value && /*#__PURE__*/_react.default.createElement("div", {
         className: "gah-step"
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "gah-step-up",
@@ -1072,6 +1107,7 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
       activeYear: details.year,
       activeMonth: details.month
     };
+    _this6.dom = /*#__PURE__*/(0, _react.createRef)();
     return _this6;
   }
 
@@ -1181,6 +1217,11 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
       return this['getCellsBy' + type]();
     }
   }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      (0, _jquery.default)(this.dom.current).find('.active').focus();
+    }
+  }, {
     key: "getCellsByday",
     value: function getCellsByday() {
       var _this7 = this;
@@ -1203,6 +1244,7 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
           return _this7.change(activeYear, activeMonth, day);
         };
         Days.push( /*#__PURE__*/_react.default.createElement("div", {
+          tabIndex: 0,
           onClick: onClick,
           key: 'day' + day,
           className: className
@@ -1230,6 +1272,7 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
       var _loop2 = function _loop2(month) {
         var disabled = isDisabled([activeYear, month + 1, 1]);
         Months.push( /*#__PURE__*/_react.default.createElement("div", {
+          tabIndex: 0,
           key: month,
           style: {
             borderRadius: 0
@@ -1260,6 +1303,7 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
       var _loop3 = function _loop3(year) {
         var disabled = isDisabled([years[year], 1, 1]);
         Years.push( /*#__PURE__*/_react.default.createElement("div", {
+          tabIndex: 0,
           key: year,
           style: {
             borderRadius: 0,
@@ -1488,6 +1532,7 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
     value: function render() {
       var type = this.context.type;
       return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, this.getHeader(), /*#__PURE__*/_react.default.createElement("div", {
+        ref: this.dom,
         className: "rdp-grid",
         style: this.getStyle()
       }, this['getContent' + type]()));
