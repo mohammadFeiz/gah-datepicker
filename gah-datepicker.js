@@ -1,6 +1,9 @@
 import React,{Component,Fragment,createContext} from 'react';
 import RDropdownButton from 'r-dropdown-button';
-import {getPlusIcon,getMinusIcon,getGridIcon,getMonthDaysLength,getWeekDay,jalali_to_gregorian,getToday,getMonths,getNextDay,getPrevDay,compaireDate} from './functions';
+import {
+  getPlusIcon,getMinusIcon,getGridIcon,getMonthDaysLength,getWeekDay,jalali_to_gregorian,
+  getToday,getMonths,getNextDay,getPrevDay,compaireDate,getNextMonth,getPrevMonth
+} from './functions';
 
 import './index.css';
 export default class GAH extends Component{
@@ -111,38 +114,37 @@ export default class GAH extends Component{
       today,...extra
     }
   }
-  setNextDay(){
-    var {range} = this.props;
-    if(range){
-      let {activeRange} = this.state;
-      let dateObj = this.state[activeRange];
-      let dateArray = [dateObj.year,dateObj.month,dateObj.day];
-      let newDate = getNextDay(dateArray,this.mode);
-      let newDateObj = {year:newDate[0],month:newDate[1],day:newDate[2]};
-      this.SetState({[activeRange]:newDateObj},true)
+  getNextDate(dateArray,sign,type){
+    let newDate;
+    if(sign === 1){
+      if(type === 'day'){newDate = getNextDay(dateArray,this.mode);}
+      else if(type === 'month'){newDate = getNextMonth(dateArray,this.mode);}
+      else{newDate = [dateArray[0] + 1,1,1]}
     }
     else{
-      let {year,month,day} = this.state;
-      let newDate = getNextDay([year,month,day],this.mode);
-      let newDateObj = {year:newDate[0],month:newDate[1],day:newDate[2]};
-      this.SetState(newDateObj,true)
+      if(type === 'day'){newDate = getPrevDay(dateArray,this.mode);}
+      else if(type === 'month'){newDate = getPrevMonth(dateArray,this.mode);}
+      else{newDate = [dateArray[0] - 1,1,1]}
     }
+    return newDate;
   }
-  setPrevDay(){
-    var {range} = this.props;
+  setNext(sign){
+    var {range,type} = this.props;
+    let {activeRange} = this.state;
+    let dateArray;
     if(range){
-      let {activeRange} = this.state;
       let dateObj = this.state[activeRange];
-      let dateArray = [dateObj.year,dateObj.month,dateObj.day];
-      let newDate = getPrevDay(dateArray,this.mode);
-      let newDateObj = {year:newDate[0],month:newDate[1],day:newDate[2]};
-      this.SetState({[activeRange]:newDateObj},true)
+      dateArray = [dateObj.year,dateObj.month,dateObj.day];
+      let date = this.getNextDate(dateArray,sign,type);
+      if(date[0] < this.startYear || date[1] > this.endYear){return}
+      this.SetState({[activeRange]:{year:date[0],month:date[1],day:date[2]}},true)
     }
     else{
       let {year,month,day} = this.state;
-      let newDate = getPrevDay([year,month,day],this.mode);
-      let newDateObj = {year:newDate[0],month:newDate[1],day:newDate[2]};
-      this.SetState(newDateObj,true)
+      dateArray = [year,month,day];
+      let date = this.getNextDate(dateArray,sign,type);
+      if(date[0] < this.startYear || date[0] > this.endYear){return}
+      this.SetState({year:date[0],month:date[1],day:date[2]},true)
     }
   }
   getValue(){
@@ -176,7 +178,6 @@ export default class GAH extends Component{
         <RDropdownButton 
           rtl={jalali}
           animate={true}
-          open={true}
           className='gah-datepicker-button'
           text={Value}
           style={{display:'flex',justifyContent:'flex-start',color:'inherit'}}
@@ -197,8 +198,8 @@ export default class GAH extends Component{
         {
           !range &&
           <div className='gah-step'>
-            <div className='gah-step-up' onClick={()=>this.setNextDay()}></div>
-            <div className='gah-step-down' onClick={()=>this.setPrevDay()}></div>  
+            <div className='gah-step-up' onClick={()=>this.setNext(1)}></div>
+            <div className='gah-step-down' onClick={()=>this.setNext(-1)}></div>  
           </div>
         }
         
@@ -358,9 +359,11 @@ class GAHDatePickerList extends Component{
   }
   
   onToday(){
-    var {SetState,range,activeRange} = this.context;
+    var {SetState,range,activeRange,type} = this.context;
     var {details} = this.props;
     var [year,month,day] = details.today;
+    if(type === 'month'){day = 1;}
+    else if(type === 'year'){day = 1; month = 1;}
     if(range){SetState({[activeRange]:{year,month,day}},true);}
     else{SetState({year,month,day},true); }
   }
@@ -372,7 +375,11 @@ class GAHDatePickerList extends Component{
     var days = this.getDays();
     var selectStyle={direction:mode === 'J'?'rtl':'ltr'};
     var sign = {J:-1,G:1}[mode];
-    var todayText = {J:'امروز',G:'Today'}[mode];
+    var todayText = {
+      day:{J:'امروز',G:'Today'},
+      month:{J:'ماه جاری',G:'This Month'},
+      year:{J:'سال جاری',G:'This Year'}
+    }[type][mode];
     return(
       <Fragment>
         <div className='rdp-list-header' style={{height:size / 5.5}}>

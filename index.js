@@ -319,81 +319,85 @@ var GAH = /*#__PURE__*/function (_Component) {
       };
     }
   }, {
-    key: "setNextDay",
-    value: function setNextDay() {
-      var range = this.props.range;
+    key: "getNextDate",
+    value: function getNextDate(dateArray, sign, type) {
+      var newDate;
+
+      if (sign === 1) {
+        if (type === 'day') {
+          newDate = (0, _functions.getNextDay)(dateArray, this.mode);
+        } else if (type === 'month') {
+          newDate = (0, _functions.getNextMonth)(dateArray, this.mode);
+        } else {
+          newDate = [dateArray[0] + 1, 1, 1];
+        }
+      } else {
+        if (type === 'day') {
+          newDate = (0, _functions.getPrevDay)(dateArray, this.mode);
+        } else if (type === 'month') {
+          newDate = (0, _functions.getPrevMonth)(dateArray, this.mode);
+        } else {
+          newDate = [dateArray[0] - 1, 1, 1];
+        }
+      }
+
+      return newDate;
+    }
+  }, {
+    key: "setNext",
+    value: function setNext(sign) {
+      var _this$props5 = this.props,
+          range = _this$props5.range,
+          type = _this$props5.type;
+      var activeRange = this.state.activeRange;
+      var dateArray;
 
       if (range) {
-        var activeRange = this.state.activeRange;
         var dateObj = this.state[activeRange];
-        var dateArray = [dateObj.year, dateObj.month, dateObj.day];
-        var newDate = (0, _functions.getNextDay)(dateArray, this.mode);
-        var newDateObj = {
-          year: newDate[0],
-          month: newDate[1],
-          day: newDate[2]
-        };
-        this.SetState(_defineProperty({}, activeRange, newDateObj), true);
+        dateArray = [dateObj.year, dateObj.month, dateObj.day];
+        var date = this.getNextDate(dateArray, sign, type);
+
+        if (date[0] < this.startYear || date[1] > this.endYear) {
+          return;
+        }
+
+        this.SetState(_defineProperty({}, activeRange, {
+          year: date[0],
+          month: date[1],
+          day: date[2]
+        }), true);
       } else {
         var _this$state3 = this.state,
             year = _this$state3.year,
             month = _this$state3.month,
             day = _this$state3.day;
+        dateArray = [year, month, day];
 
-        var _newDate = (0, _functions.getNextDay)([year, month, day], this.mode);
+        var _date = this.getNextDate(dateArray, sign, type);
 
-        var _newDateObj = {
-          year: _newDate[0],
-          month: _newDate[1],
-          day: _newDate[2]
-        };
-        this.SetState(_newDateObj, true);
-      }
-    }
-  }, {
-    key: "setPrevDay",
-    value: function setPrevDay() {
-      var range = this.props.range;
+        if (_date[0] < this.startYear || _date[0] > this.endYear) {
+          return;
+        }
 
-      if (range) {
-        var activeRange = this.state.activeRange;
-        var dateObj = this.state[activeRange];
-        var dateArray = [dateObj.year, dateObj.month, dateObj.day];
-        var newDate = (0, _functions.getPrevDay)(dateArray, this.mode);
-        var newDateObj = {
-          year: newDate[0],
-          month: newDate[1],
-          day: newDate[2]
-        };
-        this.SetState(_defineProperty({}, activeRange, newDateObj), true);
-      } else {
-        var _this$state4 = this.state,
-            year = _this$state4.year,
-            month = _this$state4.month,
-            day = _this$state4.day;
-
-        var _newDate2 = (0, _functions.getPrevDay)([year, month, day], this.mode);
-
-        var _newDateObj2 = {
-          year: _newDate2[0],
-          month: _newDate2[1],
-          day: _newDate2[2]
-        };
-        this.SetState(_newDateObj2, true);
+        this.SetState({
+          year: _date[0],
+          month: _date[1],
+          day: _date[2]
+        }, true);
       }
     }
   }, {
     key: "getValue",
     value: function getValue() {
-      var _this$props5 = this.props,
-          range = _this$props5.range,
-          splitter = _this$props5.splitter,
-          type = _this$props5.type;
+      var _this$props6 = this.props,
+          range = _this$props6.range,
+          splitter = _this$props6.splitter,
+          type = _this$props6.type;
 
       if (range) {
-        var _this$state5 = this.state,
-            start = _this$state5.start,
-            end = _this$state5.end;
+        var _this$state4 = this.state,
+            start = _this$state4.start,
+            end = _this$state4.end;
 
         if (type === 'day') {
           return start.year + splitter + start.month + splitter + start.day + ' - ' + end.year + splitter + end.month + splitter + end.day;
@@ -408,10 +412,10 @@ var GAH = /*#__PURE__*/function (_Component) {
           return start.year + ' - ' + end.year;
         }
       } else {
-        var _this$state6 = this.state,
-            year = _this$state6.year,
-            month = _this$state6.month,
-            day = _this$state6.day;
+        var _this$state5 = this.state,
+            year = _this$state5.year,
+            month = _this$state5.month,
+            day = _this$state5.day;
 
         if (type === 'day') {
           return year + splitter + month + splitter + day;
@@ -433,9 +437,9 @@ var GAH = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var _this$props6 = this.props,
-          jalali = _this$props6.jalali,
-          range = _this$props6.range;
+      var _this$props7 = this.props,
+          jalali = _this$props7.jalali,
+          range = _this$props7.range;
       this.getDateDetails();
       var Value = this.getValue();
       return /*#__PURE__*/_react.default.createElement("div", {
@@ -448,7 +452,6 @@ var GAH = /*#__PURE__*/function (_Component) {
       }, (0, _functions.getGridIcon)()), /*#__PURE__*/_react.default.createElement(_rDropdownButton.default, {
         rtl: jalali,
         animate: true,
-        open: true,
         className: "gah-datepicker-button",
         text: Value,
         style: {
@@ -473,12 +476,12 @@ var GAH = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "gah-step-up",
         onClick: function onClick() {
-          return _this3.setNextDay();
+          return _this3.setNext(1);
         }
       }), /*#__PURE__*/_react.default.createElement("div", {
         className: "gah-step-down",
         onClick: function onClick() {
-          return _this3.setPrevDay();
+          return _this3.setNext(-1);
         }
       })));
     }
@@ -513,15 +516,15 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
   _createClass(GAHDatePickerPopup, [{
     key: "isDisabled",
     value: function isDisabled(date) {
-      var _this$props7 = this.props,
-          limits = _this$props7.limits,
-          splitter = _this$props7.splitter,
-          range = _this$props7.range,
-          start = _this$props7.start,
-          end = _this$props7.end,
-          activeRange = _this$props7.activeRange,
-          mode = _this$props7.mode,
-          type = _this$props7.type;
+      var _this$props8 = this.props,
+          limits = _this$props8.limits,
+          splitter = _this$props8.splitter,
+          range = _this$props8.range,
+          start = _this$props8.start,
+          end = _this$props8.end,
+          activeRange = _this$props8.activeRange,
+          mode = _this$props8.mode,
+          type = _this$props8.type;
 
       if (range) {
         if (activeRange === 'end' && (0, _functions.compaireDate)(date, [start.year, start.month, start.day]) === 'less') {
@@ -632,11 +635,11 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
   }, {
     key: "getHeader",
     value: function getHeader() {
-      var _this$props8 = this.props,
-          range = _this$props8.range,
-          size = _this$props8.size,
-          type = _this$props8.type,
-          mode = _this$props8.mode;
+      var _this$props9 = this.props,
+          range = _this$props9.range,
+          size = _this$props9.size,
+          type = _this$props9.type,
+          mode = _this$props9.mode;
       var style = {
         height: size / 8 + 6,
         fontSize: size / 16,
@@ -646,10 +649,10 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
       if (!range) {
         return null;
       } else {
-        var _this$props9 = this.props,
-            activeRange = _this$props9.activeRange,
-            setActiveRange = _this$props9.setActiveRange,
-            rangeDetails = _this$props9.rangeDetails;
+        var _this$props10 = this.props,
+            activeRange = _this$props10.activeRange,
+            setActiveRange = _this$props10.setActiveRange,
+            rangeDetails = _this$props10.rangeDetails;
         var _rangeDetails$start = rangeDetails.start,
             year1 = _rangeDetails$start.year,
             month1 = _rangeDetails$start.month,
@@ -693,10 +696,10 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
   }, {
     key: "getBody",
     value: function getBody() {
-      var _this$props10 = this.props,
-          listView = _this$props10.listView,
-          details = _this$props10.details,
-          activeRange = _this$props10.activeRange;
+      var _this$props11 = this.props,
+          listView = _this$props11.listView,
+          details = _this$props11.details,
+          activeRange = _this$props11.activeRange;
 
       if (listView) {
         return /*#__PURE__*/_react.default.createElement(GAHDatePickerList, {
@@ -714,12 +717,12 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
     value: function getFooter() {
       var _this4 = this;
 
-      var _this$props11 = this.props,
-          onSubmit = _this$props11.onSubmit,
-          onClose = _this$props11.onClose,
-          mode = _this$props11.mode,
-          disabled = _this$props11.disabled,
-          size = _this$props11.size;
+      var _this$props12 = this.props,
+          onSubmit = _this$props12.onSubmit,
+          onClose = _this$props12.onClose,
+          mode = _this$props12.mode,
+          disabled = _this$props12.disabled,
+          size = _this$props12.size;
       var buttonStyle = {
         padding: "".concat(size / 24, "px ").concat(size / 12, "px")
       };
@@ -760,15 +763,15 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
   }, {
     key: "render",
     value: function render() {
-      var _this$props12 = this.props,
-          _this$props12$theme = _this$props12.theme,
-          theme = _this$props12$theme === void 0 ? 'theme1' : _this$props12$theme,
-          className = _this$props12.className,
-          id = _this$props12.id,
-          style = _this$props12.style,
-          _this$props12$default = _this$props12.defaultProps,
-          defaultProps = _this$props12$default === void 0 ? {} : _this$props12$default,
-          years = _this$props12.years;
+      var _this$props13 = this.props,
+          _this$props13$theme = _this$props13.theme,
+          theme = _this$props13$theme === void 0 ? 'theme1' : _this$props13$theme,
+          className = _this$props13.className,
+          id = _this$props13.id,
+          style = _this$props13.style,
+          _this$props13$default = _this$props13.defaultProps,
+          defaultProps = _this$props13$default === void 0 ? {} : _this$props13$default,
+          years = _this$props13.years;
       var context = { ...this.props,
         isDisabled: this.isDisabled.bind(this),
         years: years
@@ -881,13 +884,21 @@ var GAHDatePickerList = /*#__PURE__*/function (_Component3) {
       var _this$context2 = this.context,
           SetState = _this$context2.SetState,
           range = _this$context2.range,
-          activeRange = _this$context2.activeRange;
+          activeRange = _this$context2.activeRange,
+          type = _this$context2.type;
       var details = this.props.details;
 
       var _details$today = _slicedToArray(details.today, 3),
           year = _details$today[0],
           month = _details$today[1],
           day = _details$today[2];
+
+      if (type === 'month') {
+        day = 1;
+      } else if (type === 'year') {
+        day = 1;
+        month = 1;
+      }
 
       if (range) {
         SetState(_defineProperty({}, activeRange, {
@@ -931,9 +942,19 @@ var GAHDatePickerList = /*#__PURE__*/function (_Component3) {
         G: 1
       }[mode];
       var todayText = {
-        J: 'امروز',
-        G: 'Today'
-      }[mode];
+        day: {
+          J: 'امروز',
+          G: 'Today'
+        },
+        month: {
+          J: 'ماه جاری',
+          G: 'This Month'
+        },
+        year: {
+          J: 'سال جاری',
+          G: 'This Year'
+        }
+      }[type][mode];
       return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
         className: "rdp-list-header",
         style: {
@@ -1070,9 +1091,9 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
     key: "getSpaces",
     value: function getSpaces() {
       var mode = this.context.mode;
-      var _this$state7 = this.state,
-          activeYear = _this$state7.activeYear,
-          activeMonth = _this$state7.activeMonth;
+      var _this$state6 = this.state,
+          activeYear = _this$state6.activeYear,
+          activeMonth = _this$state6.activeMonth;
       var firstDayWeekDayIndex = (0, _functions.getWeekDay)([activeYear, activeMonth, 1], mode).index;
       var Spaces = [];
 
@@ -1164,9 +1185,9 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
     value: function getCellsByday() {
       var _this7 = this;
 
-      var _this$state8 = this.state,
-          activeYear = _this$state8.activeYear,
-          activeMonth = _this$state8.activeMonth;
+      var _this$state7 = this.state,
+          activeYear = _this$state7.activeYear,
+          activeMonth = _this$state7.activeMonth;
       var _this$context6 = this.context,
           isDisabled = _this$context6.isDisabled,
           mode = _this$context6.mode;
@@ -1305,9 +1326,9 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
     key: "changeActivePageTypeday",
     value: function changeActivePageTypeday(value) {
       var details = this.props.details;
-      var _this$state9 = this.state,
-          activeYear = _this$state9.activeYear,
-          activeMonth = _this$state9.activeMonth;
+      var _this$state8 = this.state,
+          activeYear = _this$state8.activeYear,
+          activeMonth = _this$state8.activeMonth;
 
       if (value === 1) {
         if (activeMonth === 12) {
@@ -1351,9 +1372,9 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
           size = _this$context9.size,
           mode = _this$context9.mode,
           type = _this$context9.type;
-      var _this$state10 = this.state,
-          activeYear = _this$state10.activeYear,
-          activeMonth = _this$state10.activeMonth;
+      var _this$state9 = this.state,
+          activeYear = _this$state9.activeYear,
+          activeMonth = _this$state9.activeMonth;
       var sign = {
         J: -1,
         G: 1

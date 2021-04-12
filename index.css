@@ -241,10 +241,13 @@
   color:#fff;
   border-radius:0px 24px 24px 0px !important;
 }
+
 .rdp-cell.end.is-jalali{
   border-radius:24px 0px 0px 24px !important;
 }
-
+.rdp-cell.start.end{
+  border-radius:24px !important;
+}
 .rdp-weekday{
   font-weight:bold;
   font-size:120%;

@@ -112,49 +112,31 @@ export function compaireDate([year1,month1,day1],[year2,month2,day2]){
   if(day1 < day2){return 'less'}if(day1 > day2){return 'greater'}
   return 'equal';
 }
-var GetNextDay = {
-  J:([year,month,day])=>{
-    var monthDaysLength = GetMonthDaysLength.J(year,month,this.type);
-      if(day < monthDaysLength){day++;}
-      else if(day === monthDaysLength){
-        month++; day = 1;
-        if(month > 12){month = 1; year++;}
-      }
-      else{alert('error');}
+export function getNextDay([year,month,day],type){
+    var monthDaysLength = getMonthDaysLength(year,month,type);
+    if(day < monthDaysLength){return [year,month,day + 1]}
+    if(month < 12){return [year,month + 1,1]}
+    return [year + 1,1,1];
+}
+export function getPrevDay([year,month,day],type){
+    if(day > 1){return [year,month,day - 1]}
+    if(month > 1){
+      month -= 1;
+      day = getMonthDaysLength(year,month,type);
       return [year,month,day];
-  },
-  G:([year,month,day])=>{
-    var day = new Date(year,month,day);
-    var nextDay = new Date(day);
-    nextDay.setDate(day.getDate() + 1);
-    return [nextDay.getFullYear(),nextDay.getMonth() + 1,nextDay.getDate()]
-  }
-}
-export function getNextDay(date,type){
-    return GetNextDay[type](date)
-}
-var GetPrevDay = {
-  J:([year,month,day])=>{
-    if(day > 1){day--;}
-    else{
-      month--; 
-      if(month === 0){
-        month = 12;
-        year--; 
-      }
-      day = GetMonthDaysLength.J(year,month);
     }
+    year -= 1;
+    month = 12;
+    day = getMonthDaysLength(year,month,type);
     return [year,month,day];
-  },
-  G:([year,month,day])=>{
-    var day = new Date(year,month,day);
-    var prevDay = new Date(day);
-    prevDay.setDate(day.getDate() - 1);
-    return [nextDay.getFullYear(),nextDay.getMonth() + 1,nextDay.getDate()]
-  }
 }
-export function getPrevDay(date,type){
-    return GetPrevDay[type](date)
+export function getNextMonth([year,month]){
+    if(month < 12){return [year,month + 1,1]}
+    return [year + 1,1,1];
+}
+export function getPrevMonth([year,month]){
+    if(month > 1){return [year,month - 1,1]}
+    return [year - 1,12,1];
 }
 function getDatesBetween(start,end){
   let Start,End;
