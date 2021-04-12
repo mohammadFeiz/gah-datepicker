@@ -755,11 +755,12 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
       var _this$props12 = this.props,
           onSubmit = _this$props12.onSubmit,
           onClose = _this$props12.onClose,
+          onClear = _this$props12.onClear,
           mode = _this$props12.mode,
           disabled = _this$props12.disabled,
           size = _this$props12.size;
       var buttonStyle = {
-        padding: "".concat(size / 24, "px ").concat(size / 12, "px")
+        padding: "".concat(size / 36, "px 0")
       };
       var closeText = {
         G: 'Cansel',
@@ -768,6 +769,10 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
       var submitText = {
         G: 'OK',
         J: 'تایید'
+      }[mode];
+      var clearText = {
+        G: 'Clear',
+        J: 'حذف'
       }[mode];
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "rdp-footer",
@@ -784,7 +789,12 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
         onClick: function onClick() {
           return onSubmit(_this4.props.details);
         }
-      }, submitText));
+      }, submitText), typeof onClear === 'function' && !disabled && /*#__PURE__*/_react.default.createElement("button", {
+        style: buttonStyle,
+        onClick: function onClick() {
+          return onClear(_this4.props.details);
+        }
+      }, clearText));
     }
   }, {
     key: "getStyle",

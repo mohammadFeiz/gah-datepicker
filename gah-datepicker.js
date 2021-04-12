@@ -313,10 +313,11 @@ class GAHDatePickerPopup extends Component {
     return <GAHDatePickerGrid key={activeRange} details={details}/>
   }
   getFooter(){
-    var {onSubmit,onClose,mode,disabled,size} = this.props;
-    var buttonStyle = {padding:`${size / 24}px ${size / 12}px`}
+    var {onSubmit,onClose,onClear,mode,disabled,size} = this.props;
+    var buttonStyle = {padding:`${size / 36}px 0`}
     var closeText = {G:'Cansel',J:'بستن'}[mode];
     var submitText = {G:'OK',J:'تایید'}[mode];
+    var clearText = {G:'Clear',J:'حذف'}[mode];
     return (
       <div className='rdp-footer' style={{fontSize:size / 13}}>
         {
@@ -326,6 +327,10 @@ class GAHDatePickerPopup extends Component {
         {
           typeof onSubmit === 'function' && !disabled && 
           <button style={buttonStyle} onClick={()=>onSubmit(this.props.details)}>{submitText}</button>
+        }
+        {
+          typeof onClear === 'function' && !disabled && 
+          <button style={buttonStyle} onClick={()=>onClear(this.props.details)}>{clearText}</button>
         }       
       </div>
     )

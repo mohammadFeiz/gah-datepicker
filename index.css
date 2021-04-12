@@ -100,10 +100,14 @@
   background:none;
   font-weight: bold;
   border:none;
-  color:var(--rdp-color);
   font-size:inherit;
   cursor:pointer;
   outline:none;
+  flex:1;
+  background:var(--rdp-color);
+  margin:0 1px;
+  border-radius:3px;
+  color:#fff;
 }
 .rdp-list{
   box-sizing: border-box;
