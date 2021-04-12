@@ -191,7 +191,7 @@ var GetWeekDay = {
 export function getWeekDay(date,type){return GetWeekDay[type](date)}
 
 var GetToday = {
-  J:()=>{
+  J:(type)=>{
     var date = new Date().toLocaleDateString('fa-IR').split('/');
     var dic = {'۰':0,'۱':1,'۲':2,'۳':3,'۴':4,'۵':5,'۶':6,'۷':7,'۸':8,'۹':9};
     for(var j = 0; j < date.length; j++){
@@ -199,15 +199,20 @@ var GetToday = {
       for(var i = 0; i < date[j].length; i++){str+= dic[date[j][i]]; }
       date[j] = Number(str);
     }   
+    if(type === 'month'){date[2] = 1;}
+    else if(type === 'year'){date[1] = 1; date[2] = 1;}
     return date;
   },
-  G:()=>{
+  G:(type)=>{
     var date = new Date();
-    return [date.getFullYear(),date.getMonth() + 1,date.getDate()]
+    var result = [date.getFullYear(),date.getMonth() + 1,date.getDate()]
+    if(type === 'month'){result[2] = 1;}
+    else if(type === 'year'){result[1] = 1; result[2] = 1;}
+    return result;
   }
 }
-export function getToday(type){
-  return GetToday[type]()
+export function getToday(mode,type = 'day'){
+  return GetToday[mode](type)
 }
 
 export function getMonths(type){

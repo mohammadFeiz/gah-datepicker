@@ -197,6 +197,9 @@
   position: relative;
   box-sizing: border-box;
   padding-bottom:0;
+  max-height:240px;
+  overflow-y:auto;
+  overflow-x: hidden;
 }
 .rdp-cell{
   display:flex;
@@ -205,12 +208,12 @@
   position: relative;
 }
 .rdp-cell.active{
-  background: rgb(138, 190, 224,.5);
+  background: rgba(138, 190, 224);
   color:#fff;
   border-radius:100%;
 }
 .rdp-cell.in-range{
-  background: rgb(138, 190, 224,.5);
+  background: rgb(138, 190, 224);
   color:#fff;
   border-radius:0 !important;
 }
@@ -291,4 +294,15 @@
 .rdp option{
   font-size:16px;
   padding:6px 0;
+}
+.rdp-month-grid{
+  display:grid;
+  padding:12px;
+  grid-template-columns: auto auto auto;
+}
+.rdp-month-grid-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height:36px;
 }
