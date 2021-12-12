@@ -2,32 +2,27 @@
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.RDATE = RDATE;
 exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _rDropdownButton = _interopRequireDefault(require("r-dropdown-button"));
+var _aioButton = _interopRequireDefault(require("aio-button"));
 
 var _jquery = _interopRequireDefault(require("jquery"));
-
-var _functions = require("./functions");
 
 require("./index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -37,9 +32,13 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -53,7 +52,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -72,12 +71,6 @@ var GAH = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, GAH);
 
     _this = _super.call(this, props);
-    _this.icons = {
-      grid: (0, _functions.getGridIcon)(),
-      minus: (0, _functions.getMinusIcon)(),
-      plus: (0, _functions.getPlusIcon)()
-    };
-    _this.mode = _this.props.jalali ? 'J' : 'G';
 
     _this.init();
 
@@ -87,37 +80,845 @@ var GAH = /*#__PURE__*/function (_Component) {
   _createClass(GAH, [{
     key: "init",
     value: function init() {
+      var _this2 = this;
+
+      this.fn = new RDATE({
+        getState: function getState() {
+          return _this2.state;
+        },
+        getProps: function getProps() {
+          return _this2.props;
+        },
+        setState: function setState(obj, send) {
+          return _this2.SetState(obj, send);
+        }
+      });
       var _this$props = this.props,
-          value = _this$props.value,
           prevYears = _this$props.prevYears,
           nextYears = _this$props.nextYears,
-          range = _this$props.range;
-      var today = (0, _functions.getToday)(this.mode);
-      this.startYear = today[0] - prevYears;
-      this.endYear = today[0] + nextYears;
-      this.years = [];
+          jalali = _this$props.jalali,
+          value = _this$props.value;
+      this.icons = {
+        minus: /*#__PURE__*/_react.default.createElement("svg", {
+          style: {
+            width: "24px",
+            height: "24px"
+          },
+          width: 24,
+          height: 24
+        }, /*#__PURE__*/_react.default.createElement("path", {
+          fill: "transparent",
+          d: "M13 8 L9 12 L13 16",
+          strokeLinejoin: "miter-clip",
+          strokeLinecap: "square",
+          strokeWidth: 2
+        })),
+        plus: /*#__PURE__*/_react.default.createElement("svg", {
+          style: {
+            width: "24px",
+            height: "24px"
+          },
+          width: 24,
+          height: 24
+        }, /*#__PURE__*/_react.default.createElement("path", {
+          fill: "transparent",
+          d: "M11 8 L15 12 L11 16",
+          strokeLinejoin: "miter-clip",
+          strokeLinecap: "square",
+          strokeWidth: 2
+        }))
+      };
+      var today = this.fn.getToday(jalali ? 'J' : 'G');
+      var startYear = today[0] - prevYears;
+      var endYear = today[0] + nextYears;
+      var years = [];
 
-      for (var i = this.startYear; i <= this.endYear; i++) {
-        this.years.push(i);
+      for (var i = startYear; i <= endYear; i++) {
+        years.push(i);
       }
 
-      if (range) {
-        this.setRangeType(value, today);
+      this.state = {
+        prevValue: JSON.stringify(value),
+        startYear: startYear,
+        endYear: endYear,
+        years: years
+      };
+      this.updateState();
+    }
+  }, {
+    key: "updateState",
+    value: function updateState(setState) {
+      var obj = this.fn.validateValue();
+
+      if (setState) {
+        this.setState({ ...obj,
+          activeYear: obj.year,
+          activeMonth: obj.month
+        });
       } else {
-        this.setSingleType(value, today);
+        this.state = { ...this.state,
+          ...obj
+        };
       }
     }
   }, {
-    key: "validateValue",
-    value: function validateValue(value, today) {
+    key: "SetState",
+    value: function SetState(obj, sendChanges) {
+      var _this3 = this;
+
+      var onChange = this.props.onChange;
+      this.setState(obj, sendChanges && onChange ? function () {
+        return onChange(_this3.details);
+      } : function () {});
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      if (this.update) {
+        this.updateState(true);
+      }
+    }
+  }, {
+    key: "getPopup",
+    value: function getPopup() {
+      return /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          display: 'flex'
+        }
+      }, /*#__PURE__*/_react.default.createElement(GAHDatePickerPopup, _extends({}, this.props, this.state, {
+        fn: this.fn,
+        icons: this.icons,
+        SetState: this.SetState.bind(this),
+        details: this.details
+      })), this.fn.getTodayContent(this.details, 'react'));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+
+      this.update = false;
+      var _this$props2 = this.props,
+          _this$props2$editValu = _this$props2.editValue,
+          editValue = _this$props2$editValu === void 0 ? function (text) {
+        return text;
+      } : _this$props2$editValu,
+          jalali = _this$props2.jalali,
+          className = _this$props2.className,
+          icon = _this$props2.icon;
+
+      if (JSON.stringify(this.props.value) !== this.state.prevValue) {
+        this.state.prevValue = JSON.stringify(this.props.value);
+        this.update = true;
+      }
+
+      this.details = this.fn.getDateDetails();
+      return /*#__PURE__*/_react.default.createElement(_aioButton.default, _extends({}, this.props, {
+        before: icon ? icon : undefined,
+        type: "button",
+        className: 'gah' + (className ? ' ' + className : ''),
+        text: editValue(this.fn.getValue()),
+        rtl: jalali,
+        popupStyle: {
+          border: 'none'
+        },
+        popupClassName: "gah-popup",
+        onToggle: function onToggle() {
+          return _this4.SetState(_this4.fn.validateValue());
+        },
+        popOver: function popOver() {
+          return _this4.getPopup();
+        }
+      }));
+    }
+  }]);
+
+  return GAH;
+}(_react.Component);
+
+exports.default = GAH;
+GAH.defaultProps = {
+  size: 180,
+  jalali: true,
+  disabled: false,
+  prevYears: 10,
+  nextYears: 20,
+  type: 'day'
+};
+var GAHContext = /*#__PURE__*/(0, _react.createContext)();
+
+var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
+  _inherits(GAHDatePickerPopup, _Component2);
+
+  var _super2 = _createSuper(GAHDatePickerPopup);
+
+  function GAHDatePickerPopup() {
+    _classCallCheck(this, GAHDatePickerPopup);
+
+    return _super2.apply(this, arguments);
+  }
+
+  _createClass(GAHDatePickerPopup, [{
+    key: "render",
+    value: function render() {
+      var _this$props3 = this.props,
+          style = _this$props3.style,
+          _this$props3$defaultP = _this$props3.defaultProps,
+          defaultProps = _this$props3$defaultP === void 0 ? {} : _this$props3$defaultP,
+          years = _this$props3.years,
+          details = _this$props3.details,
+          fn = _this$props3.fn,
+          onClear = _this$props3.onClear,
+          disabled = _this$props3.disabled,
+          size = _this$props3.size,
+          jalali = _this$props3.jalali,
+          _this$props3$activeYe = _this$props3.activeYear,
+          activeYear = _this$props3$activeYe === void 0 ? details.year : _this$props3$activeYe,
+          _this$props3$activeMo = _this$props3.activeMonth,
+          activeMonth = _this$props3$activeMo === void 0 ? details.month : _this$props3$activeMo;
+      var context = { ...this.props,
+        years: years
+      };
+      var buttonStyle = {
+        padding: "".concat(size / 20, "px 0")
+      };
+      return /*#__PURE__*/_react.default.createElement(GAHContext.Provider, {
+        value: context
+      }, /*#__PURE__*/_react.default.createElement("div", _extends({
+        className: "gah-calendar"
+      }, defaultProps, {
+        style: { ...fn.getPopupStyle('react'),
+          ...style
+        }
+      }), /*#__PURE__*/_react.default.createElement(GAHDatePickerGrid, {
+        details: details,
+        activeYear: activeYear,
+        activeMonth: activeMonth
+      }), /*#__PURE__*/_react.default.createElement("div", {
+        className: "gah-calendar-footer",
+        style: {
+          fontSize: size / 13
+        }
+      }, onClear && !disabled && /*#__PURE__*/_react.default.createElement("button", {
+        style: buttonStyle,
+        onClick: function onClick() {
+          return onClear(details);
+        }
+      }, !jalali ? 'Clear' : 'حذف'), /*#__PURE__*/_react.default.createElement("button", {
+        style: buttonStyle,
+        onClick: function onClick() {
+          return fn.onToday();
+        }
+      }, fn.getTodayText()))));
+    }
+  }]);
+
+  return GAHDatePickerPopup;
+}(_react.Component);
+
+var GAHDatePickerGrid = /*#__PURE__*/function (_Component3) {
+  _inherits(GAHDatePickerGrid, _Component3);
+
+  var _super3 = _createSuper(GAHDatePickerGrid);
+
+  function GAHDatePickerGrid(props) {
+    var _this5;
+
+    _classCallCheck(this, GAHDatePickerGrid);
+
+    _this5 = _super3.call(this, props);
+    _this5.dom = /*#__PURE__*/(0, _react.createRef)();
+    return _this5;
+  }
+
+  _createClass(GAHDatePickerGrid, [{
+    key: "getCells",
+    value: function getCells() {
+      var type = this.context.type;
+      return this['getCells_' + type]();
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      (0, _jquery.default)(this.dom.current).find('.active').focus();
+    }
+  }, {
+    key: "getCells_day",
+    value: function getCells_day() {
+      var _this$props4 = this.props,
+          activeYear = _this$props4.activeYear,
+          activeMonth = _this$props4.activeMonth;
+      var _this$context = this.context,
+          jalali = _this$context.jalali,
+          SetState = _this$context.SetState,
+          fn = _this$context.fn;
+      var daysLength = fn.getMonthDaysLength(activeYear, activeMonth, jalali ? 'J' : 'G');
+      var Days = [];
+
+      var _loop = function _loop(day) {
+        var disabled = fn.isDisabled([activeYear, activeMonth, day]);
+        var className = fn.getCellClassName(activeYear, activeMonth, day, disabled);
+        var onClick = disabled ? undefined : function () {
+          SetState({
+            year: activeYear,
+            month: activeMonth,
+            day: day
+          }, true);
+        };
+        Days.push( /*#__PURE__*/_react.default.createElement("div", {
+          tabIndex: 0,
+          onClick: onClick,
+          key: 'day' + day,
+          className: className
+        }, day));
+      };
+
+      for (var day = 1; day <= daysLength; day++) {
+        _loop(day);
+      }
+
+      return Days;
+    }
+  }, {
+    key: "getCells_month",
+    value: function getCells_month() {
+      var _this$context2 = this.context,
+          jalali = _this$context2.jalali,
+          SetState = _this$context2.SetState,
+          fn = _this$context2.fn;
+      var activeYear = this.props.activeYear;
+      var months = fn.getMonths(jalali ? 'J' : 'G');
+      var Months = [];
+
+      var _loop2 = function _loop2(month) {
+        var disabled = fn.isDisabled([activeYear, month + 1, 1]);
+        var text = jalali ? months[month] : months[month].slice(0, 3);
+        var className = fn.getCellClassName(activeYear, month + 1, 1, disabled);
+        var onClick = disabled ? undefined : function () {
+          return SetState({
+            year: activeYear,
+            month: month + 1,
+            day: 1
+          }, true);
+        };
+        var style = {
+          borderRadius: 0
+        };
+        Months.push( /*#__PURE__*/_react.default.createElement("div", {
+          className: className,
+          tabIndex: 0,
+          key: month,
+          style: style,
+          onClick: onClick
+        }, text));
+      };
+
+      for (var month = 0; month < months.length; month++) {
+        _loop2(month);
+      }
+
+      return Months;
+    }
+  }, {
+    key: "getCells_year",
+    value: function getCells_year() {
+      var _this$context3 = this.context,
+          years = _this$context3.years,
+          SetState = _this$context3.SetState,
+          fn = _this$context3.fn;
+      var Years = [];
+
+      var _loop3 = function _loop3(year) {
+        var disabled = fn.isDisabled([years[year], 1, 1]);
+        var className = fn.getCellClassName(years[year], 1, 1, disabled);
+        Years.push( /*#__PURE__*/_react.default.createElement("div", {
+          className: className,
+          tabIndex: 0,
+          key: year,
+          style: {
+            borderRadius: 0,
+            minHeight: '24px'
+          },
+          onClick: disabled ? undefined : function () {
+            return SetState({
+              year: years[year],
+              month: 1,
+              day: 1
+            }, true);
+          }
+        }, years[year]));
+      };
+
+      for (var year = 0; year < years.length; year++) {
+        _loop3(year);
+      }
+
+      return Years;
+    }
+  }, {
+    key: "getArrow",
+    value: function getArrow(sign, icon) {
+      var _this$context4 = this.context,
+          disabled = _this$context4.disabled,
+          fn = _this$context4.fn,
+          type = _this$context4.type,
+          size = _this$context4.size,
+          SetState = _this$context4.SetState;
+
+      if (disabled) {
+        return '';
+      }
+
+      var _this$props5 = this.props,
+          activeYear = _this$props5.activeYear,
+          activeMonth = _this$props5.activeMonth;
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "gah-calendar-header-icon",
+        onClick: function onClick() {
+          return SetState(fn.changeActivePage(sign, type, {
+            activeYear: activeYear,
+            activeMonth: activeMonth
+          }));
+        },
+        style: {
+          width: size / 7,
+          height: size / 7
+        }
+      }, icon);
+    }
+  }, {
+    key: "getHeader",
+    value: function getHeader() {
+      var _this$context5 = this.context,
+          icons = _this$context5.icons,
+          size = _this$context5.size,
+          jalali = _this$context5.jalali,
+          fn = _this$context5.fn,
+          SetState = _this$context5.SetState;
+      var _this$props6 = this.props,
+          activeYear = _this$props6.activeYear,
+          activeMonth = _this$props6.activeMonth;
+      var sign = jalali ? -1 : 1;
+
+      var onChange = function onChange(obj) {
+        SetState(obj);
+      };
+
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "gah-calendar-header",
+        style: {
+          height: size / 4,
+          padding: "0 ".concat(size / 12.5, "px")
+        }
+      }, this.getArrow(-sign, icons.minus), /*#__PURE__*/_react.default.createElement("div", {
+        className: "gah-month",
+        onClick: function onClick() {},
+        style: {
+          fontSize: Math.floor(size / 12)
+        }
+      }, fn.getGridHeaderValue(activeYear, activeMonth, function (obj) {
+        return onChange(obj);
+      })), this.getArrow(sign, icons.plus));
+    }
+  }, {
+    key: "getContentday",
+    value: function getContentday() {
+      var fn = this.context.fn;
+      var _this$props7 = this.props,
+          activeYear = _this$props7.activeYear,
+          activeMonth = _this$props7.activeMonth;
+      var Spaces = fn.renderSpaces(activeYear, activeMonth, 'react'),
+          WeekDays = fn.renderWeekDays('react'),
+          Days = this.getCells();
+      var EndSpaces = fn.renderEndSpaces(42 - (Spaces.length + Days.length), 'react');
+      return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, WeekDays, Spaces, Days, EndSpaces);
+    }
+  }, {
+    key: "getContentmonth",
+    value: function getContentmonth() {
+      return this.getCells();
+    }
+  }, {
+    key: "getContentyear",
+    value: function getContentyear() {
+      return this.getCells();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$context6 = this.context,
+          fn = _this$context6.fn,
+          type = _this$context6.type;
+      return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, this.getHeader(), /*#__PURE__*/_react.default.createElement("div", {
+        ref: this.dom,
+        className: "gah-calendar-grid",
+        style: fn.getGridStyle('react')
+      }, this['getContent' + type]()));
+    }
+  }]);
+
+  return GAHDatePickerGrid;
+}(_react.Component);
+
+_defineProperty(GAHDatePickerGrid, "contextType", GAHContext);
+
+function RDATE(_ref) {
+  var _$$;
+
+  var getState = _ref.getState,
+      getProps = _ref.getProps,
+      setState = _ref.setState;
+  var $$ = (_$$ = {
+    g2j: function g2j(gy, gm, gd) {
+      var g_d_m, jy, jm, jd, gy2, days;
+      g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+      gy2 = gm > 2 ? gy + 1 : gy;
+      days = 355666 + 365 * gy + ~~((gy2 + 3) / 4) - ~~((gy2 + 99) / 100) + ~~((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
+      jy = -1595 + 33 * ~~(days / 12053);
+      days %= 12053;
+      jy += 4 * ~~(days / 1461);
+      days %= 1461;
+
+      if (days > 365) {
+        jy += ~~((days - 1) / 365);
+        days = (days - 1) % 365;
+      }
+
+      if (days < 186) {
+        jm = 1 + ~~(days / 31);
+        jd = 1 + days % 31;
+      } else {
+        jm = 7 + ~~((days - 186) / 30);
+        jd = 1 + (days - 186) % 30;
+      }
+
+      return [jy, jm, jd];
+    },
+    j2g: function j2g(jy, jm, jd) {
+      var sal_a, gy, gm, gd, days;
+      jy += 1595;
+      days = -355668 + 365 * jy + ~~(jy / 33) * 8 + ~~((jy % 33 + 3) / 4) + jd + (jm < 7 ? (jm - 1) * 31 : (jm - 7) * 30 + 186);
+      gy = 400 * ~~(days / 146097);
+      days %= 146097;
+
+      if (days > 36524) {
+        gy += 100 * ~~(--days / 36524);
+        days %= 36524;
+        if (days >= 365) days++;
+      }
+
+      gy += 4 * ~~(days / 1461);
+      days %= 1461;
+
+      if (days > 365) {
+        gy += ~~((days - 1) / 365);
+        days = (days - 1) % 365;
+      }
+
+      gd = days + 1;
+      sal_a = [0, 31, gy % 4 === 0 && gy % 100 !== 0 || gy % 400 === 0 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+      for (gm = 0; gm < 13 && gd > sal_a[gm]; gm++) {
+        gd -= sal_a[gm];
+      }
+
+      return [gy, gm, gd];
+    },
+    GetMonthDaysLength: {
+      J: function J(year, month) {
+        if (month <= 6) {
+          return 31;
+        }
+
+        if (month <= 11) {
+          return 30;
+        }
+
+        if ([1, 5, 9, 13, 17, 22, 26, 30].indexOf(year % 33) === -1) {
+          return 29;
+        }
+
+        return 30;
+      },
+      G: function G(year, month) {
+        return new Date(year, month, 0).getDate();
+      }
+    },
+    getMonthDaysLength: function getMonthDaysLength(year, month, type) {
+      return $$.GetMonthDaysLength[type](year, month);
+    },
+    getDayIndexInYear: function getDayIndexInYear(_ref2) {
+      var _ref3 = _slicedToArray(_ref2, 3),
+          year = _ref3[0],
+          month = _ref3[1],
+          day = _ref3[2];
+
+      var index = 0;
+
+      for (var i = 1; i < month; i++) {
+        index += i <= 6 ? 31 : 30;
+      }
+
+      return index + day;
+    },
+    getLeapBetweenYears: function getLeapBetweenYears(start, end) {
+      var count = 0;
+      start++;
+
+      while (start < end) {
+        if ([1, 5, 9, 13, 17, 22, 26, 30].indexOf(start % 33) !== -1) {
+          count++;
+        }
+
+        start++;
+      }
+
+      return count;
+    },
+    getDaysBetween: function getDaysBetween(start, end) {
+      if (end[0] - start[0] === 0) {
+        return Math.max($$.getDayIndexInYear(end) - $$.getDayIndexInYear(start) - 1, 0);
+      }
+
+      var result = 0;
+
+      if (end[0] - start[0] > 1) {
+        var leaps = $$.getLeapBetweenYears(start[0], end[0]);
+        var notLeaps = Math.max(end[0] - start[0] - 1 - leaps, 0);
+        result = leaps * 366 + notLeaps * 365;
+      }
+
+      result += $$.getDayIndexInYear(end) - 1;
+      result += ([1, 5, 9, 13, 17, 22, 26, 30].indexOf(start[0] % 33) !== -1 ? 366 : 365) - $$.getDayIndexInYear(start);
+      return result;
+    },
+    compaireDate: function compaireDate(_ref4, _ref5) {
+      var _ref6 = _slicedToArray(_ref4, 3),
+          year1 = _ref6[0],
+          month1 = _ref6[1],
+          day1 = _ref6[2];
+
+      var _ref7 = _slicedToArray(_ref5, 3),
+          year2 = _ref7[0],
+          month2 = _ref7[1],
+          day2 = _ref7[2];
+
+      if (year1 < year2) {
+        return 'less';
+      }
+
+      if (year1 > year2) {
+        return 'greater';
+      }
+
+      if (month1 < month2) {
+        return 'less';
+      }
+
+      if (month1 > month2) {
+        return 'greater';
+      }
+
+      if (day1 < day2) {
+        return 'less';
+      }
+
+      if (day1 > day2) {
+        return 'greater';
+      }
+
+      return 'equal';
+    },
+    getNextDay: function getNextDay(_ref8, type) {
+      var _ref9 = _slicedToArray(_ref8, 3),
+          year = _ref9[0],
+          month = _ref9[1],
+          day = _ref9[2];
+
+      if (day < $$.getMonthDaysLength(year, month, type)) {
+        return [year, month, day + 1];
+      }
+
+      if (month < 12) {
+        return [year, month + 1, 1];
+      }
+
+      return [year + 1, 1, 1];
+    },
+    getPrevDay: function getPrevDay(_ref10, type) {
+      var _ref11 = _slicedToArray(_ref10, 3),
+          year = _ref11[0],
+          month = _ref11[1],
+          day = _ref11[2];
+
+      if (day > 1) {
+        return [year, month, day - 1];
+      }
+
+      if (month > 1) {
+        month -= 1;
+        day = $$.getMonthDaysLength(year, month, type);
+        return [year, month, day];
+      }
+
+      year -= 1;
+      month = 12;
+      day = $$.getMonthDaysLength(year, month, type);
+      return [year, month, day];
+    },
+    getNextMonth: function getNextMonth(_ref12) {
+      var _ref13 = _slicedToArray(_ref12, 2),
+          year = _ref13[0],
+          month = _ref13[1];
+
+      return month < 12 ? [year, month + 1, 1] : [year + 1, 1, 1];
+    },
+    getPrevMonth: function getPrevMonth(_ref14) {
+      var _ref15 = _slicedToArray(_ref14, 2),
+          year = _ref15[0],
+          month = _ref15[1];
+
+      return month > 1 ? [year, month - 1, 1] : [year - 1, 12, 1];
+    },
+    GetWeekDay: {
+      J: function J(_ref16) {
+        var _ref17 = _slicedToArray(_ref16, 3),
+            year = _ref17[0],
+            month = _ref17[1],
+            day = _ref17[2];
+
+        var res = $$.compaireDate([year, month, day], [1399, 12, 30]);
+        var offset;
+        var weekDays = $$.getWeekDays('J');
+
+        if (res === 'equal') {
+          offset = 0;
+        } else if (res === 'less') {
+          offset = (-$$.getDaysBetween([year, month, day], [1399, 12, 30]) - 1) % 7;
+
+          if (offset < 0) {
+            offset += 7;
+          }
+        } else {
+          offset = ($$.getDaysBetween([1399, 12, 30], [year, month, day]) + 1) % 7;
+        }
+
+        return {
+          weekDay: weekDays[offset],
+          index: offset
+        };
+      },
+      G: function G(_ref18) {
+        var _ref19 = _slicedToArray(_ref18, 3),
+            year = _ref19[0],
+            month = _ref19[1],
+            day = _ref19[2];
+
+        var offset = new Date(year, month - 1, day).getDay();
+        var weekDays = $$.getWeekDays('G');
+        return {
+          weekDay: weekDays[offset],
+          index: offset
+        };
+      }
+    },
+    getWeekDay: function getWeekDay(date, type) {
+      return $$.GetWeekDay[type](date);
+    },
+    GetToday: {
+      J: function J(type) {
+        var date = new Date().toLocaleDateString('fa-IR').split('/');
+        var dic = {
+          '۰': 0,
+          '۱': 1,
+          '۲': 2,
+          '۳': 3,
+          '۴': 4,
+          '۵': 5,
+          '۶': 6,
+          '۷': 7,
+          '۸': 8,
+          '۹': 9
+        };
+
+        for (var j = 0; j < date.length; j++) {
+          var str = '';
+
+          for (var i = 0; i < date[j].length; i++) {
+            str += dic[date[j][i]];
+          }
+
+          date[j] = Number(str);
+        }
+
+        if (type === 'month') {
+          date[2] = 1;
+        } else if (type === 'year') {
+          date[1] = 1;
+          date[2] = 1;
+        }
+
+        return date;
+      },
+      G: function G(type) {
+        var date = new Date();
+        var result = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+
+        if (type === 'month') {
+          result[2] = 1;
+        } else if (type === 'year') {
+          result[1] = 1;
+          result[2] = 1;
+        }
+
+        return result;
+      }
+    },
+    getToday: function getToday(mode) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'day';
+      return $$.GetToday[mode](type);
+    },
+    getMonths: function getMonths(type) {
+      return {
+        J: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
+        G: ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']
+      }[type];
+    },
+    getWeekDays: function getWeekDays(type) {
+      return {
+        J: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'],
+        G: ['SUNDAY', 'MONDAY', 'THUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
+      }[type];
+    },
+    getSplitter: function getSplitter(value) {
+      var splitter = '/';
+
+      for (var i = 0; i < value.length; i++) {
+        if (isNaN(parseInt(value[i]))) {
+          return value[i];
+        }
+      }
+
+      return splitter;
+    },
+    validateValue: function validateValue() {
       var Value,
-          _this$props2 = this.props,
-          splitter = _this$props2.splitter,
-          type = _this$props2.type;
+          _getProps = getProps(),
+          value = _getProps.value,
+          type = _getProps.type,
+          jalali = _getProps.jalali;
+
+      var _getState = getState(),
+          startYear = _getState.startYear,
+          endYear = _getState.endYear;
+
+      var today = $$.getToday(jalali ? 'J' : 'G');
+      var splitter = '/';
 
       if (Array.isArray(value)) {
         Value = value;
       } else if (typeof value === 'string') {
+        splitter = $$.getSplitter(value);
         Value = value.split(splitter);
       } else {
         Value = today;
@@ -137,12 +938,12 @@ var GAH = /*#__PURE__*/function (_Component) {
         year = today[0];
       }
 
-      if (year < this.startYear) {
-        year = this.startYear;
+      if (year < startYear) {
+        year = startYear;
       }
 
-      if (year > this.endYear) {
-        year = this.endYear;
+      if (year > endYear) {
+        year = endYear;
       }
 
       if (isNaN(month)) {
@@ -162,7 +963,7 @@ var GAH = /*#__PURE__*/function (_Component) {
           day = 1;
         }
 
-        var daysLength = (0, _functions.getMonthDaysLength)(year, month, this.mode);
+        var daysLength = $$.getMonthDaysLength(year, month, jalali ? 'J' : 'G');
 
         if (day > daysLength) {
           day = daysLength;
@@ -175,124 +976,47 @@ var GAH = /*#__PURE__*/function (_Component) {
         day = 1;
       }
 
-      return [year, month, day];
-    }
-  }, {
-    key: "setSingleType",
-    value: function setSingleType(value, today) {
-      var _this$validateValue = this.validateValue(value, today),
-          _this$validateValue2 = _slicedToArray(_this$validateValue, 3),
-          year = _this$validateValue2[0],
-          month = _this$validateValue2[1],
-          day = _this$validateValue2[2];
-
-      this.state = {
+      return {
         year: year,
         month: month,
         day: day,
-        activeRange: 'start',
-        listView: false
+        splitter: splitter
       };
-    }
-  }, {
-    key: "setRangeType",
-    value: function setRangeType(value, today) {
-      var _this$props$value = this.props.value,
-          value = _this$props$value === void 0 ? {} : _this$props$value;
+    },
+    getDateDetails: function getDateDetails() {
+      var _getState2 = getState(),
+          year = _getState2.year,
+          month = _getState2.month,
+          day = _getState2.day,
+          startYear = _getState2.startYear,
+          endYear = _getState2.endYear,
+          splitter = _getState2.splitter;
 
-      if (Array.isArray(value) || _typeof(value) !== 'object') {
-        value = {};
-      }
+      var _getProps2 = getProps(),
+          jalali = _getProps2.jalali,
+          type = _getProps2.type;
 
-      var _value = value,
-          start = _value.start,
-          end = _value.end;
-      var startArray = this.validateValue(start, today);
-      var endArray = this.validateValue(end, today);
-      var Start = {
-        year: startArray[0],
-        month: startArray[1],
-        day: startArray[2]
-      };
-      var End = {
-        year: endArray[0],
-        month: endArray[1],
-        day: endArray[2]
-      };
-      this.state = {
-        start: Start,
-        end: End,
-        activeRange: 'start',
-        listView: false
-      };
-    }
-  }, {
-    key: "setActiveRange",
-    value: function setActiveRange(type) {
-      this.setState({
-        activeRange: type
-      });
-    }
-  }, {
-    key: "SetState",
-    value: function SetState(obj, sendChanges) {
-      var _this2 = this;
+      var _$$$getWeekDay = $$.getWeekDay([year, month, day], jalali ? 'J' : 'G'),
+          weekDay = _$$$getWeekDay.weekDay,
+          weekDayIndex = _$$$getWeekDay.index;
 
-      var _this$props3 = this.props,
-          onChange = _this$props3.onChange,
-          range = _this$props3.range;
-      this.setState(obj, sendChanges && onChange ? function () {
-        return onChange(range ? _this2.rangeDetails : _this2.details);
-      } : function () {});
-    }
-  }, {
-    key: "getDateDetails",
-    value: function getDateDetails() {
-      var _this$state = this.state,
-          start = _this$state.start,
-          end = _this$state.end,
-          activeRange = _this$state.activeRange;
-      var range = this.props.range;
+      var _$$$getWeekDay2 = $$.getWeekDay([year, month, 1], jalali ? 'J' : 'G'),
+          monthFirstDayWeekDay = _$$$getWeekDay2.weekDay;
 
-      if (range) {
-        this.rangeDetails = {
-          start: this.getDetailsSingle(start.year, start.month, start.day),
-          end: this.getDetailsSingle(end.year, end.month, end.day)
-        };
-        this.details = this.rangeDetails[activeRange];
-      } else {
-        var _this$state2 = this.state,
-            year = _this$state2.year,
-            month = _this$state2.month,
-            day = _this$state2.day;
-        this.details = this.getDetailsSingle(year, month, day);
-      }
-    }
-  }, {
-    key: "getDetailsSingle",
-    value: function getDetailsSingle(year, month, day) {
-      var _this$props4 = this.props,
-          _this$props4$splitter = _this$props4.splitter,
-          splitter = _this$props4$splitter === void 0 ? '/' : _this$props4$splitter,
-          jalali = _this$props4.jalali,
-          type = _this$props4.type;
+      var today = $$.getToday(jalali ? 'J' : 'G', type);
 
-      var _getWeekDay = (0, _functions.getWeekDay)([year, month, day], this.mode),
-          weekDay = _getWeekDay.weekDay,
-          weekDayIndex = _getWeekDay.index;
+      var _$$$getWeekDay3 = $$.getWeekDay(today, jalali ? 'J' : 'G'),
+          todayWeekDay = _$$$getWeekDay3.weekDay,
+          todayWeekDayIndex = _$$$getWeekDay3.index;
 
-      var _getWeekDay2 = (0, _functions.getWeekDay)([year, month, 1], this.mode),
-          monthFirstDayWeekDay = _getWeekDay2.weekDay;
-
-      var today = (0, _functions.getToday)(this.mode, type);
       var extra = {};
-      var months = (0, _functions.getMonths)(this.mode);
+      var months = $$.getMonths(jalali ? 'J' : 'G');
 
       if (jalali) {
-        var georgian = (0, _functions.jalali_to_gregorian)(year, month, day);
-        var todayGeorgian = (0, _functions.jalali_to_gregorian)(today[0], today[1], today[2]);
-        var weekDayGeorgian = (0, _functions.getWeekDay)(georgian, 'G').weekDay;
-        var monthStringGeorgian = (0, _functions.getMonths)('G')[month - 1];
+        var georgian = $$.j2g(year, month, day);
+        var todayGeorgian = $$.j2g(today[0], today[1], today[2]);
+        var weekDayGeorgian = $$.getWeekDay(georgian, 'G').weekDay;
+        var monthStringGeorgian = $$.getMonths('G')[month - 1];
         extra = {
           georgian: georgian,
           todayGeorgian: todayGeorgian,
@@ -311,264 +1035,104 @@ var GAH = /*#__PURE__*/function (_Component) {
         year2Digit: year.toString().slice(2, 4),
         month2Digit: month < 10 ? '0' + month : month.toString(),
         day2Digit: day < 10 ? '0' + day : day.toString(),
+        weekDays: $$.getWeekDays(jalali ? 'J' : 'G'),
         monthString: months[month - 1],
-        startYear: this.startYear,
-        endYear: this.endYear,
+        todayMonthString: months[today[1] - 1],
+        startYear: startYear,
+        endYear: endYear,
         dateString: year + splitter + month + splitter + day,
         fullDateString: year + splitter + month + splitter + day + ' ' + weekDay,
         today: today,
+        todayWeekDay: todayWeekDay,
+        todayWeekDayIndex: todayWeekDayIndex,
         ...extra
       };
-    }
-  }, {
-    key: "getNextDate",
-    value: function getNextDate(dateArray, sign, type) {
-      var newDate;
+    },
+    getValue: function getValue() {
+      var _getProps3 = getProps(),
+          jalali = _getProps3.jalali,
+          type = _getProps3.type,
+          value = _getProps3.value,
+          placeHolder = _getProps3.placeHolder;
 
-      if (sign === 1) {
-        if (type === 'day') {
-          newDate = (0, _functions.getNextDay)(dateArray, this.mode);
-        } else if (type === 'month') {
-          newDate = (0, _functions.getNextMonth)(dateArray, this.mode);
-        } else {
-          newDate = [dateArray[0] + 1, 1, 1];
-        }
-      } else {
-        if (type === 'day') {
-          newDate = (0, _functions.getPrevDay)(dateArray, this.mode);
-        } else if (type === 'month') {
-          newDate = (0, _functions.getPrevMonth)(dateArray, this.mode);
-        } else {
-          newDate = [dateArray[0] - 1, 1, 1];
-        }
-      }
-
-      return newDate;
-    }
-  }, {
-    key: "setNext",
-    value: function setNext(sign) {
-      var _this$props5 = this.props,
-          range = _this$props5.range,
-          type = _this$props5.type;
-      var activeRange = this.state.activeRange;
-      var dateArray;
-
-      if (range) {
-        var dateObj = this.state[activeRange];
-        dateArray = [dateObj.year, dateObj.month, dateObj.day];
-        var date = this.getNextDate(dateArray, sign, type);
-
-        if (date[0] < this.startYear || date[1] > this.endYear) {
-          return;
-        }
-
-        this.SetState(_defineProperty({}, activeRange, {
-          year: date[0],
-          month: date[1],
-          day: date[2]
-        }), true);
-      } else {
-        var _this$state3 = this.state,
-            year = _this$state3.year,
-            month = _this$state3.month,
-            day = _this$state3.day;
-        dateArray = [year, month, day];
-
-        var _date = this.getNextDate(dateArray, sign, type);
-
-        if (_date[0] < this.startYear || _date[0] > this.endYear) {
-          return;
-        }
-
-        this.SetState({
-          year: _date[0],
-          month: _date[1],
-          day: _date[2]
-        }, true);
-      }
-    }
-  }, {
-    key: "getValue",
-    value: function getValue() {
-      var _this$props6 = this.props,
-          jalali = _this$props6.jalali,
-          range = _this$props6.range,
-          splitter = _this$props6.splitter,
-          type = _this$props6.type,
-          value = _this$props6.value,
-          placeHolder = _this$props6.placeHolder;
+      var _getState3 = getState(),
+          splitter = _getState3.splitter,
+          year = _getState3.year,
+          month = _getState3.month,
+          day = _getState3.day;
 
       if (!value) {
         if (placeHolder) {
           return placeHolder;
         }
 
-        if (jalali) {
-          return 'انتخاب تاریخ';
-        }
-
-        return 'Select Date';
+        return !jalali ? 'Select Date' : 'انتخاب تاریخ';
       }
 
-      if (range) {
-        var _this$state4 = this.state,
-            start = _this$state4.start,
-            end = _this$state4.end;
-
-        if (type === 'day') {
-          return start.year + splitter + start.month + splitter + start.day + ' - ' + end.year + splitter + end.month + splitter + end.day;
-        }
-
-        if (type === 'month') {
-          var months = (0, _functions.getMonths)(this.mode);
-          return months[start.month - 1] + ' ' + start.year + ' - ' + months[end.month - 1] + ' ' + end.year;
-        }
-
-        if (type === 'year') {
-          return start.year + ' - ' + end.year;
-        }
-      } else {
-        var _this$state5 = this.state,
-            year = _this$state5.year,
-            month = _this$state5.month,
-            day = _this$state5.day;
-
-        if (type === 'day') {
-          return year + splitter + month + splitter + day;
-        }
-
-        if (type === 'month') {
-          var _months = (0, _functions.getMonths)(this.mode);
-
-          return _months[month - 1] + ' ' + year;
-        }
-
-        if (type === 'year') {
-          return year;
-        }
-      }
-    }
-  }, {
-    key: "getIcon",
-    value: function getIcon() {
-      var icon = this.props.icon;
-
-      if (icon === false) {
-        return false;
+      if (type === 'day') {
+        return year + splitter + month + splitter + day;
       }
 
-      if (icon === undefined) {
-        return (0, _functions.getGridIcon)();
+      if (type === 'month') {
+        return $$.getMonths(jalali ? 'J' : 'G')[month - 1] + ' ' + year;
       }
 
-      return icon;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
+      if (type === 'year') {
+        return year;
+      }
+    },
+    onToday: function onToday() {
+      var _getProps4 = getProps(),
+          type = _getProps4.type,
+          jalali = _getProps4.jalali;
 
-      var _this$props7 = this.props,
-          jalali = _this$props7.jalali,
-          range = _this$props7.range,
-          value = _this$props7.value;
-      this.getDateDetails();
-      var Value = this.getValue();
-      var icon = this.getIcon();
-      return /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-datepicker",
-        style: {
-          direction: jalali ? 'rtl' : 'ltr'
-        }
-      }, icon !== false && /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-datepicker-icon"
-      }, this.getIcon()), /*#__PURE__*/_react.default.createElement(_rDropdownButton.default, {
-        rtl: jalali,
-        open: true,
-        animate: true,
-        className: "gah-datepicker-button",
-        text: Value,
-        style: {
-          display: 'flex',
-          justifyContent: 'flex-start',
-          color: 'inherit'
-        },
-        items: function items() {
-          return /*#__PURE__*/_react.default.createElement(GAHDatePickerPopup, _extends({
-            icons: _this3.icons
-          }, _this3.props, _this3.state, {
-            SetState: _this3.SetState.bind(_this3),
-            details: _this3.details,
-            rangeDetails: _this3.rangeDetails,
-            years: _this3.years,
-            mode: _this3.mode,
-            setActiveRange: _this3.setActiveRange.bind(_this3)
-          }));
-        }
-      }), !range && value && /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-step"
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-step-up",
-        onClick: function onClick() {
-          return _this3.setNext(1);
-        }
-      }), /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-step-down",
-        onClick: function onClick() {
-          return _this3.setNext(-1);
-        }
-      })));
-    }
-  }]);
+      var _$$$getToday = $$.getToday(jalali ? 'J' : 'G'),
+          _$$$getToday2 = _slicedToArray(_$$$getToday, 3),
+          year = _$$$getToday2[0],
+          month = _$$$getToday2[1],
+          day = _$$$getToday2[2];
 
-  return GAH;
-}(_react.Component);
+      if (type === 'month') {
+        day = 1;
+      } else if (type === 'year') {
+        day = 1;
+        month = 1;
+      }
 
-exports.default = GAH;
-GAH.defaultProps = {
-  size: 180,
-  jalali: true,
-  disabled: false,
-  splitter: '/',
-  prevYears: 10,
-  nextYears: 20,
-  type: 'day'
-};
-var rdpContext = /*#__PURE__*/(0, _react.createContext)();
+      setState({
+        year: year,
+        month: month,
+        day: day,
+        activeYear: year,
+        activeMonth: month
+      }, true);
+    },
+    getTodayText: function getTodayText() {
+      var _getProps5 = getProps(),
+          type = _getProps5.type,
+          jalali = _getProps5.jalali;
 
-var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
-  _inherits(GAHDatePickerPopup, _Component2);
+      return {
+        dayJ: 'امروز',
+        dayG: 'Today',
+        monthJ: 'ماه جاری',
+        monthG: 'This Month',
+        yearJ: 'سال جاری',
+        yearG: 'This Year'
+      }[type + (jalali ? 'J' : 'G')];
+    },
+    isDisabled: function isDisabled(date) {
+      var _getProps6 = getProps(),
+          limits = _getProps6.limits,
+          jalali = _getProps6.jalali,
+          type = _getProps6.type,
+          disabled = _getProps6.disabled;
 
-  var _super2 = _createSuper(GAHDatePickerPopup);
+      var _getState4 = getState(),
+          splitter = _getState4.splitter;
 
-  function GAHDatePickerPopup() {
-    _classCallCheck(this, GAHDatePickerPopup);
-
-    return _super2.apply(this, arguments);
-  }
-
-  _createClass(GAHDatePickerPopup, [{
-    key: "isDisabled",
-    value: function isDisabled(date) {
-      var _this$props8 = this.props,
-          limits = _this$props8.limits,
-          splitter = _this$props8.splitter,
-          range = _this$props8.range,
-          start = _this$props8.start,
-          end = _this$props8.end,
-          activeRange = _this$props8.activeRange,
-          mode = _this$props8.mode,
-          type = _this$props8.type;
-
-      if (range) {
-        if (activeRange === 'end' && (0, _functions.compaireDate)(date, [start.year, start.month, start.day]) === 'less') {
-          return true;
-        }
-
-        if (activeRange === 'start' && (0, _functions.compaireDate)(date, [end.year, end.month, end.day]) === 'greater') {
-          return true;
-        }
+      if (disabled === true) {
+        return true;
       }
 
       if (!limits) {
@@ -587,12 +1151,8 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
             thisMonth = false;
           }
 
-          if (thisMonth) {
-            var weekDay = (0, _functions.getWeekDay)(date, mode).index + 1;
-
-            if (weekDay === limit.weekDay) {
-              return true;
-            }
+          if (thisMonth && $$.getWeekDay(date, jalali ? 'J' : 'G').index + 1 === limit.weekDay) {
+            return true;
           }
         } else if (limit.type === 'between') {
           var dateArray1 = void 0,
@@ -626,22 +1186,25 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
 
           dateArray1 = [parseInt(dateArray1[0]), parseInt(dateArray1[1]), parseInt(dateArray1[2])];
           dateArray2 = [parseInt(dateArray2[0]), parseInt(dateArray2[1]), parseInt(dateArray2[2])];
+          var start = void 0,
+              end = void 0;
 
-          var _start = void 0,
-              _end = void 0;
-
-          if (['less', 'equal'].indexOf((0, _functions.compaireDate)(dateArray1, dateArray2)) !== -1) {
-            _start = dateArray1;
-            _end = dateArray2;
+          if (['less', 'equal'].indexOf($$.compaireDate(dateArray1, dateArray2)) !== -1) {
+            start = dateArray1;
+            end = dateArray2;
           } else {
-            _start = dateArray2;
-            _end = dateArray1;
+            start = dateArray2;
+            end = dateArray1;
           }
 
-          if ((0, _functions.compaireDate)(date, _start) === 'greater' && (0, _functions.compaireDate)(date, _end) === 'less') {
+          if ($$.compaireDate(date, start) === 'greater' && $$.compaireDate(date, end) === 'less') {
             return true;
           }
         } else {
+          if (!limit.date) {
+            continue;
+          }
+
           var dateArray = void 0;
 
           if (typeof limit.date === 'string') {
@@ -659,734 +1222,83 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component2) {
             dateArray[2] = 1;
           }
 
-          if ((0, _functions.compaireDate)(date, [parseInt(dateArray[0]), parseInt(dateArray[1]), parseInt(dateArray[2])]) === limit.type) {
+          if ($$.compaireDate(date, [parseInt(dateArray[0]), parseInt(dateArray[1]), parseInt(dateArray[2])]) === limit.type) {
             return true;
           }
         }
       }
 
       return false;
-    }
-  }, {
-    key: "getHeader",
-    value: function getHeader() {
-      var _this$props9 = this.props,
-          range = _this$props9.range,
-          size = _this$props9.size,
-          type = _this$props9.type,
-          mode = _this$props9.mode;
-      var style = {
-        height: size / 8 + 6,
-        fontSize: size / 16,
-        padding: "0 3px"
-      };
+    },
+    getCellClassName: function getCellClassName(Year, Month, Day, disabled) {
+      var _getProps7 = getProps(),
+          jalali = _getProps7.jalali;
 
-      if (!range) {
-        return null;
-      } else {
-        var _this$props10 = this.props,
-            activeRange = _this$props10.activeRange,
-            setActiveRange = _this$props10.setActiveRange,
-            rangeDetails = _this$props10.rangeDetails;
-        var _rangeDetails$start = rangeDetails.start,
-            year1 = _rangeDetails$start.year,
-            month1 = _rangeDetails$start.month,
-            day1 = _rangeDetails$start.day;
-        var _rangeDetails$end = rangeDetails.end,
-            year2 = _rangeDetails$end.year,
-            month2 = _rangeDetails$end.month,
-            day2 = _rangeDetails$end.day;
-        var rangeStyle = {
-          height: size / 8
-        };
-        var value1, value2;
+      var _getState5 = getState(),
+          year = _getState5.year,
+          month = _getState5.month,
+          day = _getState5.day;
 
-        if (type === 'month') {
-          var months = (0, _functions.getMonths)(mode);
-          value1 = year1 + ' ' + months[month1 - 1];
-          value2 = year2 + ' ' + months[month2 - 1];
-        } else {
-          value1 = year1 + ' / ' + month1 + ' / ' + day1;
-          value2 = year2 + ' / ' + month2 + ' / ' + day2;
-        }
-
-        return /*#__PURE__*/_react.default.createElement("div", {
-          className: "rdp-header",
-          style: style
-        }, /*#__PURE__*/_react.default.createElement("span", {
-          className: 'rdp-range-value rdp-range-start' + (activeRange === 'start' ? ' active' : ''),
-          onClick: function onClick() {
-            return setActiveRange('start');
-          },
-          style: rangeStyle
-        }, value1), /*#__PURE__*/_react.default.createElement("span", {
-          className: 'rdp-range-value rdp-range-end' + (activeRange === 'end' ? ' active' : ''),
-          onClick: function onClick() {
-            return setActiveRange('end');
-          },
-          style: rangeStyle
-        }, value2));
-      }
-    }
-  }, {
-    key: "getBody",
-    value: function getBody() {
-      var _this$props11 = this.props,
-          listView = _this$props11.listView,
-          details = _this$props11.details,
-          activeRange = _this$props11.activeRange;
-
-      if (listView) {
-        return /*#__PURE__*/_react.default.createElement(GAHDatePickerList, {
-          details: details
-        });
-      }
-
-      return /*#__PURE__*/_react.default.createElement(GAHDatePickerGrid, {
-        key: activeRange,
-        details: details
-      });
-    }
-  }, {
-    key: "getFooter",
-    value: function getFooter() {
-      var _this4 = this;
-
-      var _this$props12 = this.props,
-          onSubmit = _this$props12.onSubmit,
-          onClose = _this$props12.onClose,
-          onClear = _this$props12.onClear,
-          mode = _this$props12.mode,
-          disabled = _this$props12.disabled,
-          size = _this$props12.size;
-      var buttonStyle = {
-        padding: "".concat(size / 36, "px 0")
-      };
-      var closeText = {
-        G: 'Cansel',
-        J: 'بستن'
-      }[mode];
-      var submitText = {
-        G: 'OK',
-        J: 'تایید'
-      }[mode];
-      var clearText = {
-        G: 'Clear',
-        J: 'حذف'
-      }[mode];
-      return /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-footer",
-        style: {
-          fontSize: size / 13
-        }
-      }, typeof onClose === 'function' && /*#__PURE__*/_react.default.createElement("button", {
-        style: buttonStyle,
-        onClick: function onClick() {
-          return onClose(_this4.props.details);
-        }
-      }, closeText), typeof onSubmit === 'function' && !disabled && /*#__PURE__*/_react.default.createElement("button", {
-        style: buttonStyle,
-        onClick: function onClick() {
-          return onSubmit(_this4.props.details);
-        }
-      }, submitText), typeof onClear === 'function' && !disabled && /*#__PURE__*/_react.default.createElement("button", {
-        style: buttonStyle,
-        onClick: function onClick() {
-          return onClear(_this4.props.details);
-        }
-      }, clearText));
-    }
-  }, {
-    key: "getStyle",
-    value: function getStyle() {
-      var size = this.props.size;
-      return {
-        width: size,
-        fontSize: size / 17
-      };
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props13 = this.props,
-          _this$props13$theme = _this$props13.theme,
-          theme = _this$props13$theme === void 0 ? 'theme1' : _this$props13$theme,
-          className = _this$props13.className,
-          id = _this$props13.id,
-          style = _this$props13.style,
-          _this$props13$default = _this$props13.defaultProps,
-          defaultProps = _this$props13$default === void 0 ? {} : _this$props13$default,
-          years = _this$props13.years;
-      var context = { ...this.props,
-        isDisabled: this.isDisabled.bind(this),
-        years: years
-      };
-      var className = "rdp rdp-".concat(theme).concat(className ? ' ' + className : '');
-      return /*#__PURE__*/_react.default.createElement(rdpContext.Provider, {
-        value: context
-      }, /*#__PURE__*/_react.default.createElement("div", _extends({
-        className: className,
-        id: id
-      }, defaultProps, {
-        style: { ...this.getStyle(),
-          ...style
-        }
-      }), this.getHeader(), this.getBody(), this.getFooter()));
-    }
-  }]);
-
-  return GAHDatePickerPopup;
-}(_react.Component);
-
-var GAHDatePickerList = /*#__PURE__*/function (_Component3) {
-  _inherits(GAHDatePickerList, _Component3);
-
-  var _super3 = _createSuper(GAHDatePickerList);
-
-  function GAHDatePickerList() {
-    _classCallCheck(this, GAHDatePickerList);
-
-    return _super3.apply(this, arguments);
-  }
-
-  _createClass(GAHDatePickerList, [{
-    key: "change",
-    value: function change(year, month, day) {
-      var _this$context = this.context,
-          SetState = _this$context.SetState,
-          isDisabled = _this$context.isDisabled,
-          range = _this$context.range,
-          activeRange = _this$context.activeRange,
-          mode = _this$context.mode,
-          type = _this$context.type;
-      var details = this.props.details;
-      var startYear = details.startYear,
-          endYear = details.endYear;
-
-      if (year > endYear) {
-        year = endYear;
-      }
-
-      if (year < startYear) {
-        year = startYear;
-      }
-
-      if (month > 12) {
-        month = 12;
-      }
-
-      if (month < 1) {
-        month = 1;
-      }
-
-      var daysLength = (0, _functions.getMonthDaysLength)(year, month, mode);
-
-      if (day > daysLength) {
-        day = daysLength;
-      }
-
-      if (isDisabled([year, month, day])) {
-        return;
-      }
-
-      if (details.year === year && details.month === month && details.day === day) {
-        return;
-      }
-
-      if (range) {
-        SetState(_defineProperty({}, activeRange, {
-          year: year,
-          month: month,
-          day: day
-        }), true);
-      } else {
-        SetState({
-          year: year,
-          month: month,
-          day: day
-        }, true);
-      }
-    }
-  }, {
-    key: "getDays",
-    value: function getDays() {
-      var details = this.props.details;
-      var mode = this.context.mode;
-      var year = details.year,
-          month = details.month,
-          days = [];
-      var length = (0, _functions.getMonthDaysLength)(year, month, mode);
-
-      for (var i = 1; i <= length; i++) {
-        days.push(i);
-      }
-
-      return days;
-    }
-  }, {
-    key: "onToday",
-    value: function onToday() {
-      var _this$context2 = this.context,
-          SetState = _this$context2.SetState,
-          range = _this$context2.range,
-          activeRange = _this$context2.activeRange,
-          type = _this$context2.type;
-      var details = this.props.details;
-
-      var _details$today = _slicedToArray(details.today, 3),
-          year = _details$today[0],
-          month = _details$today[1],
-          day = _details$today[2];
-
-      if (type === 'month') {
-        day = 1;
-      } else if (type === 'year') {
-        day = 1;
-        month = 1;
-      }
-
-      if (range) {
-        SetState(_defineProperty({}, activeRange, {
-          year: year,
-          month: month,
-          day: day
-        }), true);
-      } else {
-        SetState({
-          year: year,
-          month: month,
-          day: day
-        }, true);
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this5 = this;
-
-      var _this$context3 = this.context,
-          icons = _this$context3.icons,
-          SetState = _this$context3.SetState,
-          isDisabled = _this$context3.isDisabled,
-          years = _this$context3.years,
-          size = _this$context3.size,
-          mode = _this$context3.mode,
-          type = _this$context3.type;
-      var details = this.props.details;
-      var months = (0, _functions.getMonths)(mode);
-      var year = details.year,
-          month = details.month,
-          day = details.day,
-          g = details.georgian;
-      var days = this.getDays();
-      var selectStyle = {
-        direction: mode === 'J' ? 'rtl' : 'ltr'
-      };
-      var sign = {
-        J: -1,
-        G: 1
-      }[mode];
-      var todayText = {
-        day: {
-          J: 'امروز',
-          G: 'Today'
-        },
-        month: {
-          J: 'ماه جاری',
-          G: 'This Month'
-        },
-        year: {
-          J: 'سال جاری',
-          G: 'This Year'
-        }
-      }[type][mode];
-      return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-list-header",
-        style: {
-          height: size / 5.5
-        }
-      }, mode === 'J' && type === 'day' && /*#__PURE__*/_react.default.createElement("span", null, "".concat(g[0], "/").concat(g[1], "/").concat(g[2], " ").concat(details.weekDayGeorgian.slice(0, 3))), mode === 'J' && type === 'month' && /*#__PURE__*/_react.default.createElement("span", null, "".concat(g[0], " ").concat(details.monthStringGeorgian)), /*#__PURE__*/_react.default.createElement("div", {
-        onClick: function onClick() {
-          return SetState({
-            listView: false
-          });
-        }
-      }, icons.grid)), /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-list"
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-today"
-      }, /*#__PURE__*/_react.default.createElement("button", {
-        onClick: function onClick() {
-          return _this5.onToday();
-        }
-      }, todayText)), /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-list-item"
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-step",
-        onClick: function onClick() {
-          return _this5.change(year + -sign, month, day);
-        }
-      }, icons.minus), /*#__PURE__*/_react.default.createElement("select", {
-        value: year,
-        onChange: function onChange(e) {
-          return _this5.change(parseInt(e.target.value), month, day);
-        },
-        style: selectStyle
-      }, years.map(function (y, i) {
-        return /*#__PURE__*/_react.default.createElement("option", {
-          key: i,
-          value: y
-        }, y);
-      })), /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-step",
-        onClick: function onClick() {
-          return _this5.change(year + sign, month, day);
-        }
-      }, icons.plus)), /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-list-item"
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-step",
-        onClick: function onClick() {
-          return _this5.change(year, month + -sign, day);
-        }
-      }, icons.minus), /*#__PURE__*/_react.default.createElement("select", {
-        value: month,
-        onChange: function onChange(e) {
-          return _this5.change(year, parseInt(e.target.value), day);
-        },
-        style: selectStyle
-      }, months.filter(function (m, i) {
-        return !isDisabled([year, i + 1, 1]);
-      }).map(function (m, i) {
-        return /*#__PURE__*/_react.default.createElement("option", {
-          key: i,
-          value: i + 1
-        }, m);
-      })), /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-step",
-        onClick: function onClick() {
-          return _this5.change(year, month + sign, day);
-        }
-      }, icons.plus)), type === 'day' && /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-list-item"
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-step",
-        onClick: function onClick() {
-          return _this5.change(year, month, day + -sign);
-        }
-      }, icons.minus), /*#__PURE__*/_react.default.createElement("select", {
-        value: day,
-        onChange: function onChange(e) {
-          return _this5.change(year, month, parseInt(e.target.value));
-        },
-        style: selectStyle
-      }, days.filter(function (d) {
-        return !isDisabled([year, month, d]);
-      }).map(function (d, i) {
-        return /*#__PURE__*/_react.default.createElement("option", {
-          key: i,
-          value: d
-        }, d);
-      })), /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-step",
-        onClick: function onClick() {
-          return _this5.change(year, month, day + sign);
-        }
-      }, icons.plus))));
-    }
-  }]);
-
-  return GAHDatePickerList;
-}(_react.Component);
-
-_defineProperty(GAHDatePickerList, "contextType", rdpContext);
-
-var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
-  _inherits(GAHDatePickerGrid, _Component4);
-
-  var _super4 = _createSuper(GAHDatePickerGrid);
-
-  function GAHDatePickerGrid(props) {
-    var _this6;
-
-    _classCallCheck(this, GAHDatePickerGrid);
-
-    _this6 = _super4.call(this, props);
-    var details = _this6.props.details;
-    _this6.state = {
-      activeYear: details.year,
-      activeMonth: details.month
-    };
-    _this6.dom = /*#__PURE__*/(0, _react.createRef)();
-    return _this6;
-  }
-
-  _createClass(GAHDatePickerGrid, [{
-    key: "getWeekDays",
-    value: function getWeekDays() {
-      var mode = this.context.mode;
-      var weekDays = mode === 'J' ? ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'] : ['SUNDAY', 'MONDAY', 'THUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
-      return weekDays.map(function (w, i) {
-        return /*#__PURE__*/_react.default.createElement("div", {
-          key: 'weekDay' + i,
-          className: "rdp-weekday rdp-cell"
-        }, /*#__PURE__*/_react.default.createElement("span", null, w.slice(0, mode === 'J' ? 1 : 2)));
-      });
-    }
-  }, {
-    key: "getSpaces",
-    value: function getSpaces() {
-      var mode = this.context.mode;
-      var _this$state6 = this.state,
-          activeYear = _this$state6.activeYear,
-          activeMonth = _this$state6.activeMonth;
-      var firstDayWeekDayIndex = (0, _functions.getWeekDay)([activeYear, activeMonth, 1], mode).index;
-      var Spaces = [];
-
-      for (var i = 0; i < firstDayWeekDayIndex; i++) {
-        Spaces.push( /*#__PURE__*/_react.default.createElement("div", {
-          key: 'space' + i,
-          className: "rdp-space rdp-cell"
-        }));
-      }
-
-      return Spaces;
-    }
-  }, {
-    key: "change",
-    value: function change(year, month, day) {
-      var _this$context4 = this.context,
-          SetState = _this$context4.SetState,
-          range = _this$context4.range,
-          activeRange = _this$context4.activeRange;
-
-      if (range) {
-        SetState(_defineProperty({}, activeRange, {
-          year: year,
-          month: month,
-          day: day
-        }), true);
-      } else {
-        SetState({
-          year: year,
-          month: month,
-          day: day
-        }, true);
-      }
-    }
-  }, {
-    key: "getCellClassName",
-    value: function getCellClassName(year, month, day, disabled) {
-      var _this$context5 = this.context,
-          range = _this$context5.range,
-          mode = _this$context5.mode,
-          end = _this$context5.end,
-          start = _this$context5.start;
-      var details = this.props.details;
-      var str = 'rdp-cell rdp-cell-first';
+      var today = $$.getToday(jalali ? 'J' : 'G');
+      var str = 'gah-cell gah-cell-first';
 
       if (disabled) {
         str += ' disabled';
       }
 
-      if (details.year === year && details.month === month && details.day === day) {
+      if (year === Year && month === Month && day === Day) {
         str += ' active';
       }
 
-      if (details.today[0] === year && details.today[1] === month && details.today[2] === day) {
+      if (today[0] === Year && today[1] === Month && today[2] === Day) {
         str += ' today';
       }
 
-      if (mode === 'J') {
+      if (jalali) {
         str += ' is-jalali';
       }
 
-      if (range) {
-        var a = (0, _functions.compaireDate)([year, month, day], [end.year, end.month, end.day]);
-        var b = (0, _functions.compaireDate)([year, month, day], [start.year, start.month, start.day]);
-
-        if (a === 'less' && b === 'greater') {
-          str += ' in-range';
-        }
-
-        if (b === 'equal') {
-          str += ' start';
-        }
-
-        if (a === 'equal') {
-          str += ' end';
-        }
-      }
-
       return str;
-    }
-  }, {
-    key: "getCells",
-    value: function getCells() {
-      var type = this.context.type;
-      return this['getCellsBy' + type]();
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      (0, _jquery.default)(this.dom.current).find('.active').focus();
-    }
-  }, {
-    key: "getCellsByday",
-    value: function getCellsByday() {
-      var _this7 = this;
+    },
+    changeActivePage: function changeActivePage(value, type, obj) {
+      return $$['changeActivePage_' + type](value, obj);
+    },
+    changeActivePage_month: function changeActivePage_month(value, _ref20) {
+      var activeYear = _ref20.activeYear;
 
-      var _this$state7 = this.state,
-          activeYear = _this$state7.activeYear,
-          activeMonth = _this$state7.activeMonth;
-      var _this$context6 = this.context,
-          isDisabled = _this$context6.isDisabled,
-          mode = _this$context6.mode;
-      var daysLength = (0, _functions.getMonthDaysLength)(activeYear, activeMonth, mode);
-      var Days = [];
-
-      var _loop = function _loop(day) {
-        var disabled = isDisabled([activeYear, activeMonth, day]);
-
-        var className = _this7.getCellClassName(activeYear, activeMonth, day, disabled);
-
-        var onClick = disabled || _this7.context.disabled ? undefined : function () {
-          return _this7.change(activeYear, activeMonth, day);
-        };
-        Days.push( /*#__PURE__*/_react.default.createElement("div", {
-          tabIndex: 0,
-          onClick: onClick,
-          key: 'day' + day,
-          className: className
-        }, day));
-      };
-
-      for (var day = 1; day <= daysLength; day++) {
-        _loop(day);
-      }
-
-      return Days;
-    }
-  }, {
-    key: "getCellsBymonth",
-    value: function getCellsBymonth() {
-      var _this8 = this;
-
-      var _this$context7 = this.context,
-          mode = _this$context7.mode,
-          isDisabled = _this$context7.isDisabled;
-      var activeYear = this.state.activeYear;
-      var months = (0, _functions.getMonths)(mode);
-      var Months = [];
-
-      var _loop2 = function _loop2(month) {
-        var disabled = isDisabled([activeYear, month + 1, 1]);
-        Months.push( /*#__PURE__*/_react.default.createElement("div", {
-          tabIndex: 0,
-          key: month,
-          style: {
-            borderRadius: 0
-          },
-          className: _this8.getCellClassName(activeYear, month + 1, 1, disabled),
-          onClick: disabled || _this8.context.disabled ? undefined : function () {
-            return _this8.change(activeYear, month + 1, 1);
-          }
-        }, months[month]));
-      };
-
-      for (var month = 0; month < months.length; month++) {
-        _loop2(month);
-      }
-
-      return Months;
-    }
-  }, {
-    key: "getCellsByyear",
-    value: function getCellsByyear() {
-      var _this9 = this;
-
-      var _this$context8 = this.context,
-          isDisabled = _this$context8.isDisabled,
-          years = _this$context8.years;
-      var Years = [];
-
-      var _loop3 = function _loop3(year) {
-        var disabled = isDisabled([years[year], 1, 1]);
-        Years.push( /*#__PURE__*/_react.default.createElement("div", {
-          tabIndex: 0,
-          key: year,
-          style: {
-            borderRadius: 0,
-            minHeight: '24px'
-          },
-          className: _this9.getCellClassName(years[year], 1, 1, disabled),
-          onClick: disabled || _this9.context.disabled ? undefined : function () {
-            return _this9.change(years[year], 1, 1);
-          }
-        }, years[year]));
-      };
-
-      for (var year = 0; year < years.length; year++) {
-        _loop3(year);
-      }
-
-      return Years;
-    }
-  }, {
-    key: "getEndSpaces",
-    value: function getEndSpaces(length) {
-      var Spaces = [];
-
-      for (var i = 0; i < length; i++) {
-        Spaces.push( /*#__PURE__*/_react.default.createElement("div", {
-          key: 'endspace' + i,
-          className: "rdp-space rdp-cell"
-        }));
-      }
-
-      return Spaces;
-    }
-  }, {
-    key: "changeActivePage",
-    value: function changeActivePage(value) {
-      var type = this.context.type;
-      this['changeActivePageType' + type](value);
-    }
-  }, {
-    key: "changeActivePageTypemonth",
-    value: function changeActivePageTypemonth(value) {
-      var details = this.props.details;
-      var activeYear = this.state.activeYear;
+      var _getState6 = getState(),
+          startYear = _getState6.startYear,
+          endYear = _getState6.endYear;
 
       if (value === 1) {
-        if (activeYear === details.endYear) {
+        if (activeYear === endYear) {
           return;
         }
 
         activeYear++;
       } else {
-        if (activeYear === details.startYear) {
+        if (activeYear === startYear) {
           return;
         }
 
         activeYear--;
       }
 
-      this.setState({
+      return {
         activeYear: activeYear
-      });
-    }
-  }, {
-    key: "changeActivePageTypeday",
-    value: function changeActivePageTypeday(value) {
-      var details = this.props.details;
-      var _this$state8 = this.state,
-          activeYear = _this$state8.activeYear,
-          activeMonth = _this$state8.activeMonth;
+      };
+    },
+    changeActivePage_day: function changeActivePage_day(value, _ref21) {
+      var activeYear = _ref21.activeYear,
+          activeMonth = _ref21.activeMonth;
+
+      var _getState7 = getState(),
+          startYear = _getState7.startYear,
+          endYear = _getState7.endYear;
 
       if (value === 1) {
         if (activeMonth === 12) {
-          if (activeYear === details.endYear) {
+          if (activeYear === endYear) {
             return;
           }
 
@@ -1397,7 +1309,7 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
         }
       } else {
         if (activeMonth === 1) {
-          if (activeYear === details.startYear) {
+          if (activeYear === startYear) {
             return;
           }
 
@@ -1408,79 +1320,19 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
         }
       }
 
-      this.setState({
+      return {
         activeYear: activeYear,
         activeMonth: activeMonth
-      });
-    }
-  }, {
-    key: "getHeader",
-    value: function getHeader() {
-      var _this10 = this;
+      };
+    },
+    getGridStyle: function getGridStyle() {
+      var platform = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'react';
 
-      var _this$context9 = this.context,
-          icons = _this$context9.icons,
-          SetState = _this$context9.SetState,
-          listView = _this$context9.listView,
-          disabled = _this$context9.disabled,
-          size = _this$context9.size,
-          mode = _this$context9.mode,
-          type = _this$context9.type;
-      var _this$state9 = this.state,
-          activeYear = _this$state9.activeYear,
-          activeMonth = _this$state9.activeMonth;
-      var sign = {
-        J: -1,
-        G: 1
-      }[mode];
-      var value;
+      var _getProps8 = getProps(),
+          size = _getProps8.size,
+          jalali = _getProps8.jalali,
+          type = _getProps8.type;
 
-      if (type === 'year') {
-        return null;
-      } else if (type === 'day') {
-        var months = (0, _functions.getMonths)(mode);
-        var monthString = months[activeMonth - 1];
-        value = (mode === 'J' ? monthString : monthString.slice(0, 3)) + ' ' + activeYear;
-      } else {
-        value = activeYear;
-      }
-
-      return /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-grid-header",
-        style: {
-          height: size / 5.5,
-          padding: "0 ".concat(size / 12.5, "px")
-        }
-      }, !listView && !disabled && /*#__PURE__*/_react.default.createElement("div", {
-        onClick: function onClick() {
-          return _this10.changeActivePage(-sign);
-        }
-      }, icons.minus), /*#__PURE__*/_react.default.createElement("div", {
-        className: "rdp-month",
-        onClick: function onClick() {
-          if (!disabled) {
-            SetState({
-              listView: true
-            });
-          }
-        },
-        style: {
-          cursor: disabled ? '' : 'pointer',
-          fontSize: Math.floor(size / 12)
-        }
-      }, value), !listView && !disabled && /*#__PURE__*/_react.default.createElement("div", {
-        onClick: function onClick() {
-          return _this10.changeActivePage(sign);
-        }
-      }, icons.plus));
-    }
-  }, {
-    key: "getStyle",
-    value: function getStyle() {
-      var _this$context10 = this.context,
-          size = _this$context10.size,
-          mode = _this$context10.mode,
-          type = _this$context10.type;
       var columnCount = {
         day: 7,
         month: 3,
@@ -1491,13 +1343,13 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
         month: 4,
         year: 0
       }[type];
-      var padding = size / 24,
-          fontSize = size / 18,
+      var padding = size / 18,
+          fontSize = size / 15,
           a = (size - padding * 2) / columnCount;
       var rowHeight = {
         day: a,
-        month: size / 5.5,
-        year: size / 5.5
+        month: size / 6,
+        year: size / 7
       }[type];
       var gridTemplateColumns = '',
           gridTemplateRows = '';
@@ -1510,46 +1362,265 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
         gridTemplateRows += rowHeight + 'px' + (_i2 !== rowCount ? ' ' : '');
       }
 
+      var direction = jalali ? 'rtl' : 'ltr';
+
+      if (platform === 'react') {
+        return {
+          gridTemplateColumns: gridTemplateColumns,
+          gridTemplateRows: gridTemplateRows,
+          direction: direction,
+          padding: padding,
+          fontSize: fontSize
+        };
+      } else if (platform === 'jquery') {
+        return "grid-template-columns:".concat(gridTemplateColumns, ";grid-template-rows:").concat(gridTemplateRows, ";direction:").concat(direction, ";padding:").concat(padding, "px;font-size:").concat(fontSize, "px;");
+      }
+    },
+    getGridHeaderValue: function getGridHeaderValue(activeYear, activeMonth, onChange) {
+      var _getProps9 = getProps(),
+          jalali = _getProps9.jalali,
+          type = _getProps9.type;
+
+      var _getState8 = getState(),
+          years = _getState8.years;
+
+      var result = '';
+
+      if (type === 'day') {
+        var months = $$.getMonths(jalali ? 'J' : 'G');
+
+        if (!jalali) {
+          months = months.map(function (o) {
+            return o.slice(0, 3);
+          });
+        }
+
+        var monthString = months[activeMonth - 1];
+        result += monthString + ' ';
+      }
+
+      result += activeYear;
+      return result;
+    }
+  }, _defineProperty(_$$, "getGridHeaderValue", function getGridHeaderValue(activeYear, activeMonth, _onChange) {
+    var _getProps10 = getProps(),
+        jalali = _getProps10.jalali,
+        type = _getProps10.type;
+
+    var _getState9 = getState(),
+        years = _getState9.years;
+
+    var M = '';
+
+    if (type === 'day') {
+      var months = $$.getMonths(jalali ? 'J' : 'G');
+
+      if (!jalali) {
+        months = months.map(function (o) {
+          return o.slice(0, 3);
+        });
+      }
+
+      M = /*#__PURE__*/_react.default.createElement("select", {
+        className: "select-active",
+        value: activeMonth.toString(),
+        onChange: function onChange(e) {
+          return _onChange({
+            activeMonth: parseInt(e.target.value)
+          });
+        }
+      }, months.map(function (o, i) {
+        return /*#__PURE__*/_react.default.createElement("option", {
+          key: i,
+          value: (i + 1).toString()
+        }, o);
+      }));
+    }
+
+    var Y = /*#__PURE__*/_react.default.createElement("select", {
+      className: "select-active",
+      value: activeYear.toString(),
+      onChange: function onChange(e) {
+        return _onChange({
+          activeYear: parseInt(e.target.value)
+        });
+      }
+    }, years.map(function (o, i) {
+      return /*#__PURE__*/_react.default.createElement("option", {
+        key: i,
+        value: o.toString()
+      }, o);
+    }));
+
+    return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, M, Y);
+  }), _defineProperty(_$$, "renderWeekDays", function renderWeekDays() {
+    var platform = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'react';
+
+    var _getProps11 = getProps(),
+        jalali = _getProps11.jalali;
+
+    var weekDays = $$.getWeekDays(jalali ? 'J' : 'G'),
+        cls = 'gah-weekday gah-cell';
+
+    if (platform === 'react') {
+      return weekDays.map(function (w, i) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: 'weekDay' + i,
+          className: cls
+        }, /*#__PURE__*/_react.default.createElement("span", null, w.slice(0, jalali ? 1 : 2)));
+      });
+    } else if (platform === 'jquery') {
+      return weekDays.map(function (w, i) {
+        return "<div class='".concat(cls, "'><span>").concat(w.slice(0, jalali ? 1 : 2), "</span></div>");
+      }).join(' ');
+    }
+  }), _defineProperty(_$$, "renderEndSpaces", function renderEndSpaces(length) {
+    var platform = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'react';
+
+    if (platform === 'react') {
+      var Spaces = [];
+
+      for (var i = 0; i < length; i++) {
+        Spaces.push( /*#__PURE__*/_react.default.createElement("div", {
+          key: 'endspace' + i,
+          className: "gah-space gah-cell"
+        }));
+      }
+
+      return Spaces;
+    } else if (platform === 'jquery') {
+      var _Spaces = '';
+
+      for (var _i3 = 0; _i3 < length; _i3++) {
+        _Spaces += "<div class='gah-space gah-cell'></div>";
+      }
+
+      return _Spaces;
+    }
+  }), _defineProperty(_$$, "renderSpaces", function renderSpaces(activeYear, activeMonth) {
+    var platform = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'react';
+
+    var _getProps12 = getProps(),
+        jalali = _getProps12.jalali;
+
+    var firstDayWeekDayIndex = $$.getWeekDay([activeYear, activeMonth, 1], jalali ? 'J' : 'G').index;
+
+    if (platform === 'react') {
+      var Spaces = [];
+
+      for (var i = 0; i < firstDayWeekDayIndex; i++) {
+        Spaces.push( /*#__PURE__*/_react.default.createElement("div", {
+          key: 'space' + i,
+          className: "gah-space gah-cell"
+        }));
+      }
+
+      return Spaces;
+    } else if (platform === 'jquery') {
+      var _Spaces2 = '';
+
+      for (var _i4 = 0; _i4 < firstDayWeekDayIndex; _i4++) {
+        _Spaces2 += "<div class='gah-space gah-cell'></div>";
+      }
+
+      return _Spaces2;
+    }
+  }), _defineProperty(_$$, "getTodayContent", function getTodayContent(details) {
+    var platform = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'react';
+
+    var _getProps13 = getProps(),
+        jalali = _getProps13.jalali,
+        size = _getProps13.size,
+        type = _getProps13.type;
+
+    var month = details.todayMonthString;
+    var week = details.todayWeekDay;
+    var today = details.today;
+
+    if (platform === 'react') {
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "gah-today",
+        style: {
+          width: size / 2
+        }
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 13
+        }
+      }, $$.getTodayText()), type === 'day' && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 11
+        }
+      }, jalali ? week : week.slice(0, 3)), /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 12 * 4,
+          height: size / 12 * 4
+        }
+      }, today[2]), /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 11
+        }
+      }, jalali ? month : month.slice(0, 3))), type === 'month' && /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 8
+        }
+      }, jalali ? month : month.slice(0, 3)), /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 11
+        }
+      }, today[0]));
+    } else if (platform === 'jquery') {
+      return "\n            <div class='gah-today' style='width:".concat(size / 2, "px;'>\n              <div style='font-size:").concat(size / 13, "px;'>").concat($$.getTodayText(), "</div>\n              ").concat(type === 'day' ? "\n                  <div style='font-size:".concat(size / 11, "px;'>").concat(jalali ? week : week.slice(0, 3), "</div>\n                  <div style='font-size:").concat(size / 12 * 4, "px;height:").concat(size / 12 * 4, "px;'>").concat(today[2], "</div>\n                  <div style='font-size:").concat(size / 11, "px;'>").concat(jalali ? month : month.slice(0, 3), "</div>\n                ") : '', "\n              ").concat(type === 'month' ? "<div style='font-size:".concat(size / 8, "px;'>").concat(jalali ? month : month.slice(0, 3), "</div>") : '', "\n              <div style='font-size:").concat(size / 11, "px;'>").concat(today[0], "</div>\n            </div>\n        ");
+    }
+  }), _defineProperty(_$$, "getPopupStyle", function getPopupStyle() {
+    var platform = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'react';
+
+    var _getProps14 = getProps(),
+        size = _getProps14.size,
+        disabled = _getProps14.disabled;
+
+    if (platform === 'react') {
       return {
-        gridTemplateColumns: gridTemplateColumns,
-        gridTemplateRows: gridTemplateRows,
-        direction: mode === 'J' ? 'rtl' : 'ltr',
-        padding: padding,
-        fontSize: fontSize
+        width: size,
+        fontSize: size / 17,
+        cursor: disabled ? 'not-allowed' : undefined
       };
     }
-  }, {
-    key: "getContentday",
-    value: function getContentday() {
-      var Spaces = this.getSpaces(),
-          WeekDays = this.getWeekDays(),
-          Days = this.getCells();
-      var EndSpaces = this.getEndSpaces(42 - (Spaces.length + Days.length));
-      return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, WeekDays, Spaces, Days, EndSpaces);
-    }
-  }, {
-    key: "getContentmonth",
-    value: function getContentmonth() {
-      return this.getCells();
-    }
-  }, {
-    key: "getContentyear",
-    value: function getContentyear() {
-      return this.getCells();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var type = this.context.type;
-      return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, this.getHeader(), /*#__PURE__*/_react.default.createElement("div", {
-        ref: this.dom,
-        className: "rdp-grid",
-        style: this.getStyle()
-      }, this['getContent' + type]()));
-    }
-  }]);
 
-  return GAHDatePickerGrid;
-}(_react.Component);
-
-_defineProperty(GAHDatePickerGrid, "contextType", rdpContext);
+    if (platform === 'jquery') {
+      return "width:".concat(size, "px;font-size:").concat(size / 17, "px;").concat(disabled ? ' cursor:not-allowed;' : '');
+    }
+  }), _$$);
+  return {
+    g2j: $$.g2j,
+    j2g: $$.j2g,
+    getMonthDaysLength: $$.getMonthDaysLength,
+    getDayIndexInYear: $$.getDayIndexInYear,
+    getDaysBetween: $$.getDaysBetween,
+    compaireDate: $$.compaireDate,
+    getNextDay: $$.getNextDay,
+    getPrevDay: $$.getPrevDay,
+    getNextMonth: $$.getNextMonth,
+    getPrevMonth: $$.getPrevMonth,
+    getWeekDay: $$.getWeekDay,
+    getToday: $$.getToday,
+    getMonths: $$.getMonths,
+    getWeekDays: $$.getWeekDays,
+    getSplitter: $$.getSplitter,
+    validateValue: $$.validateValue,
+    getDateDetails: $$.getDateDetails,
+    getValue: $$.getValue,
+    onToday: $$.onToday,
+    getTodayText: $$.getTodayText,
+    isDisabled: $$.isDisabled,
+    getCellClassName: $$.getCellClassName,
+    changeActivePage: $$.changeActivePage,
+    getGridStyle: $$.getGridStyle,
+    getGridHeaderValue: $$.getGridHeaderValue,
+    renderWeekDays: $$.renderWeekDays,
+    renderEndSpaces: $$.renderEndSpaces,
+    renderSpaces: $$.renderSpaces,
+    getTodayContent: $$.getTodayContent,
+    getPopupStyle: $$.getPopupStyle
+  };
+}
