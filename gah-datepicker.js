@@ -144,22 +144,6 @@ class GAHDatePickerGrid extends Component{
     }
     return Months
   }
-  getCells_year(){
-    var {years,SetState,fn} = this.context;
-    var Years = [];
-    for (let year = 0; year < years.length; year++){
-      let disabled = fn.isDisabled([years[year],1,1]);
-      let className = fn.getCellClassName(years[year],1,1,disabled);
-      Years.push(
-        <div 
-          className={className} tabIndex={0} key={year} 
-          style={{borderRadius:0,minHeight:'24px'}} 
-          onClick={disabled?undefined:()=>SetState({year:years[year],month:1,day:1},true)}
-        >{years[year]}</div>
-      )
-    }
-    return Years
-  }
   getArrow(sign,icon){
     let {disabled,fn,type,size,SetState} = this.context;
     if(disabled){return '';}
@@ -197,7 +181,6 @@ class GAHDatePickerGrid extends Component{
     return (<>{WeekDays}{Spaces}{Days}{EndSpaces}</>)
   }
   getContentmonth(){return this.getCells();}
-  getContentyear(){return this.getCells();}
   render(){
     var {fn,type} = this.context;
     return (
@@ -482,13 +465,15 @@ export function RDATE({getState,getProps,setState}){
       return false;
     },
     getCellClassName(Year,Month,Day,disabled){
-      let {jalali} = getProps();
+      let {jalali,type,value} = getProps();
       let {year,month,day} = getState();
       let today = $$.getToday(jalali?'J':'G');
       var str = 'gah-cell gah-cell-first';
       if(disabled){str += ' disabled'}
-      if(year === Year && month === Month && day === Day){str += ' active';}
-      if(today[0] === Year && today[1] === Month && today[2] === Day){str += ' today'}  
+      if(value && type === 'day' && year === Year && month === Month && day === Day){str += ' active';}
+      if(value && type === 'month' && year === Year && month === Month){str += ' active';}
+      if(type === 'day' && today[0] === Year && today[1] === Month && today[2] === Day){str += ' today'}  
+      if(type === 'month' && today[0] === Year && today[1] === Month){str += ' today'}  
       if(jalali){str += ' is-jalali';}
       return str;
     },

@@ -420,50 +420,14 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component3) {
       return Months;
     }
   }, {
-    key: "getCells_year",
-    value: function getCells_year() {
-      var _this$context3 = this.context,
-          years = _this$context3.years,
-          SetState = _this$context3.SetState,
-          fn = _this$context3.fn;
-      var Years = [];
-
-      var _loop3 = function _loop3(year) {
-        var disabled = fn.isDisabled([years[year], 1, 1]);
-        var className = fn.getCellClassName(years[year], 1, 1, disabled);
-        Years.push( /*#__PURE__*/_react.default.createElement("div", {
-          className: className,
-          tabIndex: 0,
-          key: year,
-          style: {
-            borderRadius: 0,
-            minHeight: '24px'
-          },
-          onClick: disabled ? undefined : function () {
-            return SetState({
-              year: years[year],
-              month: 1,
-              day: 1
-            }, true);
-          }
-        }, years[year]));
-      };
-
-      for (var year = 0; year < years.length; year++) {
-        _loop3(year);
-      }
-
-      return Years;
-    }
-  }, {
     key: "getArrow",
     value: function getArrow(sign, icon) {
-      var _this$context4 = this.context,
-          disabled = _this$context4.disabled,
-          fn = _this$context4.fn,
-          type = _this$context4.type,
-          size = _this$context4.size,
-          SetState = _this$context4.SetState;
+      var _this$context3 = this.context,
+          disabled = _this$context3.disabled,
+          fn = _this$context3.fn,
+          type = _this$context3.type,
+          size = _this$context3.size,
+          SetState = _this$context3.SetState;
 
       if (disabled) {
         return '';
@@ -489,12 +453,12 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component3) {
   }, {
     key: "getHeader",
     value: function getHeader() {
-      var _this$context5 = this.context,
-          icons = _this$context5.icons,
-          size = _this$context5.size,
-          jalali = _this$context5.jalali,
-          fn = _this$context5.fn,
-          SetState = _this$context5.SetState;
+      var _this$context4 = this.context,
+          icons = _this$context4.icons,
+          size = _this$context4.size,
+          jalali = _this$context4.jalali,
+          fn = _this$context4.fn,
+          SetState = _this$context4.SetState;
       var _this$props6 = this.props,
           activeYear = _this$props6.activeYear,
           activeMonth = _this$props6.activeMonth;
@@ -539,16 +503,11 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component3) {
       return this.getCells();
     }
   }, {
-    key: "getContentyear",
-    value: function getContentyear() {
-      return this.getCells();
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this$context6 = this.context,
-          fn = _this$context6.fn,
-          type = _this$context6.type;
+      var _this$context5 = this.context,
+          fn = _this$context5.fn,
+          type = _this$context5.type;
       return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, this.getHeader(), /*#__PURE__*/_react.default.createElement("div", {
         ref: this.dom,
         className: "gah-calendar-grid",
@@ -1232,7 +1191,9 @@ function RDATE(_ref) {
     },
     getCellClassName: function getCellClassName(Year, Month, Day, disabled) {
       var _getProps7 = getProps(),
-          jalali = _getProps7.jalali;
+          jalali = _getProps7.jalali,
+          type = _getProps7.type,
+          value = _getProps7.value;
 
       var _getState5 = getState(),
           year = _getState5.year,
@@ -1246,11 +1207,19 @@ function RDATE(_ref) {
         str += ' disabled';
       }
 
-      if (year === Year && month === Month && day === Day) {
+      if (value && type === 'day' && year === Year && month === Month && day === Day) {
         str += ' active';
       }
 
-      if (today[0] === Year && today[1] === Month && today[2] === Day) {
+      if (value && type === 'month' && year === Year && month === Month) {
+        str += ' active';
+      }
+
+      if (type === 'day' && today[0] === Year && today[1] === Month && today[2] === Day) {
+        str += ' today';
+      }
+
+      if (type === 'month' && today[0] === Year && today[1] === Month) {
         str += ' today';
       }
 
