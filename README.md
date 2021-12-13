@@ -209,3 +209,18 @@ export default class App extends Component{
 >
 ```
 ![alt text](/images/8.jpg)
+
+## prevYears , nextYears
+prop | type | default | description
+---- | ---- | ------- | -----------
+prevYear | number | 10 | years count before this year
+nextYear | number | 20 | years count after this year
+```javascript
+<GAH
+  ...
+  prevYears={5}
+  nextYears={10}
+  ...
+>
+```
+![alt text](/images/9.jpg)
