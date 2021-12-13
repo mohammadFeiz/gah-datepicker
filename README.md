@@ -224,3 +224,24 @@ nextYear | number | 20 | years count after this year
 />
 ```
 ![alt text](/images/9.jpg)
+
+## onClear
+```javascript
+import React,{Component} from "react";
+import GAH from './gah-datepicker';
+export default class App extends Component{
+  state={date:'2020/2/20'};
+  render(){
+    let {date} = this.state;
+    return (
+      <GAH
+        value={date}
+        onChange={(obj)=>{this.setState({date:obj.dateString})}}
+        onClear={()=>this.setState({date:false})}
+      />
+    )
+  }
+}
+
+```
+![alt text](/images/1.gif)
