@@ -190,4 +190,22 @@ export default class App extends Component{
 ```
 ![alt text](/images/6.jpg)
 
+## without caret
+```javascript
+<GAH
+  ...
+  caret={false}
+  ...
+>
+```
+![alt text](/images/7.jpg)
 
+## custom caret
+```javascript
+<GAH
+  ...
+  caret={<div className='mdi mdi-chevron-down'></div>}
+  ...
+>
+```
+![alt text](/images/8.jpg)
