@@ -82,6 +82,54 @@ export default class App extends Component{
 }
 
 ```
+
+```javascript
+{
+    "year": 1400,
+    "month": 2,
+    "day": 20,
+    "weekDay": "دوشنبه",
+    "weekDayIndex": 2,
+    "monthFirstDayWeekDay": "چهارشنبه",
+    "year2Digit": "00",
+    "month2Digit": "02",
+    "day2Digit": "20",
+    "weekDays": [
+        "شنبه",
+        "یکشنبه",
+        "دوشنبه",
+        "سه شنبه",
+        "چهارشنبه",
+        "پنجشنبه",
+        "جمعه"
+    ],
+    "monthString": "اردیبهشت",
+    "todayMonthString": "آذر",
+    "startYear": 1390,
+    "endYear": 1420,
+    "dateString": "1400.2.20",
+    "fullDateString": "1400.2.20 دوشنبه",
+    "today": [
+        1400,
+        9,
+        23
+    ],
+    "todayWeekDay": "سه شنبه",
+    "todayWeekDayIndex": 3,
+    "georgian": [
+        2021,
+        5,
+        10
+    ],
+    "todayGeorgian": [
+        2021,
+        12,
+        14
+    ],
+    "weekDayGeorgian": "MONDAY",
+    "monthStringGeorgian": "FEBRUARY"
+}
+```
 ![alt text](/images/2.jpg)
 
 ## use any splitter
