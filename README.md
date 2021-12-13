@@ -107,8 +107,8 @@ export default class App extends Component{
     "todayMonthString": "آذر",
     "startYear": 1390,
     "endYear": 1420,
-    "dateString": "1400.2.20",
-    "fullDateString": "1400.2.20 دوشنبه",
+    "dateString": "1400/2/20",
+    "fullDateString": "1400/2/20 دوشنبه",
     "today": [
         1400,
         9,
