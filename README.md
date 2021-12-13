@@ -3,45 +3,86 @@
 ```javascript
 npm i gah-datepicker
 ```
-
+## Basic
 ```javascript
-<GAH/>
-```
+import React,{Component} from "react";
+import GAH from './gah-datepicker';
+export default class App extends Component{
+  state={date:'2020/4/5'};
+  render(){
+    let {date} = this.state;
+    return (
+      <GAH
+        value={date}
+        onChange={(obj)=>{
+          this.setState({date:obj.dateString})
+        }}
+      />
+    )
+  }
+}
 
+```
+![alt text](/images/1.jpg)
+
+## jalali
+```javascript
+import React,{Component} from "react";
+import GAH from './gah-datepicker';
+export default class App extends Component{
+  state={date:'1400/2/20'};
+  render(){
+    let {date} = this.state;
+    return (
+      <GAH
+        jalali={true}
+        value={date}
+        onChange={(obj)=>{
+          this.setState({date:obj.dateString})
+        }}
+      />
+    )
+  }
+}
+
+```
+![alt text](/images/2.jpg)
+
+## use any splitter
 ```javascript
 <GAH
-  value='2021/3/5'
+  ...
+  value='2020.2.20'
+  ...
 />
 ```
+![alt text](/images/3.jpg)
 
+## without value
 ```javascript
 <GAH
-  value={[2021,4,5]}
+  ...
+  value={false}
+  ...
 />
 ```
-
+![alt text](/images/4.jpg)
+## placeHolder
 ```javascript
 <GAH
-  value='2021.4.5'
+  value={false}
+  placeHolder='Select Any Date'
 />
 ```
-
+![alt text](/images/5.jpg)
+## icon
 ```javascript
-<GAH
-  value='2021.4'
-  type='month'
-/>
-```
-
-```javascript
-<GAH
-  value='2021/4/7'
-  caret={false}
-/>
-```
-
-```javascript
-render(){
+import React,{Component} from "react";
+import GAH from './gah-datepicker';
+export default class App extends Component{
+  state={date:'2020.2.20'};
+  render(){
+    let {date} = this.state;
     let svg = (
       <svg x="0px" y="0px" viewBox="0 0 216.374 216.374" style={{width:20,height:20,marginRight:6}} fill='#666'>
         <path d="M207.374,30.135h-25.438V13.432c0-4.971-4.029-9-9-9s-9,4.029-9,9v16.703H52.438V13.432c0-4.971-4.029-9-9-9s-9,4.029-9,9
@@ -55,15 +96,14 @@ render(){
     )
     return (
       <GAH
-        value='2021/4/7'
+        value={date}
         icon={svg}
       />
-      
     )
   }
-```
+}
 
-```javascript
-<GAH/>
 ```
+![alt text](/images/6.jpg)
+
 
