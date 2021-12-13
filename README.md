@@ -245,3 +245,11 @@ export default class App extends Component{
 
 ```
 ![alt text](/images/1.gif)
+
+## style
+```javascript
+<GAH
+  style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}
+/>
+```
+![alt text](/images/10.jpg)
