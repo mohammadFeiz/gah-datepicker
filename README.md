@@ -23,6 +23,42 @@ export default class App extends Component{
 }
 
 ```
+#### onChange props get obj as parameter. see obj json:
+```javascript
+{
+    "year": 2020,
+    "month": 2,
+    "day": 20,
+    "weekDay": "THURSDAY",
+    "weekDayIndex": 4,
+    "monthFirstDayWeekDay": "SATURDAY",
+    "year2Digit": "20",
+    "month2Digit": "02",
+    "day2Digit": "20",
+    "weekDays": [
+        "SUNDAY",
+        "MONDAY",
+        "THUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY",
+        "SATURDAY"
+    ],
+    "monthString": "FEBRUARY",
+    "todayMonthString": "DECEMBER",
+    "startYear": 2011,
+    "endYear": 2041,
+    "dateString": "2020.2.20",
+    "fullDateString": "2020.2.20 THURSDAY",
+    "today": [
+        2021,
+        12,
+        14
+    ],
+    "todayWeekDay": "THUESDAY",
+    "todayWeekDayIndex": 2
+}
+```
 ![alt text](/images/1.jpg)
 
 ## jalali
