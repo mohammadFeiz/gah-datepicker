@@ -196,7 +196,7 @@ export default class App extends Component{
   ...
   caret={false}
   ...
->
+/>
 ```
 ![alt text](/images/7.jpg)
 
@@ -206,7 +206,7 @@ export default class App extends Component{
   ...
   caret={<div className='mdi mdi-chevron-down'></div>}
   ...
->
+/>
 ```
 ![alt text](/images/8.jpg)
 
@@ -221,6 +221,6 @@ nextYear | number | 20 | years count after this year
   prevYears={5}
   nextYears={10}
   ...
->
+/>
 ```
 ![alt text](/images/9.jpg)
