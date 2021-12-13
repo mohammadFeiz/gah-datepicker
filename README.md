@@ -253,3 +253,11 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/10.jpg)
+
+## size
+```javascript
+<GAH
+  size={120}
+/>
+```
+![alt text](/images/11.jpg)
