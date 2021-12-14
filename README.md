@@ -328,7 +328,7 @@ export default class App extends Component{
 <GAH
   ...
   limits={[
-    {type:'greater',date:'2020/2/20'}
+    {type:'between',startDate:'2020/2/10',endDate:'2020/2/20'}
   ]}
   ...
 />
