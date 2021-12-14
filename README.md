@@ -214,7 +214,28 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/3.jpg)
+# multiselect
+```javascript
+import React,{Component} from "react";
+import GAH from 'gah-datepicker';
+export default class App extends Component{
+  state={
+    values:['2021/12/1','2021/12/2','20211/12/6','2021/12/20']
+  };
+  render(){ 
+    let {values} = this.state; 
+    return (
+      <GAH
+        multiselect={true}
+        values={values}
+        onChange={(values)=>this.setState({values})} 
+      />
+    )
+  }
+}
 
+```
+![alt text](/images/4.gif)
 # without value
 - ##### if value equal false or undefined , the placeHolder string will be displayed.
 ```javascript
