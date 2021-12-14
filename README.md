@@ -286,3 +286,93 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/11.jpg)
+
+## limits
+- #### in this example, '2020/1/1' will be disabled.
+```javascript
+<GAH
+  ...
+  limits={[
+    {type:'equal',date:'2020/1/1'}
+  ]}
+  ...
+/>
+```
+![alt text](/images/15.jpg)
+- #### in this example all dates before '2020/2/20' will be disabled.
+```javascript
+<GAH
+  ...
+  limits={[
+    {type:'less',date:'2020/2/20'}
+  ]}
+  ...
+/>
+```
+![alt text](/images/12.jpg)
+
+- #### in this example all dates after '2020/2/20' will be disabled.
+```javascript
+<GAH
+  ...
+  limits={[
+    {type:'greater',date:'2020/2/20'}
+  ]}
+  ...
+/>
+```
+![alt text](/images/13.jpg)
+
+- #### in this example all dates between '2020/2/10' and '2020/2/20' will be disabled.
+```javascript
+<GAH
+  ...
+  limits={[
+    {type:'greater',date:'2020/2/20'}
+  ]}
+  ...
+/>
+```
+![alt text](/images/14.jpg)
+
+- #### in this example all fridays will be disabled.
+```javascript
+<GAH
+  ...
+  limits={[
+    {type:'weekDay',weekDay:7}
+  ]}
+  ...
+/>
+```
+- #### in this example all fridays in 2020 year will be disabled.
+```javascript
+<GAH
+  ...
+  limits={[
+    {type:'weekDay',weekDay:7,year:2020}
+  ]}
+  ...
+/>
+```
+- #### in this example fridays in 2020/6 will be disabled.
+```javascript
+<GAH
+  ...
+  limits={[
+    {type:'weekDay',weekDay:7,year:2020,month:6}
+  ]}
+  ...
+/>
+```
+- #### in this example all fridays in all years in june will be disabled.
+```javascript
+<GAH
+  ...
+  limits={[
+    {type:'weekDay',weekDay:7,month:6}
+  ]}
+  ...
+/>
+```
+
