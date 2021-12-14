@@ -30,6 +30,7 @@ gregorian | ```jalali={true}```
 - gregorian date
 - persian date
 - month picker
+- multi select
 - simple configuration
 # Read this document in 5 minutes
 # use
