@@ -68,8 +68,8 @@ export default class App extends Component{
     "todayMonthString": "DECEMBER",
     "startYear": 2011,
     "endYear": 2041,
-    "dateString": "2020.2.20",
-    "fullDateString": "2020.2.20 THURSDAY",
+    "dateString": "2020/2/20",
+    "fullDateString": "2020/2/20 THURSDAY",
     "today": [
         2021,
         12,
