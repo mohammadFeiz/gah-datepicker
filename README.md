@@ -30,6 +30,7 @@ caret | boolean or html or jsx | true (default caret) | set caret icon of datepi
 onClear | function | optional | place clear button in bottom of datepicker. user can call onClear function by click on clear button.
 size | number | 180 | set size of datepicker
 placeHolder | 'string' | 'Select Date' in gregorian mode and 'انتخاب تاریخ' in jalali mode | show text on button when value is false or undefined
+theme | array of 2 color string | ['dodgerblue','#ffffff'] | set theme color of datepicker by define 2 color
 
 
 
@@ -395,4 +396,29 @@ export default class App extends Component{
   ...
 />
 ```
+# theme
+```javascript
+<GAH
+  ...
+  theme={['#777','lightblue']}
+  ...
+/>
+```
+![alt text](/images/17.jpg)
+
+<GAH
+  ...
+  theme={['orange','#fff']}
+  ...
+/>
+```
+![alt text](/images/18.jpg)
+
+<GAH
+  ...
+  theme={['orange','#555']}
+  ...
+/>
+```
+![alt text](/images/19.jpg)
 
