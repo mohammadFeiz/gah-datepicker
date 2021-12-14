@@ -26,7 +26,7 @@ placeHolder | 'string' | 'Select Date' in gregorian mode and 'انتخاب تا�
 # Basic
 ```javascript
 import React,{Component} from "react";
-import GAH from './gah-datepicker';
+import GAH from 'gah-datepicker';
 export default class App extends Component{
   state={date:'2020/4/5'};
   render(){
@@ -84,7 +84,7 @@ export default class App extends Component{
 # jalali(تقویم فارسی)
 ```javascript
 import React,{Component} from "react";
-import GAH from './gah-datepicker';
+import GAH from 'gah-datepicker';
 export default class App extends Component{
   state={date:'1400/2/20'};
   render(){
@@ -195,7 +195,7 @@ export default class App extends Component{
 - ##### use any html or jsx in datepicker button as icon.
 ```javascript
 import React,{Component} from "react";
-import GAH from './gah-datepicker';
+import GAH from 'gah-datepicker';
 export default class App extends Component{
   state={date:'2020.2.20'};
   render(){
@@ -262,7 +262,7 @@ nextYear | number | 20 | years count after this year
 - ##### onClear function will be called after user click on clear button.
 ```javascript
 import React,{Component} from "react";
-import GAH from './gah-datepicker';
+import GAH from 'gah-datepicker';
 export default class App extends Component{
   state={date:'2020/2/20'};
   render(){
