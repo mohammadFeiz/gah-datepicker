@@ -2,6 +2,10 @@
 gregorian | jalali
 --------- | ------
 ![alt text](/images/2.gif) | ![alt text](/images/3.gif)
+type='day' | type='month'
+--------- | ------
+![alt text](/images/3.jpg) | ![alt text](/images/16.jpg)
+
 - react js
 - custom size by set one prop
 - custom theme by one prop
