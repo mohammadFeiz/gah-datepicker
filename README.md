@@ -8,6 +8,7 @@
 - persian date
 - month picker
 - simple configuration
+# Read this document in 5 minutes
 # install
 ```javascript
 npm i gah-datepicker
@@ -35,7 +36,7 @@ jalali | boolean | false | set datepicker as persian datepicker(برای تقو�
 icon | html or jsx | optional | use icon in datepicker button.
 className | 'string' | optional | custom className of datepicker.
 id | 'string' | optional | id of datepicker.
-style | css object | optional | css style of datepicker.
+style | css object | optional | css style of datepicker button.
 caret | boolean or html or jsx | true (default caret) | set caret icon of datepicker button.
 onClear | function | optional | place clear button in bottom of datepicker. user can call onClear function by click on clear button.
 size | number | 180 | set size of datepicker
