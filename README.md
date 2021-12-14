@@ -3,6 +3,26 @@
 ```javascript
 npm i gah-datepicker
 ```
+### all props
+prop | type | default | Description
+---- | ---- | ------- | -----------
+value | string or array | false | value of datepicker
+onChange | function | Required | change value event. get an object as parameter contain changed value properties.
+type | 'day' or 'month' | 'day' | for select just year and month , set type as 'month'.
+prevYears | number | 10 | numeber of years that can select before this year.
+nextYears | number | 20 | numeber of years that can select after this year.
+limits | array of objects | optional | set dates disabled.
+jalali | boolean | false | set datepicker as persian datepicker(برای تقویم فارسی کافیست این پروپرتی را تنظیم کنید)
+icon | html or jsx | optional | use icon in datepicker button.
+className | 'string' | optional | custom className of datepicker.
+id | 'string' | optional | id of datepicker.
+caret | boolean or html or jsx | true (default caret) | set caret icon of datepicker button.
+onClear | function | optional | place clear button in bottom of datepicker. user can call onClear function by click on clear button.
+size | number | 180 | set size of datepicker
+placeHolder | 'string' | 'Select Date' in gregorian mode and 'انتخاب تاریخ' in jalali mode | show text on button when value is false or undefined
+
+
+
 ## Basic
 ```javascript
 import React,{Component} from "react";
