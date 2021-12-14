@@ -13,10 +13,14 @@ gregorian | ```jalali={true}```
 ![alt text](/images/3.jpg) | ![alt text](/images/11.jpg)
 ```theme={['orange','#555']}``` | ```theme={['#777','lightblue']}```
 ![alt text](/images/19.jpg) | ![alt text](/images/17.jpg)
-```editValue={(text)=>'From Date : ' + text}``` | ''
-![alt text](/images/20.jpg) | ![alt text](/images/21.jpg)
+```editValue={(text)=>'From Date : ' + text}``` | ```icon={<svg>...</svg>}```
+![alt text](/images/20.jpg) | ![alt text](/images/6.jpg)
 ```caret={false}``` | ```caret={(<div className='mdi mdi-chevron-down'></div>)}```
 ![alt text](/images/7.jpg) | ![alt text](/images/8.jpg)
+
+```style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}``` |
+-------------------------------------------------------------------------------- |
+![alt text](/images/10.jpg) |
 
 
 
