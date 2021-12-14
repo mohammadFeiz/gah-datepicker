@@ -405,7 +405,7 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/17.jpg)
-
+```javascript
 <GAH
   ...
   theme={['orange','#fff']}
@@ -413,7 +413,7 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/18.jpg)
-
+```javascript
 <GAH
   ...
   theme={['orange','#555']}
