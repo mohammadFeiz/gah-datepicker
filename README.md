@@ -1,4 +1,9 @@
-# gah-datepicker
+# gah-datepicker(react js)
+# install
+```javascript
+npm i gah-datepicker
+```
+
 gregorian | jalali={true}
 --------- | ------
 ![alt text](/images/2.gif) | ![alt text](/images/3.gif)
@@ -17,10 +22,6 @@ theme={['orange','#555']} | theme={['#777','lightblue']}
 - month picker
 - simple configuration
 # Read this document in 5 minutes
-# install
-```javascript
-npm i gah-datepicker
-```
 # use
 - ##### ES6:
 ```javascript
