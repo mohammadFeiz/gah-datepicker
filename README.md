@@ -1,4 +1,10 @@
 # gah-datepicker
+- react js
+- custom size by set one prop
+- custom theme by one prop
+- gregorian date
+- persian date
+- month picker
 # install
 ```javascript
 npm i gah-datepicker
