@@ -9,7 +9,6 @@ size={180} | size={120}
 theme={['orange','#555']} | theme={['#777','lightblue']}
 ![alt text](/images/19.jpg) | ![alt text](/images/17.jpg)
 
-
 - react js
 - custom size by set one prop
 - custom theme by one prop
