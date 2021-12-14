@@ -153,7 +153,8 @@ export default class App extends Component{
 ![alt text](/images/2.jpg)
 
 ## use any splitter (each not an number character)
-
+#### in this example splitter is "."
+#### you can set any NAN character for splitting date.
 ```javascript
 <GAH
   ...
