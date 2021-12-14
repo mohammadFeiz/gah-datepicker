@@ -23,7 +23,7 @@ placeHolder | 'string' | 'Select Date' in gregorian mode and 'انتخاب تا�
 
 
 
-## Basic
+# Basic
 ```javascript
 import React,{Component} from "react";
 import GAH from './gah-datepicker';
@@ -43,7 +43,7 @@ export default class App extends Component{
 }
 
 ```
-#### onChange props get obj as parameter. see obj json:
+- ##### onChange props get obj as parameter. see obj json:
 ```javascript
 {
     "year": 2020,
@@ -81,7 +81,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/1.jpg)
 
-## jalali(تقویم فارسی)
+# jalali(تقویم فارسی)
 ```javascript
 import React,{Component} from "react";
 import GAH from './gah-datepicker';
@@ -102,7 +102,7 @@ export default class App extends Component{
 }
 
 ```
-#### obj:
+- ##### obj:
 ```javascript
 {
     "year": 1400,
@@ -152,9 +152,9 @@ export default class App extends Component{
 ```
 ![alt text](/images/2.jpg)
 
-## use any splitter (each not an number character)
-#### in this example splitter is "."
-#### you can set any NAN character for splitting date.
+# use any splitter (each not an number character)
+- ##### in this example splitter is "."
+- ##### you can set any NAN character for splitting date.
 ```javascript
 <GAH
   ...
@@ -164,8 +164,8 @@ export default class App extends Component{
 ```
 ![alt text](/images/3.jpg)
 
-## without value
-#### if value equal false or undefined , the placeHolder string will be displayed.
+# without value
+- ##### if value equal false or undefined , the placeHolder string will be displayed.
 ```javascript
 <GAH
   ...
@@ -174,7 +174,7 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/4.jpg)
-## placeHolder
+# placeHolder
 ```javascript
 <GAH
   value={false}
@@ -182,8 +182,8 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/5.jpg)
-## icon
-#### use any html or jsx in datepicker button as icon.
+# icon
+- ##### use any html or jsx in datepicker button as icon.
 ```javascript
 import React,{Component} from "react";
 import GAH from './gah-datepicker';
@@ -213,8 +213,8 @@ export default class App extends Component{
 
 ```
 ![alt text](/images/6.jpg)
-
-## without caret
+# caret
+- ##### without caret
 ```javascript
 <GAH
   ...
@@ -224,7 +224,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/7.jpg)
 
-## custom caret
+- ##### custom caret
 ```javascript
 <GAH
   ...
@@ -234,7 +234,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/8.jpg)
 
-## prevYears , nextYears
+# prevYears , nextYears
 prop | type | default | description
 ---- | ---- | ------- | -----------
 prevYear | number | 10 | years count before this year
@@ -249,8 +249,8 @@ nextYear | number | 20 | years count after this year
 ```
 ![alt text](/images/9.jpg)
 
-## onClear
-#### onClear function will be called after user click on clear button.
+# onClear
+##### onClear function will be called after user click on clear button.
 ```javascript
 import React,{Component} from "react";
 import GAH from './gah-datepicker';
@@ -270,16 +270,16 @@ export default class App extends Component{
 
 ```
 ![alt text](/images/1.gif)
-#### css style for datepicker button.
-## style
+##### css style for datepicker button.
+# style
 ```javascript
 <GAH
   style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}
 />
 ```
 ![alt text](/images/10.jpg)
-## size
-- #### for set custom size of datepicker just set size props.
+# size
+- ##### for set custom size of datepicker just set size props.
 ```javascript
 <GAH
   size={120}
@@ -287,8 +287,9 @@ export default class App extends Component{
 ```
 ![alt text](/images/11.jpg)
 
-## limits
-- #### in this example, '2020/1/1' will be disabled.
+# limits
+### make dates disabled
+- ##### in this example, '2020/1/1' will be disabled.
 ```javascript
 <GAH
   ...
@@ -299,7 +300,7 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/15.jpg)
-- #### in this example all dates before '2020/2/20' will be disabled.
+- ##### in this example all dates before '2020/2/20' will be disabled.
 ```javascript
 <GAH
   ...
@@ -311,7 +312,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/12.jpg)
 
-- #### in this example all dates after '2020/2/20' will be disabled.
+- ##### in this example all dates after '2020/2/20' will be disabled.
 ```javascript
 <GAH
   ...
@@ -323,7 +324,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/13.jpg)
 
-- #### in this example all dates between '2020/2/10' and '2020/2/20' will be disabled.
+- ##### in this example all dates between '2020/2/10' and '2020/2/20' will be disabled.
 ```javascript
 <GAH
   ...
@@ -335,7 +336,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/14.jpg)
 
-- #### in this example all fridays will be disabled.
+- ##### in this example all fridays will be disabled.
 ```javascript
 <GAH
   ...
@@ -345,7 +346,7 @@ export default class App extends Component{
   ...
 />
 ```
-- #### in this example all fridays in 2020 year will be disabled.
+- ##### in this example all fridays in 2020 year will be disabled.
 ```javascript
 <GAH
   ...
@@ -355,7 +356,7 @@ export default class App extends Component{
   ...
 />
 ```
-- #### in this example fridays in 2020/6 will be disabled.
+- ##### in this example fridays in 2020/6 will be disabled.
 ```javascript
 <GAH
   ...
@@ -365,7 +366,7 @@ export default class App extends Component{
   ...
 />
 ```
-- #### in this example all fridays in all years in june will be disabled.
+- ##### in this example all fridays in all years in june will be disabled.
 ```javascript
 <GAH
   ...
