@@ -61,7 +61,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/1.jpg)
 
-## jalali
+## jalali(تقویم فارسی)
 ```javascript
 import React,{Component} from "react";
 import GAH from './gah-datepicker';
