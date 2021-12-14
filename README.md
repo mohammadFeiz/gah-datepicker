@@ -8,7 +8,7 @@ prop | type | default | Description
 ---- | ---- | ------- | -----------
 value | string or array | false | value of datepicker
 onChange | function | Required | change value event. get an object as parameter contain changed value properties.
-type | 'day' or 'month' | 'day' | for select just year and month , set type as 'month'.
+type | 'day' or 'month' | 'day' | for select month , set type as 'month'.
 prevYears | number | 10 | numeber of years that can select before this year.
 nextYears | number | 20 | numeber of years that can select after this year.
 limits | array of objects | optional | set dates disabled.
