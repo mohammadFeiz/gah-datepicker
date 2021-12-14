@@ -279,8 +279,8 @@ export default class App extends Component{
 
 ```
 ![alt text](/images/1.gif)
-- ##### css style for datepicker button.
 # style
+- ##### css style for datepicker button.
 ```javascript
 <GAH
   style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}
