@@ -132,7 +132,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/2.jpg)
 
-## use any splitter
+## use any splitter(/ . \ , - _ or each not an number character)
 ```javascript
 <GAH
   ...
