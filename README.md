@@ -165,6 +165,7 @@ export default class App extends Component{
 ![alt text](/images/3.jpg)
 
 ## without value
+#### if value equal false or undefined , the placeHolder string will be displayed.
 ```javascript
 <GAH
   ...
@@ -182,6 +183,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/5.jpg)
 ## icon
+#### use any html or jsx in datepicker button as icon.
 ```javascript
 import React,{Component} from "react";
 import GAH from './gah-datepicker';
@@ -248,6 +250,7 @@ nextYear | number | 20 | years count after this year
 ![alt text](/images/9.jpg)
 
 ## onClear
+#### onClear function will be called after user click on clear button.
 ```javascript
 import React,{Component} from "react";
 import GAH from './gah-datepicker';
@@ -267,7 +270,7 @@ export default class App extends Component{
 
 ```
 ![alt text](/images/1.gif)
-
+#### css style for datepicker button.
 ## style
 ```javascript
 <GAH
@@ -275,7 +278,7 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/10.jpg)
-
+#### for set custom size of datepicker just set size props.
 ## size
 ```javascript
 <GAH
