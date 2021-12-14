@@ -250,7 +250,7 @@ nextYear | number | 20 | years count after this year
 ![alt text](/images/9.jpg)
 
 # onClear
-##### onClear function will be called after user click on clear button.
+- ##### onClear function will be called after user click on clear button.
 ```javascript
 import React,{Component} from "react";
 import GAH from './gah-datepicker';
@@ -270,7 +270,7 @@ export default class App extends Component{
 
 ```
 ![alt text](/images/1.gif)
-##### css style for datepicker button.
+- ##### css style for datepicker button.
 # style
 ```javascript
 <GAH
@@ -288,7 +288,7 @@ export default class App extends Component{
 ![alt text](/images/11.jpg)
 
 # limits
-### make dates disabled
+- ##### make dates disabled
 - ##### in this example, '2020/1/1' will be disabled.
 ```javascript
 <GAH
