@@ -5,6 +5,7 @@
 - gregorian date
 - persian date
 - month picker
+- simple configuration
 # install
 ```javascript
 npm i gah-datepicker
