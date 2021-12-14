@@ -1,8 +1,18 @@
 # gah-datepicker
-### install
+# install
 ```javascript
 npm i gah-datepicker
 ```
+# use
+- ##### ES6:
+```javascript
+import GAH from 'gah-datepicker';
+```
+- ##### ES5:
+```javascript
+var GAH = require('gah-datepicker');
+```
+
 ### all props
 prop | type | default | Description
 ---- | ---- | ------- | -----------
