@@ -278,8 +278,8 @@ export default class App extends Component{
 />
 ```
 ![alt text](/images/10.jpg)
-#### for set custom size of datepicker just set size props.
 ## size
+- #### for set custom size of datepicker just set size props.
 ```javascript
 <GAH
   size={120}
