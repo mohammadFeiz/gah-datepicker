@@ -15,6 +15,9 @@ theme={['orange','#555']} | theme={['#777','lightblue']}
 ![alt text](/images/19.jpg) | ![alt text](/images/17.jpg)
 editValue={(text)=>'From Date : ' + text} | ''
 ![alt text](/images/20.jpg) | ![alt text](/images/21.jpg)
+caret={false} | caret={(<div className='mdi mdi-chevron-down'></div>)}
+![alt text](/images/7.jpg) | ![alt text](/images/8.jpg)
+
 
 
 - react js
