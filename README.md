@@ -13,10 +13,12 @@ gregorian | ```jalali={true}```
 ![alt text](/images/3.jpg) | ![alt text](/images/11.jpg)
 ```theme={['orange','#555']}``` | ```theme={['#777','lightblue']}```
 ![alt text](/images/19.jpg) | ![alt text](/images/17.jpg)
-```editValue={(text)=>'From Date : ' + text}``` | ```icon={<svg>...</svg>}```
-![alt text](/images/20.jpg) | ![alt text](/images/6.jpg)
+```editValue={(text)=>'From Date : ' + text}``` | ```multiselect={true}```
+![alt text](/images/20.jpg) | ![alt text](/images/4.gif)
 ```caret={false}``` | ```caret={(<div className='mdi mdi-chevron-down'></div>)}```
 ![alt text](/images/7.jpg) | ![alt text](/images/8.jpg)
+```icon={(<svg...>...</svg>)}```  | 
+![alt text](/images/6.jpg) | 
 
 ```style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}``` |
 -------------------------------------------------------------------------------- |
@@ -49,6 +51,7 @@ prop | type | default | Description
 value | string or array | false | value of datepicker
 onChange | function | Required | change value event. get an object as parameter contain changed value properties.
 type | 'day' or 'month' | 'day' | for select month , set type as 'month'.
+multiselect | boolean | false | enable multiselect mode.
 prevYears | number | 10 | numeber of years that can select before this year.
 nextYears | number | 20 | numeber of years that can select after this year.
 limits | array of objects | optional | set dates disabled.
