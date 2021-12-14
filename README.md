@@ -1,6 +1,7 @@
 # gah-datepicker
-![alt text](/images/2.gif)
-![alt text](/images/3.gif)
+gregorian | jalali
+--------- | ------
+![alt text](/images/2.gif) | ![alt text](/images/3.gif)
 - react js
 - custom size by set one prop
 - custom theme by one prop
