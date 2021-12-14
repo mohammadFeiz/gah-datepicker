@@ -13,6 +13,9 @@ size={180} | size={120}
 ![alt text](/images/3.jpg) | ![alt text](/images/11.jpg)
 theme={['orange','#555']} | theme={['#777','lightblue']}
 ![alt text](/images/19.jpg) | ![alt text](/images/17.jpg)
+editValue={(text)=>'From Date : ' + text} | ''
+![alt text](/images/20.jpg) | ![alt text](/images/21.jpg)
+
 
 - react js
 - custom size by set one prop
