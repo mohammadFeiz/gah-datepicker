@@ -183,18 +183,18 @@ export default class App extends Component{
     ],
     "todayWeekDay": "سه شنبه",
     "todayWeekDayIndex": 3,
-    "georgian": [
+    "gregorian": [
         2021,
         5,
         10
     ],
-    "todayGeorgian": [
+    "todayGregorian": [
         2021,
         12,
         14
     ],
-    "weekDayGeorgian": "MONDAY",
-    "monthStringGeorgian": "FEBRUARY"
+    "weekDayGregorian": "MONDAY",
+    "monthStringGregorian": "FEBRUARY"
 }
 ```
 ![alt text](/images/2.jpg)
