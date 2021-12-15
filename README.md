@@ -17,8 +17,8 @@ gregorian | ```jalali={true}```
 ![alt text](/images/20.jpg) | ![alt text](/images/4.gif)
 ```caret={false}``` | ```caret={(<div className='mdi mdi-chevron-down'></div>)}```
 ![alt text](/images/7.jpg) | ![alt text](/images/8.jpg)
-```icon={(<svg...>...</svg>)}```  | 
-![alt text](/images/6.jpg) | 
+```icon={(<svg...>...</svg>)}```  | ```disabled={true}```
+![alt text](/images/6.jpg) | ![alt text](/images/21.jpg)
 
 ```style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}``` |
 -------------------------------------------------------------------------------- |
