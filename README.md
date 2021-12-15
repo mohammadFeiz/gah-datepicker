@@ -32,6 +32,7 @@ gregorian | ```jalali={true}```
 - gregorian date
 - persian date
 - month picker
+- range picker
 - multi select
 - simple configuration
 # Read this document in 5 minutes
@@ -52,6 +53,7 @@ value | string or array | false | value of datepicker
 onChange | function | Required | change value event. get an object as parameter contain changed value properties.
 type | 'day' or 'month' | 'day' | for select month , set type as 'month'.
 multiselect | boolean | false | enable multiselect mode.
+range | boolean | false | enable range mode.
 prevYears | number | 10 | numeber of years that can select before this year.
 nextYears | number | 20 | numeber of years that can select after this year.
 limits | array of objects | optional | set dates disabled.
@@ -241,6 +243,9 @@ export default class App extends Component{
 
 ![alt text](/images/4.gif)
 # range
+- ##### for range mode set range = true
+- ##### range mode get start and end props and will render 2 datepicker
+- ##### start and end can get all props exept multiselect prop
 ```javascript
 import React,{Component} from "react";
 import GAH from 'gah-datepicker';
@@ -259,12 +264,14 @@ export default class App extends Component{
           onChange:({dateString})=>{
             this.setState({startDate:dateString})
           }
+          //other props....
         }}
         end={{
           value:endDate,
           onChange:({dateString})=>{
             this.setState({endDate:dateString})
           }
+          //other props....
         }}
         
       />
