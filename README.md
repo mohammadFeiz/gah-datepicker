@@ -49,6 +49,7 @@ var GAH = require('gah-datepicker');
 ### all props
 prop | type | default | Description
 ---- | ---- | ------- | -----------
+calendarType | 'gregorian' or 'jalali' | 'gregorian' | set datepicker type(برای تقویم فارسی کافیست این پروپرتی را روی جلالی تنظیم کنید)
 value | string or array | false | value of datepicker
 onChange | function | Required | change value event. get an object as parameter contain changed value properties.
 unit | 'day' or 'month' | 'day' | for select month , set unit as 'month'.
@@ -57,7 +58,6 @@ range | boolean | false | enable range mode.
 prevYears | number | 10 | numeber of years that can select before this year.
 nextYears | number | 20 | numeber of years that can select after this year.
 limits | array of objects | optional | set dates disabled.
-calendarType | 'gregorian' or 'jalali' | 'gregorian' | set datepicker type(برای تقویم فارسی کافیست این پروپرتی را روی جلالی تنظیم کنید)
 icon | html or jsx | optional | use icon in datepicker button.
 className | 'string' | optional | custom className of datepicker.
 id | 'string' | optional | id of datepicker.
