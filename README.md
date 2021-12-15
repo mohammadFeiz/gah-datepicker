@@ -7,7 +7,7 @@ npm i gah-datepicker
 ```calendarType='gregorian'``` | ```calendarType='jalali'```
 --------- | ------
 ![alt text](/images/2.gif) | ![alt text](/images/3.gif)
-```type='day'``` | ```type='month'```
+```unit='day'``` | ```unit='month'```
 ![alt text](/images/3.jpg) | ![alt text](/images/16.jpg)
 ```range={true}``` | ```multiselect={true}```
 ![alt text](/images/6.gif) | ![alt text](/images/4.gif)
