@@ -13,16 +13,16 @@ gregorian | ```jalali={true}```
 ![alt text](/images/3.jpg) | ![alt text](/images/11.jpg)
 ```theme={['orange','#555']}``` | ```theme={['#777','lightblue']}```
 ![alt text](/images/19.jpg) | ![alt text](/images/17.jpg)
-```editValue={(text)=>'From Date : ' + text}``` | ```multiselect={true}```
-![alt text](/images/20.jpg) | ![alt text](/images/4.gif)
+```range={true}``` | ```multiselect={true}```
+![alt text](/images/6.gif) | ![alt text](/images/4.gif)
 ```caret={false}``` | ```caret={(<div className='mdi mdi-chevron-down'></div>)}```
 ![alt text](/images/7.jpg) | ![alt text](/images/8.jpg)
-```icon={(<svg...>...</svg>)}```  | ```disabled={true}```
-![alt text](/images/6.jpg) | ![alt text](/images/21.jpg)
+```editValue={(text)=>'From Date : ' + text}``` | ```disabled={true}```
+![alt text](/images/20.jpg) | ![alt text](/images/21.jpg)
 
-```style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}``` |
--------------------------------------------------------------------------------- |
-![alt text](/images/10.jpg) |
+```style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}``` | ```icon={(<svg...>...</svg>)}```
+-------------------------------------------------------------------------------- | --------------------------------
+![alt text](/images/10.jpg) | ![alt text](/images/6.jpg)
 
 
 
@@ -281,7 +281,7 @@ export default class App extends Component{
 
 ```
 
-![alt text](/images/5.gif)
+![alt text](/images/6.gif)
 
 # without value
 - ##### if value equal false or undefined , the placeHolder string will be displayed.
