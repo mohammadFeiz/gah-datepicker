@@ -208,7 +208,7 @@ export default class App extends Component{
 ![alt text](/images/16.jpg)
 # use any splitter (each not an number character)
 - ##### in this example splitter is "."
-- ##### you can set any NAN character for splitting date.
+- ##### you can set any isNaN character for splitting date.
 ```javascript
 <GAH
   ...
@@ -238,7 +238,44 @@ export default class App extends Component{
 }
 
 ```
+
 ![alt text](/images/4.gif)
+# range
+```javascript
+import React,{Component} from "react";
+import GAH from 'gah-datepicker';
+export default class App extends Component{
+  state={
+    startDate:'2020/3/4',
+    endDate:'2020/3/7'
+  };
+  render(){  
+    let {startDate,endDate} = this.state; 
+    return (
+      <GAH 
+        range={true}
+        start={{
+          value:startDate,
+          onChange:({dateString})=>{
+            this.setState({startDate:dateString})
+          }
+        }}
+        end={{
+          value:endDate,
+          onChange:({dateString})=>{
+            this.setState({endDate:dateString})
+          }
+        }}
+        
+      />
+    )
+  }
+}
+
+```
+
+![alt text](/images/5.gif)
+
 # without value
 - ##### if value equal false or undefined , the placeHolder string will be displayed.
 ```javascript
