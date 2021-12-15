@@ -4,7 +4,7 @@
 npm i gah-datepicker
 ```
 
-gregorian | ```jalali={true}```
+```calendarType='gregorian'``` | ```calendarType='jalali'```
 --------- | ------
 ![alt text](/images/2.gif) | ![alt text](/images/3.gif)
 ```type='day'``` | ```type='month'```
@@ -30,7 +30,7 @@ gregorian | ```jalali={true}```
 - custom size by set one prop
 - custom theme by one prop
 - gregorian date
-- persian date
+- jalali date ( persian )
 - month picker
 - range picker
 - multi select
@@ -51,13 +51,13 @@ prop | type | default | Description
 ---- | ---- | ------- | -----------
 value | string or array | false | value of datepicker
 onChange | function | Required | change value event. get an object as parameter contain changed value properties.
-type | 'day' or 'month' | 'day' | for select month , set type as 'month'.
+unit | 'day' or 'month' | 'day' | for select month , set unit as 'month'.
 multiselect | boolean | false | enable multiselect mode.
 range | boolean | false | enable range mode.
 prevYears | number | 10 | numeber of years that can select before this year.
 nextYears | number | 20 | numeber of years that can select after this year.
 limits | array of objects | optional | set dates disabled.
-jalali | boolean | false | set datepicker as persian datepicker(برای تقویم فارسی کافیست این پروپرتی را تنظیم کنید)
+calendarType | 'gregorian' or 'jalali' | 'gregorian' | set datepicker type(برای تقویم فارسی کافیست این پروپرتی را روی جلالی تنظیم کنید)
 icon | html or jsx | optional | use icon in datepicker button.
 className | 'string' | optional | custom className of datepicker.
 id | 'string' | optional | id of datepicker.
@@ -138,7 +138,7 @@ export default class App extends Component{
     let {date} = this.state;
     return (
       <GAH
-        jalali={true}
+        calendarType='jalali'
         value={date}
         onChange={(obj)=>{
           this.setState({date:obj.dateString})
@@ -198,11 +198,11 @@ export default class App extends Component{
 }
 ```
 ![alt text](/images/2.jpg)
-# type
+# unit
 ```javascript
 <GAH
   ...
-  type='month'
+  unit='month'
   ...
 />
 ```
