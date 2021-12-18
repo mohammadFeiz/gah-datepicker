@@ -8,8 +8,8 @@ npm i gah-datepicker
 ------------------------------ | ---------------------------
 ![alt text](/images/2.gif) | ![alt text](/images/3.gif)
 
-```unit='day'``` | ```unit='month'``` | ```unit='hour'```
----------------- | ------------------ | -----------------
+```unit='month'``` | ```unit='day'``` | ```unit='hour'```
+------------------ | ---------------- | -----------------
 ![alt text](/images/3.jpg) | ![alt text](/images/16.jpg) | ![alt text](/images/25.jpg) 
 
 ```range={true}``` | ```multiselect={true}```
