@@ -66,13 +66,14 @@ var GAH = require('gah-datepicker');
 prop | type | default | Description
 ---- | ---- | ------- | -----------
 calendarType | 'gregorian' or 'jalali' | 'gregorian' | set datepicker type(برای تقویم فارسی کافیست این پروپرتی را روی جلالی تنظیم کنید)
-value | string or array | false | value of datepicker
-onChange | function | Required | change value event. get an object as parameter contain changed value properties.
 unit | 'month' or 'day' or 'hour' | 'day' | for select month , set unit as 'month' and for select hour set ubit as 'hour'.
-multiselect | boolean | false | enable multiselect mode.
-range | boolean | false | enable range mode.
 prevYears | number | 10 | numeber of years that can select before this year.
 nextYears | number | 20 | numeber of years that can select after this year.
+value | string or array | false | value of datepicker
+onChange | function | Required | change value event. get an object as parameter contain changed value properties.
+disabled | boolean | false | make date picker disabled. block actions.
+multiselect | boolean | false | enable multiselect mode.
+range | boolean | false | enable range mode.
 limits | array of objects | optional | set dates disabled.
 icon | html or jsx | optional | use icon in datepicker button.
 className | 'string' | optional | custom className of datepicker.
@@ -83,7 +84,6 @@ onClear | function | optional | place clear button in bottom of datepicker. user
 size | number | 180 | set size of datepicker
 placeHolder | 'string' | 'Select Date' in gregorian mode and 'انتخاب تاریخ' in jalali mode | show text on button when value is false or undefined
 theme | array of 2 color string | ['dodgerblue','#ffffff'] | set theme color of datepicker by define 2 color
-disabled | boolean | false | make date picker disabled. block actions.
 swipe | boolean | false | change date by swipe mouse vertically.
 justCalendar | boolean | false | show just calendar alwais visible without datepicker button.
 types | array of objects | optional | use in multiselect mode . make multiselect as multi color
