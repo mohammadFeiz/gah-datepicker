@@ -232,19 +232,25 @@ export default class App extends Component{
 ```
 ![alt text](/images/3.jpg)
 # multiselect
+- ##### simple multiselect:
 ```javascript
 import React,{Component} from "react";
 import GAH from 'gah-datepicker';
 export default class App extends Component{
   state={
-    values:['2021/12/1','2021/12/2','20211/12/6','2021/12/20']
+    dates:[
+      {date:'2021/12/1'},
+      {date:'2021/12/2'},
+      {date:'2021/12/6'},
+      {date:'2021/12/20'}
+    ]
   };
   render(){ 
-    let {values} = this.state; 
+    let {dates} = this.state; 
     return (
       <GAH
         multiselect={true}
-        values={values}
+        values={dates}
         onChange={(values)=>this.setState({values})} 
       />
     )
@@ -252,8 +258,40 @@ export default class App extends Component{
 }
 
 ```
-
-![alt text](/images/4.gif)
+- ##### multiselect with types:
+```javascript
+import React,{Component} from "react";
+import GAH from 'gah-datepicker';
+export default class App extends Component{
+  state={
+    dates:[
+      {date:'2021/12/1',type:'t1'},
+      {date:'2021/12/2',type:'t1'},
+      {date:'2021/12/6',type:'t2'},
+      {date:'2021/12/20',type:'t2'}
+    ],
+    types:[
+      {value:'t1',text:'type1',color:['red','white']},
+      {value:'t2',text:'type2',color:['orange','white']},
+      {value:'t3',text:'type3',color:['yellow','#888']}
+    ]
+  };
+  render(){  
+    let {dates,types} = this.state;    
+    return ( 
+      <GAH
+        multiselect={true}
+        values={dates}
+        types={types}
+        onChange={(values)=>{
+          this.setState({dates:values})
+        }}
+      /> 
+    )
+  }
+}
+```
+![alt text](/images/7.gif)
 # range
 - ##### for range mode set range = true
 - ##### range mode get start and end props and will render 2 datepicker
