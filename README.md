@@ -5,10 +5,12 @@ npm i gah-datepicker
 ```
 
 ```calendarType='gregorian'``` | ```calendarType='jalali'```
---------- | ------
+------------------------------ | ---------------------------
 ![alt text](/images/2.gif) | ![alt text](/images/3.gif)
 ```unit='day'``` | ```unit='month'```
 ![alt text](/images/3.jpg) | ![alt text](/images/16.jpg)
+```unit='hour'``` | 
+![alt text](/images/25.jpg) | 
 ```range={true}``` | ```multiselect={true}```
 ![alt text](/images/6.gif) | ![alt text](/images/4.gif)
 ```size={180}``` | ```size={120}```
