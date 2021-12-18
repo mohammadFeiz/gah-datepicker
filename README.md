@@ -28,9 +28,9 @@ npm i gah-datepicker
 ----------------------------------------------- | ---------------------
 ![alt text](/images/20.jpg) | ![alt text](/images/21.jpg)
 
-```caret={false}``` | ```caret={(<div className='mdi mdi-chevron-down'></div>)}```
-------------------- | ------------------------------------------------------------
-![alt text](/images/7.jpg) | ![alt text](/images/8.jpg)
+                            | ```caret={false}```        | ```caret={(<div className='mdi mdi-chevron-down'></div>)}```
+--------------------------- | -------------------------- | ------------------------------------------------------------
+![alt text](/images/24.jpg) | ![alt text](/images/7.jpg) | ![alt text](/images/8.jpg)
 
 ```style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}``` | ```icon={(<svg...>...</svg>)}```
 -------------------------------------------------------------------------------- | --------------------------------
