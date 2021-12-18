@@ -258,6 +258,7 @@ export default class App extends Component{
 }
 
 ```
+![alt text](/images/4.gif)
 - ##### multiselect with types:
 ```javascript
 import React,{Component} from "react";
