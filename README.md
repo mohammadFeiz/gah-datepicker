@@ -84,7 +84,9 @@ size | number | 180 | set size of datepicker
 placeHolder | 'string' | 'Select Date' in gregorian mode and 'انتخاب تاریخ' in jalali mode | show text on button when value is false or undefined
 theme | array of 2 color string | ['dodgerblue','#ffffff'] | set theme color of datepicker by define 2 color
 disabled | boolean | false | make date picker disabled. block actions.
-
+swipe | boolean | false | change date by swipe mouse vertically.
+justCalendar | boolean | false | show just calendar alwais visible without datepicker button.
+types | array of objects | optional | use in multiselect mode . make multiselect as multi color
 
 # Basic
 ```javascript
