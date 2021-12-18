@@ -7,19 +7,29 @@ npm i gah-datepicker
 ```calendarType='gregorian'``` | ```calendarType='jalali'```
 ------------------------------ | ---------------------------
 ![alt text](/images/2.gif) | ![alt text](/images/3.gif)
-```unit='day'``` | ```unit='month'```
-![alt text](/images/3.jpg) | ![alt text](/images/16.jpg)
-```unit='hour'``` | 
-![alt text](/images/25.jpg) | 
+
+```unit='day'``` | ```unit='month'``` | ```unit='hour'```
+---------------- | ------------------ | -----------------
+![alt text](/images/3.jpg) | ![alt text](/images/16.jpg) | ![alt text](/images/25.jpg) 
+
 ```range={true}``` | ```multiselect={true}```
+------------------ | ------------------------
 ![alt text](/images/6.gif) | ![alt text](/images/4.gif)
+
 ```size={180}``` | ```size={120}```
+---------------- | ----------------
 ![alt text](/images/3.jpg) | ![alt text](/images/11.jpg)
+
 ```theme={['orange','#555']}``` | ```theme={['#777','lightblue']}```
+------------------------------- | ----------------------------------
 ![alt text](/images/19.jpg) | ![alt text](/images/17.jpg)
+
 ```editValue={(text)=>'From Date : ' + text}``` | ```disabled={true}```
+----------------------------------------------- | ---------------------
 ![alt text](/images/20.jpg) | ![alt text](/images/21.jpg)
+
 ```caret={false}``` | ```caret={(<div className='mdi mdi-chevron-down'></div>)}```
+------------------- | ------------------------------------------------------------
 ![alt text](/images/7.jpg) | ![alt text](/images/8.jpg)
 
 ```style={{width:'100%',background:'dodgerblue',color:'#fff',borderRadius:6}}``` | ```icon={(<svg...>...</svg>)}```
