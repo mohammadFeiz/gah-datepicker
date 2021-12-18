@@ -16,6 +16,10 @@ npm i gah-datepicker
 ------------------ | ------------------------
 ![alt text](/images/6.gif) | ![alt text](/images/4.gif)
 
+```justCalendar={true}``` | ```swipe={true}```
+------------------------- | ------------------
+![alt text](/images/23.jpg) | ![alt text](/images/8.gif)
+
 ```size={180}``` | ```size={120}```
 ---------------- | ----------------
 ![alt text](/images/3.jpg) | ![alt text](/images/11.jpg)
