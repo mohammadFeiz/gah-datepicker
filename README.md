@@ -52,7 +52,7 @@ prop | type | default | Description
 calendarType | 'gregorian' or 'jalali' | 'gregorian' | set datepicker type(برای تقویم فارسی کافیست این پروپرتی را روی جلالی تنظیم کنید)
 value | string or array | false | value of datepicker
 onChange | function | Required | change value event. get an object as parameter contain changed value properties.
-unit | 'day' or 'month' | 'day' | for select month , set unit as 'month'.
+unit | 'month' or 'day' or 'hour' | 'day' | for select month , set unit as 'month' and for select hour set ubit as 'hour'.
 multiselect | boolean | false | enable multiselect mode.
 range | boolean | false | enable range mode.
 prevYears | number | 10 | numeber of years that can select before this year.
@@ -199,15 +199,27 @@ export default class App extends Component{
 ```
 ![alt text](/images/2.jpg)
 # unit
+- ##### month picker:
 ```javascript
 <GAH
   ...
   unit='month'
+  value='2021/12'
   ...
 />
 ```
-
 ![alt text](/images/16.jpg)
+- ##### hour picker:
+```javascript
+<GAH
+  ...
+  unit='hour'
+  value='2021/12/18/10'
+  ...
+/>
+```
+![alt text](/images/25.jpg)
+
 # use any splitter (each not an number character)
 - ##### in this example splitter is "."
 - ##### you can set any isNaN character for splitting date.
