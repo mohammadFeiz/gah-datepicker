@@ -48,6 +48,8 @@ default caret               | ```caret={false}```        | ```caret={(<div class
 - gregorian date
 - jalali date ( persian )
 - month picker
+- day picker
+- hour picker
 - range picker
 - multi select
 - simple configuration
@@ -74,7 +76,8 @@ onChange | function | Required | change value event. get an object as parameter 
 disabled | boolean | false | make date picker disabled. block actions.
 multiselect | boolean | false | enable multiselect mode.
 range | boolean | false | enable range mode.
-limits | array of objects | optional | set dates disabled.
+setDisabled | function | optional | will called For each date and get the date object as parameter, must return a boolean to determine whether the date is disabled or not.
+getDateStyle | function | optional | will called For each date and get the date object as parameter, must return an css object as style of date.
 icon | html or jsx | optional | use icon in datepicker button.
 className | 'string' | optional | custom className of datepicker.
 id | 'string' | optional | id of datepicker.
