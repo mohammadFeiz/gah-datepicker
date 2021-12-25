@@ -49,7 +49,8 @@ default caret               | ```caret={false}```        | ```caret={(<div class
 
 - react js
 - custom size by set one prop
-- custom theme by one prop
+- custom theme by set one prop
+- custom date cell style
 - gregorian date
 - jalali date ( persian )
 - month picker
