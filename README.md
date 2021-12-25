@@ -28,6 +28,11 @@ npm i gah-datepicker
 ------------------------------- | ----------------------------------
 ![alt text](/images/19.jpg) | ![alt text](/images/17.jpg)
 
+```getDateStyle={(obj)=>...}``` | ```getDateStyle={(obj)=>...}```
+----------------------------------------------- | ---------------------
+![alt text](/images/22.jpg) | ![alt text](/images/26.jpg)
+
+
 ```editValue={(text)=>'From Date : ' + text}``` | ```disabled={true}```
 ----------------------------------------------- | ---------------------
 ![alt text](/images/20.jpg) | ![alt text](/images/21.jpg)
