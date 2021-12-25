@@ -581,3 +581,40 @@ export default class App extends Component{
 ```
 ![alt text](/images/19.jpg)
 
+# getDateStyle
+
+```javascript
+<GAH
+  ...
+  getDateStyle={(obj)=>{
+    if(obj.weekDayIndex === 3){
+      return {background:'#2dc0c5',color:'#fff'}
+    }
+    if(obj.weekDayIndex === 4){
+      return {background:'#9be4e7',color:'#fff'}
+    }
+    if(obj.weekDayIndex === 5){
+      return {background:'#6fd7c8',color:'#fff'}
+    }
+    if(obj.weekDayIndex === 6){
+      return {background:'#56f997',color:'#fff'}
+    }
+  }}
+  ...
+/>
+```
+![alt text](/images/22.jpg)
+
+```javascript
+<GAH
+  ...
+  getDateStyle={(obj)=>{
+    if(obj.isBetween('2021/4/15','2021/4/28')){
+      return {background:'orange',color:'#fff'}
+    }
+  }}
+  ...
+/>
+```
+![alt text](/images/26.jpg)
+
