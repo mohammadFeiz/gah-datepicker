@@ -260,10 +260,10 @@ import GAH from 'gah-datepicker';
 export default class App extends Component{
   state={
     dates:[
-      {date:'2021/12/1'},
-      {date:'2021/12/2'},
-      {date:'2021/12/6'},
-      {date:'2021/12/20'}
+      '2021/12/1',
+      '2021/12/2',
+      '2021/12/6',
+      '2021/12/20'
     ]
   };
   render(){ 
@@ -272,7 +272,7 @@ export default class App extends Component{
       <GAH
         multiselect={true}
         values={dates}
-        onChange={(values)=>this.setState({values})} 
+        onChange={(values)=>this.setState({dates:values})} 
       />
     )
   }
@@ -280,44 +280,10 @@ export default class App extends Component{
 
 ```
 ![alt text](/images/4.gif)
-- ##### multiselect with types:
-```javascript
-import React,{Component} from "react";
-import GAH from 'gah-datepicker';
-export default class App extends Component{
-  state={
-    dates:[
-      {date:'2021/12/1',type:'t1'},
-      {date:'2021/12/2',type:'t1'},
-      {date:'2021/12/6',type:'t2'},
-      {date:'2021/12/20',type:'t2'}
-    ],
-    types:[
-      {value:'t1',text:'type1',color:['red','white']},
-      {value:'t2',text:'type2',color:['orange','white']},
-      {value:'t3',text:'type3',color:['yellow','#888']}
-    ]
-  };
-  render(){  
-    let {dates,types} = this.state;    
-    return ( 
-      <GAH
-        multiselect={true}
-        values={dates}
-        types={types}
-        onChange={(values)=>{
-          this.setState({dates:values})
-        }}
-      /> 
-    )
-  }
-}
-```
-![alt text](/images/7.gif)
 # range
 - ##### for range mode set range = true
 - ##### range mode get start and end props and will render 2 datepicker
-- ##### start and end can get all props exept multiselect prop
+- ##### start and end can get most main props
 ```javascript
 import React,{Component} from "react";
 import GAH from 'gah-datepicker';
@@ -478,26 +444,47 @@ export default class App extends Component{
 ```
 ![alt text](/images/11.jpg)
 
-# limits
+# setDisabled
 - ##### make dates disabled
 - ##### in this example, '2020/1/1' will be disabled.
 ```javascript
 <GAH
   ...
-  limits={[
-    {type:'equal',date:'2020/1/1'}
-  ]}
+  setDisabled={(obj)=>{
+    obj.isEqual('2020/1/1')
+  }}
   ...
 />
 ```
+- ##### also in this example, '2020/1/1' will be disabled.
+```javascript
+<GAH
+  ...
+  setDisabled={(obj)=>{
+    return obj.year === 2020 && obj.month === 1 && obj.day === 1
+  }}
+  ...
+/>
+```
+- ##### also in this example, '2020/1/1' will be disabled.
+```javascript
+<GAH
+  ...
+  setDisabled={(obj)=>{
+    return obj.dateString === '2020/1/1'
+  }}
+  ...
+/>
+```
+
 ![alt text](/images/15.jpg)
 - ##### in this example all dates before '2020/2/20' will be disabled.
 ```javascript
 <GAH
   ...
-  limits={[
-    {type:'less',date:'2020/2/20'}
-  ]}
+  setDisabled={(obj)=>{
+    return obj.isLess('2020/2/20')
+  }}
   ...
 />
 ```
@@ -507,9 +494,9 @@ export default class App extends Component{
 ```javascript
 <GAH
   ...
-  limits={[
-    {type:'greater',date:'2020/2/20'}
-  ]}
+  setDisabled={(obj)=>{
+    return obj.isGreater('2020/2/20')
+  }}
   ...
 />
 ```
@@ -519,9 +506,9 @@ export default class App extends Component{
 ```javascript
 <GAH
   ...
-  limits={[
-    {type:'between',startDate:'2020/2/10',endDate:'2020/2/20'}
-  ]}
+  setDisabled={(obj)=>{
+    return obj.isBetween('2020/2/10','2020/2/20')
+  }}
   ...
 />
 ```
@@ -531,9 +518,10 @@ export default class App extends Component{
 ```javascript
 <GAH
   ...
-  limits={[
-    {type:'weekDay',weekDay:7}
-  ]}
+  setDisabled={(obj)=>{
+    return obj.weekDay === 'friday'
+    // or return obj.weekDayIndex === 5
+  }}
   ...
 />
 ```
@@ -541,9 +529,9 @@ export default class App extends Component{
 ```javascript
 <GAH
   ...
-  limits={[
-    {type:'weekDay',weekDay:7,year:2020}
-  ]}
+  setDisabled={(obj)=>{
+    return obj.year === 2020 && obj.weekDay === 'friday'
+  }}
   ...
 />
 ```
@@ -551,9 +539,9 @@ export default class App extends Component{
 ```javascript
 <GAH
   ...
-  limits={[
-    {type:'weekDay',weekDay:7,year:2020,month:6}
-  ]}
+  setDisabled={(obj)=>{
+    return obj.year === 2020 && obj.month === 6 && obj.weekDay === 'friday'
+  }}
   ...
 />
 ```
@@ -561,9 +549,9 @@ export default class App extends Component{
 ```javascript
 <GAH
   ...
-  limits={[
-    {type:'weekDay',weekDay:7,month:6}
-  ]}
+  setDisabled={(obj)=>{
+    return obj.month === 6 && obj.weekDay === 'friday'
+  }}
   ...
 />
 ```
