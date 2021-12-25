@@ -95,6 +95,9 @@ theme | array of 2 color string | ['dodgerblue','#ffffff'] | set theme color of 
 swipe | boolean | false | change date by swipe mouse vertically.
 justCalendar | boolean | false | show just calendar alwais visible without datepicker button.
 types | array of objects | optional | use in multiselect mode . make multiselect as multi color
+animate | boolean | false | open calendar with animation
+open | boolean | false | show calendar in first render.
+
 
 # Basic
 ```javascript
