@@ -139,9 +139,10 @@ class GAHBase extends Component{
     )
   }
   renderMultiselect(){
-    var {calendarType,className,icon,onChange,unit} = this.props;
+    var {justCalendar,calendarType,className,icon,onChange,unit} = this.props;
     this.details = this.fn.getDateDetails();
     this.values = this.fn.getValues();
+    if(justCalendar){return this.getPopup()}
     return (
         <AIOButton 
           showTag={false}
@@ -504,6 +505,9 @@ export function RDATE({getState,getProps,setState}){
         style.background = theme[0];
         style.color = theme[1];
       }
+      if(className.indexOf('today') !== -1){
+        style.border = `1px solid ${theme[0]}`
+      }
       let text;
       if(unit === 'hour'){text = date[3] + ':00'}
       else if(unit === 'day'){text = date[2]}
@@ -713,45 +717,46 @@ export function RDATE({getState,getProps,setState}){
         return Spaces;
       }
     },
-    getTodayContent(details,platform = 'react'){
-      let {calendarType,size,unit,theme = []} = getProps();
+    getTodayContent(details){
+      let {multiselect,calendarType,size,unit,theme = [],onChange,showTag} = getProps();
       let month = details.todayMonthString;
       let week = details.todayWeekDay;
       let today = details.today;
-      if(platform === 'react'){
-        return (
-          <div className='gah-today' style={{width:size / 2,color:theme[1],background:theme[0]}}>
-            <div style={{fontSize:size / 13}}>{$$.getTodayText()}</div>
-            {
-              (unit === 'day' || unit === 'hour') &&
-              <>
-                <div style={{fontSize:size / 11}}>{calendarType === 'gregorian'?week.slice(0,3):week}</div>
-                <div style={{fontSize:size / 12 * 4,height:size/12 * 4}}>{today[2]}</div>
-                <div style={{fontSize:size / 11}}>{calendarType === 'gregorian'?month.slice(0,3):month}</div>
-              </>
-            }
-            {unit === 'month' && <div style={{fontSize:size / 8}}>{calendarType === 'gregorian'?month.slice(0,3):month}</div>}
-            <div style={{fontSize:size / 11}}>{today[0]}</div>
-            {unit === 'hour' && <div style={{fontSize:size / 10}}>{today[3] + ':00'}</div>}
-          </div>
-        )
-      }
-      else if(platform === 'jquery'){
-        return (`
-            <div class='gah-today' style='width:${size / 2}px;${theme[1]?`color:${theme[1]};`:''}${theme[2]?`background:${theme[2]};`:''}'>
-              <div style='font-size:${size / 13}px;'>${$$.getTodayText()}</div>
-              ${
-                unit === 'day'?(`
-                  <div style='font-size:${size / 11}px;'>${calendarType === 'gregorian'?week.slice(0,3):week}</div>
-                  <div style='font-size:${size / 12 * 4}px;height:${size/12 * 4}px;'>${today[2]}</div>
-                  <div style='font-size:${size / 11}px;'>${calendarType === 'gregorian'?month.slice(0,3):month}</div>
-                `):'' 
-              }
-              ${unit === 'month'?(`<div style='font-size:${size / 8}px;'>${calendarType === 'gregorian'?month.slice(0,3):month}</div>`):''}
-              <div style='font-size:${size / 11}px;'>${today[0]}</div>
-            </div>
-        `)
-      }
+      let values = $$.getValues();
+      return (
+        <div className='gah-today' style={{width:size / 2,color:theme[1],background:theme[0]}}>
+          {
+            multiselect &&
+            <AIOButton
+              type='select'
+              openRelatedTo='.gah-popup'
+              style={{color:'inherit',fontSize:'inherit',position:'absolute',top:0,left:0,width:'100%',height:size / 4,background:'none'}}
+              text={`(${values.length})`}
+              popupStyle={{maxHeight:size * 1.2}}
+              options={values.map((o)=>{return {
+                text:o,value:o,style:{height:size / 4,maxHeight:36,background:theme[0],color:theme[1]}
+              }})}
+              onChange={(value)=>{
+                if(onChange){
+                  onChange(values.filter((o)=>o !== value))
+                }
+              }}
+            />
+          }
+          <div style={{fontSize:size / 13}}>{$$.getTodayText()}</div>
+          {
+            (unit === 'day' || unit === 'hour') &&
+            <>
+              <div style={{fontSize:size / 11}}>{calendarType === 'gregorian'?week.slice(0,3):week}</div>
+              <div style={{fontSize:size / 12 * 4,height:size/12 * 4}}>{today[2]}</div>
+              <div style={{fontSize:size / 11}}>{calendarType === 'gregorian'?month.slice(0,3):month}</div>
+            </>
+          }
+          {unit === 'month' && <div style={{fontSize:size / 8}}>{calendarType === 'gregorian'?month.slice(0,3):month}</div>}
+          <div style={{fontSize:size / 11}}>{today[0]}</div>
+          {unit === 'hour' && <div style={{fontSize:size / 10}}>{today[3] + ':00'}</div>}
+        </div>
+      )
     },
     getPopupStyle(platform = 'react'){
       var {size,disabled} = getProps();

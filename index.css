@@ -68,7 +68,6 @@ body{
   .gah-today div{
     display:flex;
     align-items: center;
-    justify-content: center;
     
   }
   .gah-calendar svg{
@@ -138,34 +137,18 @@ body{
     position: relative; 
     outline:none;
   }
-  .gah-cell.today{
-    border:1px solid rgb(0, 81, 255);
-  }
   .gah-cell.disabled{
     box-shadow:none;
     border-radius:0;
-    opacity:0.4;
+    opacity:0.3;
+    background:rgba(128,128,128,.8);
+    color:#fff;
     cursor:not-allowed !important;
   }
   
   .gah-weekday{
     font-weight:bold;
     font-size:110%;
-  }
-  .select-active{
-    border:none;
-    background:none;
-    color:inherit;
-    font-size:inherit;
-    cursor: pointer;
-    text-align:center;
-    outline:none;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-  .select-active option{
-    font-size:90%;
-    min-width:60px;
   }
   .gah-multiselect-select{
     position:absolute;
@@ -192,7 +175,6 @@ body{
   position: relative;
   transform: scale(1.2);
   box-shadow:2px 2px 5px 0 rgba(0,0,0,.3);
-  opacity:1;
   cursor: pointer;
   z-index:10;
 }

@@ -388,6 +388,7 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
       var _this6 = this;
 
       var _this$props5 = this.props,
+          justCalendar = _this$props5.justCalendar,
           calendarType = _this$props5.calendarType,
           className = _this$props5.className,
           icon = _this$props5.icon,
@@ -395,6 +396,11 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
           unit = _this$props5.unit;
       this.details = this.fn.getDateDetails();
       this.values = this.fn.getValues();
+
+      if (justCalendar) {
+        return this.getPopup();
+      }
+
       return /*#__PURE__*/_react.default.createElement(_aioButton.default, _extends({
         showTag: false
       }, this.props, {
@@ -1261,6 +1267,10 @@ function RDATE(_ref) {
         style.color = theme[1];
       }
 
+      if (className.indexOf('today') !== -1) {
+        style.border = "1px solid ".concat(theme[0]);
+      }
+
       var text;
 
       if (unit === 'hour') {
@@ -1723,60 +1733,93 @@ function RDATE(_ref) {
       }
     },
     getTodayContent: function getTodayContent(details) {
-      var platform = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'react';
-
       var _getProps18 = getProps(),
+          multiselect = _getProps18.multiselect,
           calendarType = _getProps18.calendarType,
           size = _getProps18.size,
           unit = _getProps18.unit,
           _getProps18$theme = _getProps18.theme,
-          theme = _getProps18$theme === void 0 ? [] : _getProps18$theme;
+          theme = _getProps18$theme === void 0 ? [] : _getProps18$theme,
+          _onChange3 = _getProps18.onChange,
+          showTag = _getProps18.showTag;
 
       var month = details.todayMonthString;
       var week = details.todayWeekDay;
       var today = details.today;
-
-      if (platform === 'react') {
-        return /*#__PURE__*/_react.default.createElement("div", {
-          className: "gah-today",
-          style: {
-            width: size / 2,
-            color: theme[1],
-            background: theme[0]
+      var values = $$.getValues();
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "gah-today",
+        style: {
+          width: size / 2,
+          color: theme[1],
+          background: theme[0]
+        }
+      }, multiselect && /*#__PURE__*/_react.default.createElement(_aioButton.default, {
+        type: "select",
+        openRelatedTo: ".gah-popup",
+        style: {
+          color: 'inherit',
+          fontSize: 'inherit',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: size / 4,
+          background: 'none'
+        },
+        text: "(".concat(values.length, ")"),
+        popupStyle: {
+          maxHeight: size * 1.2
+        },
+        options: values.map(function (o) {
+          return {
+            text: o,
+            value: o,
+            style: {
+              height: size / 4,
+              maxHeight: 36,
+              background: theme[0],
+              color: theme[1]
+            }
+          };
+        }),
+        onChange: function onChange(value) {
+          if (_onChange3) {
+            _onChange3(values.filter(function (o) {
+              return o !== value;
+            }));
           }
-        }, /*#__PURE__*/_react.default.createElement("div", {
-          style: {
-            fontSize: size / 13
-          }
-        }, $$.getTodayText()), (unit === 'day' || unit === 'hour') && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-          style: {
-            fontSize: size / 11
-          }
-        }, calendarType === 'gregorian' ? week.slice(0, 3) : week), /*#__PURE__*/_react.default.createElement("div", {
-          style: {
-            fontSize: size / 12 * 4,
-            height: size / 12 * 4
-          }
-        }, today[2]), /*#__PURE__*/_react.default.createElement("div", {
-          style: {
-            fontSize: size / 11
-          }
-        }, calendarType === 'gregorian' ? month.slice(0, 3) : month)), unit === 'month' && /*#__PURE__*/_react.default.createElement("div", {
-          style: {
-            fontSize: size / 8
-          }
-        }, calendarType === 'gregorian' ? month.slice(0, 3) : month), /*#__PURE__*/_react.default.createElement("div", {
-          style: {
-            fontSize: size / 11
-          }
-        }, today[0]), unit === 'hour' && /*#__PURE__*/_react.default.createElement("div", {
-          style: {
-            fontSize: size / 10
-          }
-        }, today[3] + ':00'));
-      } else if (platform === 'jquery') {
-        return "\n            <div class='gah-today' style='width:".concat(size / 2, "px;").concat(theme[1] ? "color:".concat(theme[1], ";") : '').concat(theme[2] ? "background:".concat(theme[2], ";") : '', "'>\n              <div style='font-size:").concat(size / 13, "px;'>").concat($$.getTodayText(), "</div>\n              ").concat(unit === 'day' ? "\n                  <div style='font-size:".concat(size / 11, "px;'>").concat(calendarType === 'gregorian' ? week.slice(0, 3) : week, "</div>\n                  <div style='font-size:").concat(size / 12 * 4, "px;height:").concat(size / 12 * 4, "px;'>").concat(today[2], "</div>\n                  <div style='font-size:").concat(size / 11, "px;'>").concat(calendarType === 'gregorian' ? month.slice(0, 3) : month, "</div>\n                ") : '', "\n              ").concat(unit === 'month' ? "<div style='font-size:".concat(size / 8, "px;'>").concat(calendarType === 'gregorian' ? month.slice(0, 3) : month, "</div>") : '', "\n              <div style='font-size:").concat(size / 11, "px;'>").concat(today[0], "</div>\n            </div>\n        ");
-      }
+        }
+      }), /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 13
+        }
+      }, $$.getTodayText()), (unit === 'day' || unit === 'hour') && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 11
+        }
+      }, calendarType === 'gregorian' ? week.slice(0, 3) : week), /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 12 * 4,
+          height: size / 12 * 4
+        }
+      }, today[2]), /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 11
+        }
+      }, calendarType === 'gregorian' ? month.slice(0, 3) : month)), unit === 'month' && /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 8
+        }
+      }, calendarType === 'gregorian' ? month.slice(0, 3) : month), /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 11
+        }
+      }, today[0]), unit === 'hour' && /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          fontSize: size / 10
+        }
+      }, today[3] + ':00'));
     },
     getPopupStyle: function getPopupStyle() {
       var platform = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'react';
