@@ -8,7 +8,7 @@ export default class GAH extends Component{
   }
   getDateStyle(type,obj){
     let {getDateStyle = ()=>{return {}}} = this.props;
-    let {getDateStyle:GetDateStyle} = this.props[type]
+    let {getDateStyle:GetDateStyle = ()=>{return {}}} = this.props[type]
     let selfDateStyle = GetDateStyle(obj) || {}
     selfDateStyle = typeof selfDateStyle === 'object'?selfDateStyle:{};
     let allDateStyle = getDateStyle(obj) || {}
@@ -27,7 +27,7 @@ export default class GAH extends Component{
   render(){
     let {range} = this.props;
     if(range){
-      let {start,end,calendarType = 'gregorian',setDisabled = ()=>false,unit = 'day',getDateStyle=()=>{return {}}} = this.props;
+      let {start,end,calendarType = 'gregorian',unit = 'day'} = this.props;
       if(typeof start !== 'object'){
         console.error('gah datepicker error => in range mode, start props should be an object');
         return null
@@ -144,6 +144,7 @@ class GAHBase extends Component{
     this.values = this.fn.getValues();
     return (
         <AIOButton 
+          showTag={false}
           {...this.props}
           before={icon?icon:undefined}
           type='multiselect'
@@ -157,7 +158,7 @@ class GAHBase extends Component{
           }}
           values={this.values}
           className={'gah' + (className?' ' + className:'')}
-          text={this.fn.getValue()}
+          text={this.fn.getValue() + ' (' + this.values.length + ')'}
           options={this.values.map((o)=>{return {value:o,text:o}})}
           rtl={calendarType === 'jalali'}
           onChange={(values,value,type)=>{
@@ -476,14 +477,20 @@ export function RDATE({getState,getProps,setState}){
     }, 
     isCellInRange(date){
       let {unit,start,end} = getProps();
-      let s = $$.validateValue(start.value);
-      let e = $$.validateValue(end.value);
-      if(unit === 'day'){s.hour = 0; e.hour = 0;}  
-      if(unit === 'month'){s.day = 1; e.day = 1; s.hour = 0; e.hour = 0;}  
-      if($$.calc.isEqual(date,[s.year,s.month,s.day,s.hour])){return true}
-      if($$.calc.isEqual(date,[e.year,e.month,e.day,e.hour])){return true}
-      if($$.calc.isGreater(date,[s.year,s.month,s.day,s.hour]) && $$.calc.isLess(date,[e.year,e.month,e.day,e.hour])){return true}
-      return false;
+      if(!start.value && !end.value){return false}
+      if(start.value){
+        let {year,month,day,hour} = $$.validateValue(start.value);
+        if(unit === 'day'){hour = 0;}  
+        if(unit === 'month'){day = 1; hour = 0;}        
+        if($$.calc.isLess(date,[year,month,day,hour])){return false} 
+      }
+      if(end.value){
+        let {year,month,day,hour} = $$.validateValue(end.value);
+        if(unit === 'day'){hour = 0;}  
+        if(unit === 'month'){day = 1; hour = 0;}        
+        if($$.calc.isGreater(date,[year,month,day,hour])){return false} 
+      }
+      return true;
     },
     getCell(date){
       let {theme,onChange,getDateStyle,setDisabled,calendarType,unit} = getProps();
@@ -879,21 +886,25 @@ function dateCalculator(){
       return 'equal';
     },
     isLess(o1,o2){
+      if(!o1 || !o2){return false}
       o1 = $$.convertToArray(o1);
       o2 = $$.convertToArray(o2);
       return $$.compaireDate(o1,o2) === 'less'
     },
     isEqual(o1,o2){
+      if(!o1 || !o2){return false}
       o1 = $$.convertToArray(o1);
       o2 = $$.convertToArray(o2);
       return $$.compaireDate(o1,o2) === 'equal'
     },
     isGreater(o1,o2){
+      if(!o1 || !o2){return false}
       o1 = $$.convertToArray(o1);
       o2 = $$.convertToArray(o2);
       return $$.compaireDate(o1,o2) === 'greater'
     },
     isBetween(o1,[o2,o3]){
+      if(!o1 || !o2 || !o3){return false}
       o1 = $$.convertToArray(o1);
       o2 = $$.convertToArray(o2);
       o3 = $$.convertToArray(o3);

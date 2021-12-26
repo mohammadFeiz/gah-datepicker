@@ -190,10 +190,9 @@ body{
   }
 .gah-cell:not(.gah-weekday):not(.gah-space):hover{
   position: relative;
-  transform: scale(1.5);
+  transform: scale(1.2);
   box-shadow:2px 2px 5px 0 rgba(0,0,0,.3);
   opacity:1;
   cursor: pointer;
-  transition: 0.1s;
   z-index:10;
 }

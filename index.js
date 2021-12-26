@@ -88,7 +88,10 @@ var GAH = /*#__PURE__*/function (_Component) {
           getDateStyle = _this$props$getDateSt === void 0 ? function () {
         return {};
       } : _this$props$getDateSt;
-      var GetDateStyle = this.props[type].getDateStyle;
+      var _this$props$type$getD = this.props[type].getDateStyle,
+          GetDateStyle = _this$props$type$getD === void 0 ? function () {
+        return {};
+      } : _this$props$type$getD;
       var selfDateStyle = GetDateStyle(obj) || {};
       selfDateStyle = _typeof(selfDateStyle) === 'object' ? selfDateStyle : {};
       var allDateStyle = getDateStyle(obj) || {};
@@ -144,16 +147,8 @@ var GAH = /*#__PURE__*/function (_Component) {
             end = _this$props2.end,
             _this$props2$calendar = _this$props2.calendarType,
             calendarType = _this$props2$calendar === void 0 ? 'gregorian' : _this$props2$calendar,
-            _this$props2$setDisab = _this$props2.setDisabled,
-            setDisabled = _this$props2$setDisab === void 0 ? function () {
-          return false;
-        } : _this$props2$setDisab,
             _this$props2$unit = _this$props2.unit,
-            unit = _this$props2$unit === void 0 ? 'day' : _this$props2$unit,
-            _this$props2$getDateS = _this$props2.getDateStyle,
-            getDateStyle = _this$props2$getDateS === void 0 ? function () {
-          return {};
-        } : _this$props2$getDateS;
+            unit = _this$props2$unit === void 0 ? 'day' : _this$props2$unit;
 
         if (_typeof(start) !== 'object') {
           console.error('gah datepicker error => in range mode, start props should be an object');
@@ -400,7 +395,9 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
           unit = _this$props5.unit;
       this.details = this.fn.getDateDetails();
       this.values = this.fn.getValues();
-      return /*#__PURE__*/_react.default.createElement(_aioButton.default, _extends({}, this.props, {
+      return /*#__PURE__*/_react.default.createElement(_aioButton.default, _extends({
+        showTag: false
+      }, this.props, {
         before: icon ? icon : undefined,
         type: "multiselect",
         editTag: function editTag(text) {
@@ -421,7 +418,7 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
         },
         values: this.values,
         className: 'gah' + (className ? ' ' + className : ''),
-        text: this.fn.getValue(),
+        text: this.fn.getValue() + ' (' + this.values.length + ')',
         options: this.values.map(function (o) {
           return {
             value: o,
@@ -1186,34 +1183,53 @@ function RDATE(_ref) {
           start = _getProps8.start,
           end = _getProps8.end;
 
-      var s = $$.validateValue(start.value);
-      var e = $$.validateValue(end.value);
-
-      if (unit === 'day') {
-        s.hour = 0;
-        e.hour = 0;
+      if (!start.value && !end.value) {
+        return false;
       }
 
-      if (unit === 'month') {
-        s.day = 1;
-        e.day = 1;
-        s.hour = 0;
-        e.hour = 0;
+      if (start.value) {
+        var _$$$validateValue = $$.validateValue(start.value),
+            year = _$$$validateValue.year,
+            month = _$$$validateValue.month,
+            day = _$$$validateValue.day,
+            hour = _$$$validateValue.hour;
+
+        if (unit === 'day') {
+          hour = 0;
+        }
+
+        if (unit === 'month') {
+          day = 1;
+          hour = 0;
+        }
+
+        if ($$.calc.isLess(date, [year, month, day, hour])) {
+          return false;
+        }
       }
 
-      if ($$.calc.isEqual(date, [s.year, s.month, s.day, s.hour])) {
-        return true;
+      if (end.value) {
+        var _$$$validateValue2 = $$.validateValue(end.value),
+            _year2 = _$$$validateValue2.year,
+            _month2 = _$$$validateValue2.month,
+            _day2 = _$$$validateValue2.day,
+            _hour2 = _$$$validateValue2.hour;
+
+        if (unit === 'day') {
+          _hour2 = 0;
+        }
+
+        if (unit === 'month') {
+          _day2 = 1;
+          _hour2 = 0;
+        }
+
+        if ($$.calc.isGreater(date, [_year2, _month2, _day2, _hour2])) {
+          return false;
+        }
       }
 
-      if ($$.calc.isEqual(date, [e.year, e.month, e.day, e.hour])) {
-        return true;
-      }
-
-      if ($$.calc.isGreater(date, [s.year, s.month, s.day, s.hour]) && $$.calc.isLess(date, [e.year, e.month, e.day, e.hour])) {
-        return true;
-      }
-
-      return false;
+      return true;
     },
     getCell: function getCell(date) {
       var _getProps9 = getProps(),
@@ -1792,12 +1808,12 @@ function RDATE(_ref) {
       for (var i = 0; i < values.length; i++) {
         var value = values[i];
 
-        var _$$$validateValue = $$.validateValue(value),
-            year = _$$$validateValue.year,
-            month = _$$$validateValue.month,
-            day = _$$$validateValue.day,
-            hour = _$$$validateValue.hour,
-            splitter = _$$$validateValue.splitter;
+        var _$$$validateValue3 = $$.validateValue(value),
+            year = _$$$validateValue3.year,
+            month = _$$$validateValue3.month,
+            day = _$$$validateValue3.day,
+            hour = _$$$validateValue3.hour,
+            splitter = _$$$validateValue3.splitter;
 
         if (unit === 'hour') {
           value = year + splitter + month + splitter + day + splitter + hour;
@@ -2044,16 +2060,28 @@ function dateCalculator() {
       return 'equal';
     },
     isLess: function isLess(o1, o2) {
+      if (!o1 || !o2) {
+        return false;
+      }
+
       o1 = $$.convertToArray(o1);
       o2 = $$.convertToArray(o2);
       return $$.compaireDate(o1, o2) === 'less';
     },
     isEqual: function isEqual(o1, o2) {
+      if (!o1 || !o2) {
+        return false;
+      }
+
       o1 = $$.convertToArray(o1);
       o2 = $$.convertToArray(o2);
       return $$.compaireDate(o1, o2) === 'equal';
     },
     isGreater: function isGreater(o1, o2) {
+      if (!o1 || !o2) {
+        return false;
+      }
+
       o1 = $$.convertToArray(o1);
       o2 = $$.convertToArray(o2);
       return $$.compaireDate(o1, o2) === 'greater';
@@ -2062,6 +2090,10 @@ function dateCalculator() {
       var _ref14 = _slicedToArray(_ref13, 2),
           o2 = _ref14[0],
           o3 = _ref14[1];
+
+      if (!o1 || !o2 || !o3) {
+        return false;
+      }
 
       o1 = $$.convertToArray(o1);
       o2 = $$.convertToArray(o2);
