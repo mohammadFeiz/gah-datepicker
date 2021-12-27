@@ -1963,6 +1963,7 @@ function dateCalculator() {
       return splitter;
     },
     convertToArray: function convertToArray(o) {
+      var setDefault = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var list;
 
       if (Array.isArray(o)) {
@@ -1976,17 +1977,21 @@ function dateCalculator() {
         return false;
       }
 
-      var _list = list,
-          _list2 = _slicedToArray(_list, 4),
-          y = _list2[0],
-          _list2$ = _list2[1],
-          m = _list2$ === void 0 ? 1 : _list2$,
-          _list2$2 = _list2[2],
-          d = _list2$2 === void 0 ? 1 : _list2$2,
-          _list2$3 = _list2[3],
-          h = _list2$3 === void 0 ? 0 : _list2$3;
+      if (setDefault) {
+        var _list = list,
+            _list2 = _slicedToArray(_list, 4),
+            y = _list2[0],
+            _list2$ = _list2[1],
+            m = _list2$ === void 0 ? 1 : _list2$,
+            _list2$2 = _list2[2],
+            d = _list2$2 === void 0 ? 1 : _list2$2,
+            _list2$3 = _list2[3],
+            h = _list2$3 === void 0 ? 0 : _list2$3;
 
-      return [y, m, d, h];
+        return [y, m, d, h];
+      } else {
+        return list;
+      }
     },
     gregorianToJalali: function gregorianToJalali(o) {
       var _$$$convertToArray = $$.convertToArray(o),
@@ -2108,7 +2113,14 @@ function dateCalculator() {
       }
 
       o1 = $$.convertToArray(o1);
-      o2 = $$.convertToArray(o2);
+      o2 = $$.convertToArray(o2, false);
+
+      for (var i = 0; i < o1.length; i++) {
+        if (o2[i] === undefined) {
+          o2[i] = o1[i];
+        }
+      }
+
       return $$.compaireDate(o1, o2) === 'less';
     },
     isEqual: function isEqual(o1, o2) {
@@ -2117,7 +2129,14 @@ function dateCalculator() {
       }
 
       o1 = $$.convertToArray(o1);
-      o2 = $$.convertToArray(o2);
+      o2 = $$.convertToArray(o2, false);
+
+      for (var i = 0; i < o1.length; i++) {
+        if (o2[i] === undefined) {
+          o2[i] = o1[i];
+        }
+      }
+
       return $$.compaireDate(o1, o2) === 'equal';
     },
     isGreater: function isGreater(o1, o2) {
@@ -2126,7 +2145,14 @@ function dateCalculator() {
       }
 
       o1 = $$.convertToArray(o1);
-      o2 = $$.convertToArray(o2);
+      o2 = $$.convertToArray(o2, false);
+
+      for (var i = 0; i < o1.length; i++) {
+        if (o2[i] === undefined) {
+          o2[i] = o1[i];
+        }
+      }
+
       return $$.compaireDate(o1, o2) === 'greater';
     },
     isBetween: function isBetween(o1, _ref13) {
@@ -2139,8 +2165,19 @@ function dateCalculator() {
       }
 
       o1 = $$.convertToArray(o1);
-      o2 = $$.convertToArray(o2);
-      o3 = $$.convertToArray(o3);
+      o2 = $$.convertToArray(o2, false);
+      o3 = $$.convertToArray(o3, false);
+
+      for (var i = 0; i < o1.length; i++) {
+        if (o2[i] === undefined) {
+          o2[i] = o1[i];
+        }
+
+        if (o3[i] === undefined) {
+          o3[i] = o1[i];
+        }
+      }
+
       return $$.compaireDate(o1, o2) === 'greater' && $$.compaireDate(o1, o3) === 'less';
     },
     getByOffset: function getByOffset(_ref15) {

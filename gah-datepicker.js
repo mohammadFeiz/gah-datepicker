@@ -844,7 +844,7 @@ function dateCalculator(){
       }
       return splitter;
     },
-    convertToArray(o){
+    convertToArray(o,setDefault = true){
       let list;
       if(Array.isArray(o)){list = [...o]}
       else if(typeof o === 'string'){
@@ -852,8 +852,13 @@ function dateCalculator(){
         list = list.map((o)=>parseInt(o))
       }
       else{return false}
-      let [y,m = 1,d = 1,h = 0] = list;
-      return [y,m,d,h];
+      if(setDefault){
+        let [y,m = 1,d = 1,h = 0] = list;
+        return [y,m,d,h];
+      }
+      else {
+        return list;
+      }
     },
     gregorianToJalali(o) {
       let [gy, gm, gd] = $$.convertToArray(o);
@@ -893,26 +898,39 @@ function dateCalculator(){
     isLess(o1,o2){
       if(!o1 || !o2){return false}
       o1 = $$.convertToArray(o1);
-      o2 = $$.convertToArray(o2);
+      o2 = $$.convertToArray(o2,false);
+      for(let i = 0; i < o1.length; i++){
+        if(o2[i] === undefined){o2[i] = o1[i]}
+      }
       return $$.compaireDate(o1,o2) === 'less'
     },
     isEqual(o1,o2){
       if(!o1 || !o2){return false}
       o1 = $$.convertToArray(o1);
-      o2 = $$.convertToArray(o2);
+      o2 = $$.convertToArray(o2,false);
+      for(let i = 0; i < o1.length; i++){
+        if(o2[i] === undefined){o2[i] = o1[i]}
+      }
       return $$.compaireDate(o1,o2) === 'equal'
     },
     isGreater(o1,o2){
       if(!o1 || !o2){return false}
       o1 = $$.convertToArray(o1);
-      o2 = $$.convertToArray(o2);
+      o2 = $$.convertToArray(o2,false);
+      for(let i = 0; i < o1.length; i++){
+        if(o2[i] === undefined){o2[i] = o1[i]}
+      }
       return $$.compaireDate(o1,o2) === 'greater'
     },
     isBetween(o1,[o2,o3]){
       if(!o1 || !o2 || !o3){return false}
       o1 = $$.convertToArray(o1);
-      o2 = $$.convertToArray(o2);
-      o3 = $$.convertToArray(o3);
+      o2 = $$.convertToArray(o2,false);
+      o3 = $$.convertToArray(o3,false);
+      for(let i = 0; i < o1.length; i++){
+        if(o2[i] === undefined){o2[i] = o1[i]}
+        if(o3[i] === undefined){o3[i] = o1[i]}
+      }
       return $$.compaireDate(o1,o2) === 'greater' && $$.compaireDate(o1,o3) === 'less'
     },
     getByOffset({date,offset,unit = 'day',calendarType = 'gregorian'}){
