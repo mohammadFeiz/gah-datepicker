@@ -137,7 +137,7 @@ var GAH = /*#__PURE__*/function (_Component) {
           end = _this$props2.end,
           setDisabled = _this$props2.setDisabled;
 
-      if (type === 'start') {
+      if (end.value && type === 'start') {
         var _this$fn$validateValu = this.fn.validateValue(end.value),
             year = _this$fn$validateValu.year,
             month = _this$fn$validateValu.month,
@@ -149,7 +149,7 @@ var GAH = /*#__PURE__*/function (_Component) {
         }
       }
 
-      if (type === 'end') {
+      if (start.value && type === 'end') {
         var _this$fn$validateValu2 = this.fn.validateValue(start.value),
             _year = _this$fn$validateValu2.year,
             _month = _this$fn$validateValu2.month,

@@ -29,11 +29,11 @@ export default class GAH extends Component{
   }
   setDisabledRangeMode(type,obj){
     let {start,end,setDisabled} = this.props;
-    if(type === 'start'){
+    if(end.value && type === 'start'){
       let {year,month,day,hour} = this.fn.validateValue(end.value);
       if(this.fn.calc.isGreater(obj.dateString,[year,month,day,hour])){return true}
     }
-    if(type === 'end'){
+    if(start.value && type === 'end'){
       let {year,month,day,hour} = this.fn.validateValue(start.value);
       if(this.fn.calc.isLess(obj.dateString,[year,month,day,hour])){return true}
     }
