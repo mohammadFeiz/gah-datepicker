@@ -91,7 +91,7 @@ caret | boolean or html or jsx | true (default caret) | set caret icon of datepi
 onClear | function | optional | place clear button in bottom of datepicker. user can call onClear function by click on clear button.
 size | number | 180 | set size of datepicker
 placeHolder | 'string' | 'Select Date' in gregorian mode and 'انتخاب تاریخ' in jalali mode | show text on button when value is false or undefined
-theme | array of 2 color string | ['dodgerblue','#ffffff'] | set theme color of datepicker by define 2 color
+theme | array of 2 color string | optional | set theme color of datepicker by define 2 color
 swipe | boolean | false | change date by swipe mouse vertically.
 justCalendar | boolean | false | show just calendar alwais visible without datepicker button.
 types | array of objects | optional | use in multiselect mode . make multiselect as multi color
