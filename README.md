@@ -98,6 +98,10 @@ types | array of objects | optional | use in multiselect mode . make multiselect
 animate | boolean | false | open calendar with animation
 open | boolean | false | show calendar in first render.
 
+# css styling
+- ##### styling datepicker by css based on elements classes.
+![alt text](/images/33.jpg)
+
 
 # Basic
 ```javascript
