@@ -100,7 +100,7 @@ open | boolean | false | show calendar in first render.
 
 # css styling
 - ##### styling datepicker by css based on elements classes.
-![alt text](/images/33.jpg)
+![alt text](/images/34.jpg)
 
 
 # Basic
