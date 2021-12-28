@@ -10,7 +10,7 @@ npm i gah-datepicker
 
 ```unit='month'``` | ```unit='day'``` | ```unit='hour'```
 ------------------ | ---------------- | -----------------
-![alt text](/images/3.jpg) | ![alt text](/images/16.jpg) | ![alt text](/images/25.jpg) 
+![alt text](/images/16.jpg) | ![alt text](/images/3.jpg) | ![alt text](/images/25.jpg) 
 
 ```range={true}``` | ```multiselect={true}```
 ------------------ | ------------------------
