@@ -564,6 +564,28 @@ export default class App extends Component{
   ...
 />
 ```
+- ##### in this example all days in 2020/6 will be disabled.
+```javascript
+<GAH
+  ...
+  setDisabled={(obj)=>{
+    return obj.isEqual('2020/6')
+  }}
+  ...
+/>
+```
+- ##### in this example all days in 2020 will be disabled.
+```javascript
+<GAH
+  ...
+  setDisabled={(obj)=>{
+    return obj.isEqual('2020')
+  }}
+  ...
+/>
+```
+
+
 # theme
 ```javascript
 <GAH
