@@ -1,5 +1,5 @@
-import React,{Component,createContext,createRef} from 'react';
-import AIOButton from './aio-button';
+import React,{Component,createContext} from 'react';
+import AIOButton from 'aio-button';
 import './index.css';
 export default class GAH extends Component{
   constructor(props){
@@ -39,6 +39,7 @@ export default class GAH extends Component{
       return (
         <div className='gah-rangepicker' style={{direction:calendarType === 'gregorian'?'ltr':'rtl'}}>
           <GAHBase 
+            placeHolder={calendarType === 'jalali'?'از تاریخ':'From Date'}
             {...this.props}
             {...start} 
             value={start.value} 
@@ -46,16 +47,18 @@ export default class GAH extends Component{
             getDateStyle={(obj)=>this.getDateStyle('start',obj)}
             editValue={(text)=>{
               if(start.editValue){return start.editValue(text)}
-              if(calendarType === 'gregorian'){return 'From Date' + ' : ' + text;}
-              if(calendarType === 'jalali'){return 'از تاریخ' + ' : ' + text}
+              if(calendarType === 'gregorian'){return 'From' + ' : ' + text;}
+              if(calendarType === 'jalali'){return 'از' + ' : ' + text}
               
             }}
             onChange={start.onChange?(obj)=>start.onChange(obj):undefined}
             multiselect={false}
             unit={unit}
             calendarType={calendarType}
+            rangeSide='start'
           />
           <GAHBase 
+            placeHolder={calendarType === 'jalali'?'تا تاریخ':'To Date'}
             {...this.props}
             {...end} 
             value={end.value}
@@ -63,18 +66,19 @@ export default class GAH extends Component{
             getDateStyle={(obj)=>this.getDateStyle('end',obj)}
             editValue={(text)=>{
               if(end.editValue){return end.editValue(text)}
-              if(calendarType === 'gregorian'){return 'To Date' + ' : ' + text;}
-              if(calendarType === 'jalali'){return 'تا تاریخ' + ' : ' + text;}
+              if(calendarType === 'gregorian'){return 'To' + ' : ' + text;}
+              if(calendarType === 'jalali'){return 'تا' + ' : ' + text;}
             }}
             onChange={end.onChange?(obj)=>end.onChange(obj):undefined}
             multiselect={false}
             unit={unit}
             calendarType={calendarType}
+            rangeSide='end'
           />
         </div>
       )
     }
-    else{return <GAHBase {...this.props}/>}
+    else{return <GAHBase {...this.props} rangeSide={false}/>}
   }
 }
 class GAHBase extends Component{
@@ -174,13 +178,13 @@ class GAHBase extends Component{
   swipe(dy){
     if(this.lastSwipe !== undefined && dy === this.lastSwipe){return}
     this.lastSwipe = dy;
-    var {calendarType,unit,setDisabled} = this.props;
+    var {calendarType,unit,setDisabled,disabled} = this.props;
     if(!this.startSwipe){
       let {year,month,day,hour} = this.state;
       this.startSwipe = [year,month,day,hour]
     }
     let [year,month,day,hour] = this.fn.calc.getByOffset({date:this.startSwipe,offset:dy,unit,calendarType});
-    if(setDisabled(this.fn.validateValue([year,month,day,hour],unit),this.fn.calc)){return}
+    if(disabled || setDisabled(this.fn.validateValue([year,month,day,hour],unit),this.fn.calc)){return}
     this.setState({year,month,day,hour})
   }
   render(){
@@ -344,8 +348,11 @@ export function RDATE({getState,getProps,setState}){
           if(hour > 23){hour = 23}
           if(hour < 0){hour = 0}
         }
+        else {
+          hour = undefined;
+        }
       }
-      else if(unit === 'month'){day = false; hour = false;}
+      else if(unit === 'month'){day = undefined; hour = undefined;}
       return {year,month,day,hour,splitter};
     },
     getDateDetails(o = [],unit = getProps().unit){
@@ -400,7 +407,7 @@ export function RDATE({getState,getProps,setState}){
         let gregorian = $$.calc.jalaliToGregorian([year,month,1])
         let todayGregorian = $$.calc.jalaliToGregorian(today);
         let monthStringGregorian = $$.calc.getMonths('gregorian')[gregorian[1] - 1];
-        extra = {gregorian,todayGregorian,weekDayGregorian,monthStringGregorian};
+        extra = {gregorian,todayGregorian,monthStringGregorian};
       }
       return {
         year,month,
@@ -484,23 +491,27 @@ export function RDATE({getState,getProps,setState}){
         if(unit === 'day'){hour = 0;}  
         if(unit === 'month'){day = 1; hour = 0;}        
         if($$.calc.isLess(date,[year,month,day,hour])){return false} 
+        if($$.calc.isEqual(date,[year,month,day,hour])){return false} 
       }
       if(end.value){
         let {year,month,day,hour} = $$.validateValue(end.value);
         if(unit === 'day'){hour = 0;}  
         if(unit === 'month'){day = 1; hour = 0;}        
         if($$.calc.isGreater(date,[year,month,day,hour])){return false} 
+        if($$.calc.isEqual(date,[year,month,day,hour])){return false} 
       }
       return true;
     },
     getCell(date){
-      let {theme,onChange,getDateStyle,setDisabled,calendarType,unit} = getProps();
+      let {theme,onChange,getDateStyle,setDisabled,disabled:Disabled,calendarType,unit} = getProps();
       let disabled = setDisabled($$.getDateDetails(date,unit),$$.calc);
+      if(Disabled === true){disabled = true}
       let className = $$.getCellClassName(date,disabled);
       let onClick = disabled || !onChange?undefined:()=>{setState({year:date[0],month:date[1],day:date[2],hour:date[3]},true)};
       let style = {};
       let styleObj = getDateStyle($$.getDateDetails(date,unit),$$.calc) || {};
       style={...style,...styleObj} 
+      if(!disabled){style.background = theme[1];}
       if(className.indexOf('active') !== -1){
         style.background = theme[0];
         style.color = theme[1];
@@ -513,7 +524,7 @@ export function RDATE({getState,getProps,setState}){
       else if(unit === 'day'){text = date[2]}
       else if(unit === 'month'){
         let months = $$.calc.getMonths(calendarType);
-        text = calendarType === 'gregorian'?months[date[1]].slice(0,3):months[date[1]]
+        text = calendarType === 'gregorian'?months[date[1] - 1].slice(0,3):months[date[1] - 1]
       }
       return <div key={date} style={style} onClick={onClick} className={className}>{disabled?<del>{text}</del>:text}</div>
     },
@@ -525,8 +536,7 @@ export function RDATE({getState,getProps,setState}){
       if(unit === 'month'){return `${date[0]}${splitter}${date[1]}`;} 
     },
     isActive(date){
-      let {value,multiselect,range} = getProps();
-      if(range){return $$.isCellInRange(date);}
+      let {value,multiselect} = getProps();
       if(multiselect){return $$.getValues().indexOf($$.convertToString(date)) !== -1;}
       if(!value){return false}
       let {year,month,day,hour} = getState();
@@ -724,7 +734,7 @@ export function RDATE({getState,getProps,setState}){
       let today = details.today;
       let values = $$.getValues();
       return (
-        <div className='gah-today' style={{width:size / 2,color:theme[1],background:theme[0]}}>
+        <div className='gah-today' style={{width:size / 2,color:theme[3] || theme[1],background:theme[2] || theme[0]}}>
           {
             multiselect &&
             <AIOButton

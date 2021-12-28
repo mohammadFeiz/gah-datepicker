@@ -3,6 +3,7 @@ body{
 }
 .gah-rangepicker{
   display:flex;
+  width:100%;
 }
 .gah-rangepicker .gah{
   flex:1;
@@ -171,10 +172,15 @@ body{
     border:1px solid #ddd;
     width:fit-content;
   }
-.gah-cell:not(.gah-weekday):not(.gah-space):hover{
+  .gah-popup button{
+      width:unset !important; 
+      border:none !important;
+      background:none !important;
+  }
+.gah-cell:not(.gah-weekday):not(.gah-space):not(.disabled):hover{
   position: relative;
   transform: scale(1.2);
   box-shadow:2px 2px 5px 0 rgba(0,0,0,.3);
   cursor: pointer;
-  z-index:10;
+  z-index:100;
 }

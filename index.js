@@ -10,7 +10,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _aioButton = _interopRequireDefault(require("./aio-button"));
+var _aioButton = _interopRequireDefault(require("aio-button"));
 
 require("./index.css");
 
@@ -165,7 +165,9 @@ var GAH = /*#__PURE__*/function (_Component) {
           style: {
             direction: calendarType === 'gregorian' ? 'ltr' : 'rtl'
           }
-        }, /*#__PURE__*/_react.default.createElement(GAHBase, _extends({}, this.props, start, {
+        }, /*#__PURE__*/_react.default.createElement(GAHBase, _extends({
+          placeHolder: calendarType === 'jalali' ? 'از تاریخ' : 'From Date'
+        }, this.props, start, {
           value: start.value,
           setDisabled: function setDisabled(obj) {
             return _this2.setDisabled('start', obj);
@@ -179,11 +181,11 @@ var GAH = /*#__PURE__*/function (_Component) {
             }
 
             if (calendarType === 'gregorian') {
-              return 'From Date' + ' : ' + text;
+              return 'From' + ' : ' + text;
             }
 
             if (calendarType === 'jalali') {
-              return 'از تاریخ' + ' : ' + text;
+              return 'از' + ' : ' + text;
             }
           },
           onChange: start.onChange ? function (obj) {
@@ -191,8 +193,11 @@ var GAH = /*#__PURE__*/function (_Component) {
           } : undefined,
           multiselect: false,
           unit: unit,
-          calendarType: calendarType
-        })), /*#__PURE__*/_react.default.createElement(GAHBase, _extends({}, this.props, end, {
+          calendarType: calendarType,
+          rangeSide: "start"
+        })), /*#__PURE__*/_react.default.createElement(GAHBase, _extends({
+          placeHolder: calendarType === 'jalali' ? 'تا تاریخ' : 'To Date'
+        }, this.props, end, {
           value: end.value,
           setDisabled: function setDisabled(obj) {
             return _this2.setDisabled('end', obj);
@@ -206,11 +211,11 @@ var GAH = /*#__PURE__*/function (_Component) {
             }
 
             if (calendarType === 'gregorian') {
-              return 'To Date' + ' : ' + text;
+              return 'To' + ' : ' + text;
             }
 
             if (calendarType === 'jalali') {
-              return 'تا تاریخ' + ' : ' + text;
+              return 'تا' + ' : ' + text;
             }
           },
           onChange: end.onChange ? function (obj) {
@@ -218,10 +223,13 @@ var GAH = /*#__PURE__*/function (_Component) {
           } : undefined,
           multiselect: false,
           unit: unit,
-          calendarType: calendarType
+          calendarType: calendarType,
+          rangeSide: "end"
         })));
       } else {
-        return /*#__PURE__*/_react.default.createElement(GAHBase, this.props);
+        return /*#__PURE__*/_react.default.createElement(GAHBase, _extends({}, this.props, {
+          rangeSide: false
+        }));
       }
     }
   }]);
@@ -457,7 +465,8 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
       var _this$props6 = this.props,
           calendarType = _this$props6.calendarType,
           unit = _this$props6.unit,
-          setDisabled = _this$props6.setDisabled;
+          setDisabled = _this$props6.setDisabled,
+          disabled = _this$props6.disabled;
 
       if (!this.startSwipe) {
         var _this$state = this.state,
@@ -480,7 +489,7 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
           day = _this$fn$calc$getByOf2[2],
           hour = _this$fn$calc$getByOf2[3];
 
-      if (setDisabled(this.fn.validateValue([year, month, day, hour], unit), this.fn.calc)) {
+      if (disabled || setDisabled(this.fn.validateValue([year, month, day, hour], unit), this.fn.calc)) {
         return;
       }
 
@@ -848,10 +857,12 @@ function RDATE(_ref) {
           if (hour < 0) {
             hour = 0;
           }
+        } else {
+          hour = undefined;
         }
       } else if (unit === 'month') {
-        day = false;
-        hour = false;
+        day = undefined;
+        hour = undefined;
       }
 
       return {
@@ -917,12 +928,12 @@ function RDATE(_ref) {
       if (calendarType === 'jalali') {
         var gregorian = $$.calc.jalaliToGregorian([year, month, day]);
         var todayGregorian = $$.calc.jalaliToGregorian(today);
-        var _weekDayGregorian = $$.calc.getWeekDay(gregorian, 'gregorian').weekDay;
+        var weekDayGregorian = $$.calc.getWeekDay(gregorian, 'gregorian').weekDay;
         var monthStringGregorian = $$.calc.getMonths('gregorian')[month - 1];
         extra = {
           gregorian: gregorian,
           todayGregorian: todayGregorian,
-          weekDayGregorian: _weekDayGregorian,
+          weekDayGregorian: weekDayGregorian,
           monthStringGregorian: monthStringGregorian
         };
       }
@@ -993,7 +1004,6 @@ function RDATE(_ref) {
         extra = {
           gregorian: gregorian,
           todayGregorian: todayGregorian,
-          weekDayGregorian: weekDayGregorian,
           monthStringGregorian: monthStringGregorian
         };
       }
@@ -1212,6 +1222,10 @@ function RDATE(_ref) {
         if ($$.calc.isLess(date, [year, month, day, hour])) {
           return false;
         }
+
+        if ($$.calc.isEqual(date, [year, month, day, hour])) {
+          return false;
+        }
       }
 
       if (end.value) {
@@ -1233,6 +1247,10 @@ function RDATE(_ref) {
         if ($$.calc.isGreater(date, [_year2, _month2, _day2, _hour2])) {
           return false;
         }
+
+        if ($$.calc.isEqual(date, [_year2, _month2, _day2, _hour2])) {
+          return false;
+        }
       }
 
       return true;
@@ -1243,10 +1261,16 @@ function RDATE(_ref) {
           onChange = _getProps9.onChange,
           getDateStyle = _getProps9.getDateStyle,
           setDisabled = _getProps9.setDisabled,
+          Disabled = _getProps9.disabled,
           calendarType = _getProps9.calendarType,
           unit = _getProps9.unit;
 
       var disabled = setDisabled($$.getDateDetails(date, unit), $$.calc);
+
+      if (Disabled === true) {
+        disabled = true;
+      }
+
       var className = $$.getCellClassName(date, disabled);
       var onClick = disabled || !onChange ? undefined : function () {
         setState({
@@ -1261,6 +1285,10 @@ function RDATE(_ref) {
       style = { ...style,
         ...styleObj
       };
+
+      if (!disabled) {
+        style.background = theme[1];
+      }
 
       if (className.indexOf('active') !== -1) {
         style.background = theme[0];
@@ -1279,7 +1307,7 @@ function RDATE(_ref) {
         text = date[2];
       } else if (unit === 'month') {
         var months = $$.calc.getMonths(calendarType);
-        text = calendarType === 'gregorian' ? months[date[1]].slice(0, 3) : months[date[1]];
+        text = calendarType === 'gregorian' ? months[date[1] - 1].slice(0, 3) : months[date[1] - 1];
       }
 
       return /*#__PURE__*/_react.default.createElement("div", {
@@ -1311,12 +1339,7 @@ function RDATE(_ref) {
     isActive: function isActive(date) {
       var _getProps11 = getProps(),
           value = _getProps11.value,
-          multiselect = _getProps11.multiselect,
-          range = _getProps11.range;
-
-      if (range) {
-        return $$.isCellInRange(date);
-      }
+          multiselect = _getProps11.multiselect;
 
       if (multiselect) {
         return $$.getValues().indexOf($$.convertToString(date)) !== -1;
@@ -1751,8 +1774,8 @@ function RDATE(_ref) {
         className: "gah-today",
         style: {
           width: size / 2,
-          color: theme[1],
-          background: theme[0]
+          color: theme[3] || theme[1],
+          background: theme[2] || theme[0]
         }
       }, multiselect && /*#__PURE__*/_react.default.createElement(_aioButton.default, {
         type: "select",
