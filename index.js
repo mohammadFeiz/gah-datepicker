@@ -77,17 +77,46 @@ var GAH = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, GAH);
 
     _this = _super.call(this, props);
-    _this.calc = new dateCalculator();
+    _this.fn = new RDATE({
+      getProps: function getProps() {
+        var _this$state = _this.state,
+            startYear = _this$state.startYear,
+            endYear = _this$state.endYear,
+            years = _this$state.years;
+        return { ..._this.props,
+          startYear: startYear,
+          endYear: endYear,
+          years: years
+        };
+      }
+    });
+    var _this$props = _this.props,
+        calendarType = _this$props.calendarType,
+        prevYears = _this$props.prevYears,
+        nextYears = _this$props.nextYears;
+
+    var today = _this.fn.calc.getToday(calendarType);
+
+    var startYear = today[0] - prevYears;
+    var endYear = today[0] + nextYears;
+    var years = [];
+
+    for (var i = startYear; i <= endYear; i++) {
+      years.push(i);
+    }
+
+    _this.state = {
+      startYear: startYear,
+      endYear: endYear,
+      years: years
+    };
     return _this;
   }
 
   _createClass(GAH, [{
-    key: "getDateStyle",
-    value: function getDateStyle(type, obj) {
-      var _this$props$getDateSt = this.props.getDateStyle,
-          getDateStyle = _this$props$getDateSt === void 0 ? function () {
-        return {};
-      } : _this$props$getDateSt;
+    key: "getDateStyleRangeMode",
+    value: function getDateStyleRangeMode(type, obj) {
+      var getDateStyle = this.props.getDateStyle;
       var _this$props$type$getD = this.props[type].getDateStyle,
           GetDateStyle = _this$props$type$getD === void 0 ? function () {
         return {};
@@ -101,25 +130,38 @@ var GAH = /*#__PURE__*/function (_Component) {
       };
     }
   }, {
-    key: "setDisabled",
-    value: function setDisabled(type, obj) {
-      var _this$props = this.props,
-          start = _this$props.start,
-          end = _this$props.end,
-          _this$props$setDisabl = _this$props.setDisabled,
-          setDisabled = _this$props$setDisabl === void 0 ? function () {
-        return false;
-      } : _this$props$setDisabl;
+    key: "setDisabledRangeMode",
+    value: function setDisabledRangeMode(type, obj) {
+      var _this$props2 = this.props,
+          start = _this$props2.start,
+          end = _this$props2.end,
+          setDisabled = _this$props2.setDisabled;
 
-      if (type === 'start' && this.calc.isGreater(obj.dateString, end.value)) {
-        return true;
+      if (type === 'start') {
+        var _this$fn$validateValu = this.fn.validateValue(end.value),
+            year = _this$fn$validateValu.year,
+            month = _this$fn$validateValu.month,
+            day = _this$fn$validateValu.day,
+            hour = _this$fn$validateValu.hour;
+
+        if (this.fn.calc.isGreater(obj.dateString, [year, month, day, hour])) {
+          return true;
+        }
       }
 
-      if (type === 'end' && this.calc.isLess(obj.dateString, start.value)) {
-        return true;
+      if (type === 'end') {
+        var _this$fn$validateValu2 = this.fn.validateValue(start.value),
+            _year = _this$fn$validateValu2.year,
+            _month = _this$fn$validateValu2.month,
+            _day = _this$fn$validateValu2.day,
+            _hour = _this$fn$validateValu2.hour;
+
+        if (this.fn.calc.isLess(obj.dateString, [_year, _month, _day, _hour])) {
+          return true;
+        }
       }
 
-      if (setDisabled(obj, this.calc) === true) {
+      if (setDisabled(obj, this.fn.calc) === true) {
         return true;
       }
 
@@ -128,7 +170,7 @@ var GAH = /*#__PURE__*/function (_Component) {
         return false;
       } : _this$props$type$setD;
 
-      if (SetDisabled(obj, this.calc) === true) {
+      if (SetDisabled(obj, this.fn.calc) === true) {
         return true;
       }
 
@@ -139,16 +181,18 @@ var GAH = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var range = this.props.range;
+      var type = this.props.type;
+      var _this$state2 = this.state,
+          startYear = _this$state2.startYear,
+          endYear = _this$state2.endYear,
+          years = _this$state2.years;
 
-      if (range) {
-        var _this$props2 = this.props,
-            start = _this$props2.start,
-            end = _this$props2.end,
-            _this$props2$calendar = _this$props2.calendarType,
-            calendarType = _this$props2$calendar === void 0 ? 'gregorian' : _this$props2$calendar,
-            _this$props2$unit = _this$props2.unit,
-            unit = _this$props2$unit === void 0 ? 'day' : _this$props2$unit;
+      if (type === 'range') {
+        var _this$props3 = this.props,
+            start = _this$props3.start,
+            end = _this$props3.end,
+            calendarType = _this$props3.calendarType,
+            unit = _this$props3.unit;
 
         if (_typeof(start) !== 'object') {
           console.error('gah datepicker error => in range mode, start props should be an object');
@@ -170,10 +214,10 @@ var GAH = /*#__PURE__*/function (_Component) {
         }, this.props, start, {
           value: start.value,
           setDisabled: function setDisabled(obj) {
-            return _this2.setDisabled('start', obj);
+            return _this2.setDisabledRangeMode('start', obj);
           },
           getDateStyle: function getDateStyle(obj) {
-            return _this2.getDateStyle('start', obj);
+            return _this2.getDateStyleRangeMode('start', obj);
           },
           editValue: function editValue(text) {
             if (start.editValue) {
@@ -191,19 +235,20 @@ var GAH = /*#__PURE__*/function (_Component) {
           onChange: start.onChange ? function (obj) {
             return start.onChange(obj);
           } : undefined,
-          multiselect: false,
           unit: unit,
           calendarType: calendarType,
-          rangeSide: "start"
+          startYear: startYear,
+          endYear: endYear,
+          years: years
         })), /*#__PURE__*/_react.default.createElement(GAHBase, _extends({
           placeHolder: calendarType === 'jalali' ? 'تا تاریخ' : 'To Date'
         }, this.props, end, {
           value: end.value,
           setDisabled: function setDisabled(obj) {
-            return _this2.setDisabled('end', obj);
+            return _this2.setDisabledRangeMode('end', obj);
           },
           getDateStyle: function getDateStyle(obj) {
-            return _this2.getDateStyle('end', obj);
+            return _this2.getDateStyleRangeMode('end', obj);
           },
           editValue: function editValue(text) {
             if (end.editValue) {
@@ -221,14 +266,17 @@ var GAH = /*#__PURE__*/function (_Component) {
           onChange: end.onChange ? function (obj) {
             return end.onChange(obj);
           } : undefined,
-          multiselect: false,
           unit: unit,
           calendarType: calendarType,
-          rangeSide: "end"
+          startYear: startYear,
+          endYear: endYear,
+          years: years
         })));
       } else {
         return /*#__PURE__*/_react.default.createElement(GAHBase, _extends({}, this.props, {
-          rangeSide: false
+          startYear: startYear,
+          endYear: endYear,
+          years: years
         }));
       }
     }
@@ -238,6 +286,20 @@ var GAH = /*#__PURE__*/function (_Component) {
 }(_react.Component);
 
 exports.default = GAH;
+GAH.defaultProps = {
+  size: 180,
+  calendarType: 'gregorian',
+  disabled: false,
+  prevYears: 10,
+  nextYears: 20,
+  unit: 'day',
+  setDisabled: function setDisabled() {
+    return false;
+  },
+  getDateStyle: function getDateStyle() {
+    return {};
+  }
+};
 
 var GAHBase = /*#__PURE__*/function (_Component2) {
   _inherits(GAHBase, _Component2);
@@ -272,13 +334,10 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
           return _this4.SetState(obj, send);
         }
       });
-      var _this$props3 = this.props,
-          prevYears = _this$props3.prevYears,
-          nextYears = _this$props3.nextYears,
-          calendarType = _this$props3.calendarType,
-          value = _this$props3.value,
-          _this$props3$theme = _this$props3.theme,
-          theme = _this$props3$theme === void 0 ? [] : _this$props3$theme;
+      var _this$props4 = this.props,
+          value = _this$props4.value,
+          _this$props4$theme = _this$props4.theme,
+          theme = _this$props4$theme === void 0 ? [] : _this$props4$theme;
       this.icons = {
         minus: /*#__PURE__*/_react.default.createElement("svg", {
           style: {
@@ -311,56 +370,25 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
           strokeWidth: 2
         }))
       };
-      var today = this.fn.calc.getToday(calendarType);
-      var startYear = today[0] - prevYears;
-      var endYear = today[0] + nextYears;
-      var years = [];
-
-      for (var i = startYear; i <= endYear; i++) {
-        years.push(i);
-      }
-
       this.state = {
         prevValue: JSON.stringify(value),
-        startYear: startYear,
-        endYear: endYear,
-        years: years
+        ...this.fn.validateValue(value)
       };
-      this.updateState();
-    }
-  }, {
-    key: "updateState",
-    value: function updateState() {
-      var setState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props.value;
-      var obj = this.fn.validateValue(value);
-
-      if (setState) {
-        this.setState({ ...obj,
-          activeYear: obj.year,
-          activeMonth: obj.month,
-          activeDay: obj.day
-        });
-      } else {
-        this.state = { ...this.state,
-          ...obj
-        };
-      }
     }
   }, {
     key: "SetState",
     value: function SetState(obj, sendChanges) {
       var _this5 = this;
 
-      var _this$props4 = this.props,
-          onChange = _this$props4.onChange,
-          multiselect = _this$props4.multiselect;
+      var _this$props5 = this.props,
+          onChange = _this$props5.onChange,
+          type = _this$props5.type;
 
       var callback = function callback() {};
 
       if (sendChanges && onChange) {
         callback = function callback() {
-          return onChange(multiselect ? _this5.fn.updateValues(_this5.values, _this5.details.dateString) : _this5.details);
+          return onChange(type === 'multiselect' ? _this5.fn.updateValues(_this5.values, _this5.details.dateString) : _this5.details);
         };
       }
 
@@ -370,7 +398,13 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
       if (this.update) {
-        this.updateState(true);
+        var value = this.props.value;
+        var obj = this.fn.validateValue(value);
+        this.setState({ ...obj,
+          activeYear: obj.year,
+          activeMonth: obj.month,
+          activeDay: obj.day
+        });
       }
     }
   }, {
@@ -395,13 +429,13 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
     value: function renderMultiselect() {
       var _this6 = this;
 
-      var _this$props5 = this.props,
-          justCalendar = _this$props5.justCalendar,
-          calendarType = _this$props5.calendarType,
-          className = _this$props5.className,
-          icon = _this$props5.icon,
-          _onChange = _this$props5.onChange,
-          unit = _this$props5.unit;
+      var _this$props6 = this.props,
+          justCalendar = _this$props6.justCalendar,
+          calendarType = _this$props6.calendarType,
+          className = _this$props6.className,
+          icon = _this$props6.icon,
+          _onChange = _this$props6.onChange,
+          unit = _this$props6.unit;
       this.details = this.fn.getDateDetails();
       this.values = this.fn.getValues();
 
@@ -462,19 +496,19 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
       }
 
       this.lastSwipe = dy;
-      var _this$props6 = this.props,
-          calendarType = _this$props6.calendarType,
-          unit = _this$props6.unit,
-          setDisabled = _this$props6.setDisabled,
-          disabled = _this$props6.disabled;
+      var _this$props7 = this.props,
+          calendarType = _this$props7.calendarType,
+          unit = _this$props7.unit,
+          setDisabled = _this$props7.setDisabled,
+          disabled = _this$props7.disabled;
 
       if (!this.startSwipe) {
-        var _this$state = this.state,
-            _year = _this$state.year,
-            _month = _this$state.month,
-            _day = _this$state.day,
-            _hour = _this$state.hour;
-        this.startSwipe = [_year, _month, _day, _hour];
+        var _this$state3 = this.state,
+            _year2 = _this$state3.year,
+            _month2 = _this$state3.month,
+            _day2 = _this$state3.day,
+            _hour2 = _this$state3.hour;
+        this.startSwipe = [_year2, _month2, _day2, _hour2];
       }
 
       var _this$fn$calc$getByOf = this.fn.calc.getByOffset({
@@ -506,17 +540,17 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
       var _this7 = this;
 
       this.update = false;
-      var _this$props7 = this.props,
-          calendarType = _this$props7.calendarType,
-          className = _this$props7.className,
-          icon = _this$props7.icon,
-          multiselect = _this$props7.multiselect,
-          _this$props7$onChange = _this$props7.onChange,
-          onChange = _this$props7$onChange === void 0 ? function () {} : _this$props7$onChange,
-          justCalendar = _this$props7.justCalendar,
-          swipe = _this$props7.swipe;
+      var _this$props8 = this.props,
+          calendarType = _this$props8.calendarType,
+          className = _this$props8.className,
+          icon = _this$props8.icon,
+          type = _this$props8.type,
+          _this$props8$onChange = _this$props8.onChange,
+          onChange = _this$props8$onChange === void 0 ? function () {} : _this$props8$onChange,
+          justCalendar = _this$props8.justCalendar,
+          swipe = _this$props8.swipe;
 
-      if (multiselect) {
+      if (type === 'multiselect') {
         return this.renderMultiselect();
       }
 
@@ -560,21 +594,6 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
   return GAHBase;
 }(_react.Component);
 
-GAHBase.defaultProps = {
-  size: 180,
-  calendarType: 'gregorian',
-  disabled: false,
-  prevYears: 10,
-  nextYears: 20,
-  unit: 'day',
-  theme: ['dodgerblue', '#fff'],
-  setDisabled: function setDisabled() {
-    return false;
-  },
-  getDateStyle: function getDateStyle() {
-    return {};
-  }
-};
 var GAHContext = /*#__PURE__*/(0, _react.createContext)();
 
 var GAHDatePickerPopup = /*#__PURE__*/function (_Component3) {
@@ -591,19 +610,17 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component3) {
   _createClass(GAHDatePickerPopup, [{
     key: "render",
     value: function render() {
-      var _this$props8 = this.props,
-          years = _this$props8.years,
-          details = _this$props8.details,
-          fn = _this$props8.fn,
-          _this$props8$activeYe = _this$props8.activeYear,
-          activeYear = _this$props8$activeYe === void 0 ? details.year : _this$props8$activeYe,
-          _this$props8$activeMo = _this$props8.activeMonth,
-          activeMonth = _this$props8$activeMo === void 0 ? details.month : _this$props8$activeMo,
-          _this$props8$activeDa = _this$props8.activeDay,
-          activeDay = _this$props8$activeDa === void 0 ? details.day : _this$props8$activeDa,
-          details = _this$props8.details;
-      var context = { ...this.props,
-        years: years
+      var _this$props9 = this.props,
+          details = _this$props9.details,
+          fn = _this$props9.fn,
+          _this$props9$activeYe = _this$props9.activeYear,
+          activeYear = _this$props9$activeYe === void 0 ? details.year : _this$props9$activeYe,
+          _this$props9$activeMo = _this$props9.activeMonth,
+          activeMonth = _this$props9$activeMo === void 0 ? details.month : _this$props9$activeMo,
+          _this$props9$activeDa = _this$props9.activeDay,
+          activeDay = _this$props9$activeDa === void 0 ? details.day : _this$props9$activeDa,
+          details = _this$props9.details;
+      var context = { ...this.props
       };
       return /*#__PURE__*/_react.default.createElement(GAHContext.Provider, {
         value: context
@@ -638,10 +655,10 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
     key: "getCells_hour",
     value: function getCells_hour() {
       var fn = this.context.fn;
-      var _this$props9 = this.props,
-          activeYear = _this$props9.activeYear,
-          activeMonth = _this$props9.activeMonth,
-          activeDay = _this$props9.activeDay;
+      var _this$props10 = this.props,
+          activeYear = _this$props10.activeYear,
+          activeMonth = _this$props10.activeMonth,
+          activeDay = _this$props10.activeDay;
       var Hours = [];
 
       for (var hour = 0; hour < 24; hour++) {
@@ -653,9 +670,9 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
   }, {
     key: "getCells_day",
     value: function getCells_day() {
-      var _this$props10 = this.props,
-          activeYear = _this$props10.activeYear,
-          activeMonth = _this$props10.activeMonth;
+      var _this$props11 = this.props,
+          activeYear = _this$props11.activeYear,
+          activeMonth = _this$props11.activeMonth;
       var _this$context = this.context,
           calendarType = _this$context.calendarType,
           fn = _this$context.fn;
@@ -689,12 +706,12 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
           unit = _this$context2.unit,
           size = _this$context2.size,
           SetState = _this$context2.SetState;
-      var _this$props11 = this.props,
-          activeYear = _this$props11.activeYear,
-          activeMonth = _this$props11.activeMonth,
-          activeDay = _this$props11.activeDay;
+      var _this$props12 = this.props,
+          activeYear = _this$props12.activeYear,
+          activeMonth = _this$props12.activeMonth,
+          activeDay = _this$props12.activeDay;
       return /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-calendar-header-icon",
+        className: "gah-next",
         onClick: function onClick() {
           return SetState(fn.changeActivePage(sign, unit, {
             activeYear: activeYear,
@@ -719,10 +736,10 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
           SetState = _this$context3.SetState,
           _this$context3$theme = _this$context3.theme,
           theme = _this$context3$theme === void 0 ? [] : _this$context3$theme;
-      var _this$props12 = this.props,
-          activeYear = _this$props12.activeYear,
-          activeMonth = _this$props12.activeMonth,
-          activeDay = _this$props12.activeDay;
+      var _this$props13 = this.props,
+          activeYear = _this$props13.activeYear,
+          activeMonth = _this$props13.activeMonth,
+          activeDay = _this$props13.activeDay;
       var sign = calendarType === 'gregorian' ? 1 : -1;
 
       var onChange = function onChange(obj) {
@@ -730,15 +747,13 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
       };
 
       return /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-calendar-header",
+        className: "gah-header",
         style: {
           height: size / 4,
-          padding: "0 ".concat(size / 12.5, "px"),
-          background: theme[1],
-          color: theme[0]
+          padding: "0 ".concat(size / 12.5, "px")
         }
       }, this.getArrow(-sign, icons.minus), /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-month",
+        className: "gah-select",
         onClick: function onClick() {},
         style: {
           fontSize: Math.floor(size / 12)
@@ -756,9 +771,9 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
     key: "getContentday",
     value: function getContentday() {
       var fn = this.context.fn;
-      var _this$props13 = this.props,
-          activeYear = _this$props13.activeYear,
-          activeMonth = _this$props13.activeMonth;
+      var _this$props14 = this.props,
+          activeYear = _this$props14.activeYear,
+          activeMonth = _this$props14.activeMonth;
       var Spaces = fn.renderSpaces(activeYear, activeMonth, 'react'),
           WeekDays = fn.renderWeekDays('react'),
           Days = this.getCells_day(),
@@ -777,7 +792,7 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
           fn = _this$context4.fn,
           unit = _this$context4.unit;
       return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, this.getHeader(), /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-calendar-grid",
+        className: "gah-body",
         style: fn.getGridStyle('react')
       }, this['getContent' + unit]()));
     }
@@ -797,11 +812,9 @@ function RDATE(_ref) {
       var Value,
           _getProps = getProps(),
           unit = _getProps.unit,
-          calendarType = _getProps.calendarType;
-
-      var _getState = getState(),
-          startYear = _getState.startYear,
-          endYear = _getState.endYear;
+          calendarType = _getProps.calendarType,
+          startYear = _getProps.startYear,
+          endYear = _getProps.endYear;
 
       var today = $$.calc.getToday(calendarType);
       var splitter = '/';
@@ -900,14 +913,16 @@ function RDATE(_ref) {
           day = _ref3[2],
           hour = _ref3[3];
 
-      var _getState2 = getState(),
-          startYear = _getState2.startYear,
-          endYear = _getState2.endYear,
-          splitter = _getState2.splitter;
-
       var _getProps2 = getProps(),
-          calendarType = _getProps2.calendarType,
-          unit = _getProps2.unit;
+          startYear = _getProps2.startYear,
+          endYear = _getProps2.endYear;
+
+      var _getState = getState(),
+          splitter = _getState.splitter;
+
+      var _getProps3 = getProps(),
+          calendarType = _getProps3.calendarType,
+          unit = _getProps3.unit;
 
       var _$$$calc$getWeekDay = $$.calc.getWeekDay([year, month, day], calendarType),
           weekDay = _$$$calc$getWeekDay.weekDay,
@@ -979,14 +994,16 @@ function RDATE(_ref) {
           year = _ref5[0],
           month = _ref5[1];
 
-      var _getState3 = getState(),
-          startYear = _getState3.startYear,
-          endYear = _getState3.endYear,
-          splitter = _getState3.splitter;
+      var _getProps4 = getProps(),
+          startYear = _getProps4.startYear,
+          endYear = _getProps4.endYear;
 
-      var _getProps3 = getProps(),
-          calendarType = _getProps3.calendarType,
-          unit = _getProps3.unit;
+      var _getState2 = getState(),
+          splitter = _getState2.splitter;
+
+      var _getProps5 = getProps(),
+          calendarType = _getProps5.calendarType,
+          unit = _getProps5.unit;
 
       var today = $$.calc.getToday(calendarType, unit);
 
@@ -1038,22 +1055,22 @@ function RDATE(_ref) {
       };
     },
     getValue: function getValue() {
-      var _getProps4 = getProps(),
-          calendarType = _getProps4.calendarType,
-          unit = _getProps4.unit,
-          value = _getProps4.value,
-          placeHolder = _getProps4.placeHolder,
-          _getProps4$editValue = _getProps4.editValue,
-          editValue = _getProps4$editValue === void 0 ? function (text) {
+      var _getProps6 = getProps(),
+          calendarType = _getProps6.calendarType,
+          unit = _getProps6.unit,
+          value = _getProps6.value,
+          placeHolder = _getProps6.placeHolder,
+          _getProps6$editValue = _getProps6.editValue,
+          editValue = _getProps6$editValue === void 0 ? function (text) {
         return text;
-      } : _getProps4$editValue;
+      } : _getProps6$editValue;
 
-      var _getState4 = getState(),
-          splitter = _getState4.splitter,
-          year = _getState4.year,
-          month = _getState4.month,
-          day = _getState4.day,
-          hour = _getState4.hour;
+      var _getState3 = getState(),
+          splitter = _getState3.splitter,
+          year = _getState3.year,
+          month = _getState3.month,
+          day = _getState3.day,
+          hour = _getState3.hour;
 
       if (!value) {
         if (placeHolder) {
@@ -1076,9 +1093,9 @@ function RDATE(_ref) {
       }
     },
     onToday: function onToday() {
-      var _getProps5 = getProps(),
-          unit = _getProps5.unit,
-          calendarType = _getProps5.calendarType;
+      var _getProps7 = getProps(),
+          unit = _getProps7.unit,
+          calendarType = _getProps7.calendarType;
 
       var _$$$calc$getToday = $$.calc.getToday(calendarType),
           _$$$calc$getToday2 = _slicedToArray(_$$$calc$getToday, 3),
@@ -1097,9 +1114,9 @@ function RDATE(_ref) {
       });
     },
     getTodayText: function getTodayText() {
-      var _getProps6 = getProps(),
-          unit = _getProps6.unit,
-          calendarType = _getProps6.calendarType;
+      var _getProps8 = getProps(),
+          unit = _getProps8.unit,
+          calendarType = _getProps8.calendarType;
 
       return {
         hourjalali: 'ساعت کنونی',
@@ -1113,12 +1130,12 @@ function RDATE(_ref) {
       }[unit + calendarType];
     },
     searchDate: function searchDate(date, selectors) {
-      var _getProps7 = getProps(),
-          calendarType = _getProps7.calendarType,
-          disabled = _getProps7.disabled;
+      var _getProps9 = getProps(),
+          calendarType = _getProps9.calendarType,
+          disabled = _getProps9.disabled;
 
-      var _getState5 = getState(),
-          splitter = _getState5.splitter;
+      var _getState4 = getState(),
+          splitter = _getState4.splitter;
 
       if (disabled === true) {
         return true;
@@ -1194,10 +1211,10 @@ function RDATE(_ref) {
       return false;
     },
     isCellInRange: function isCellInRange(date) {
-      var _getProps8 = getProps(),
-          unit = _getProps8.unit,
-          start = _getProps8.start,
-          end = _getProps8.end;
+      var _getProps10 = getProps(),
+          unit = _getProps10.unit,
+          start = _getProps10.start,
+          end = _getProps10.end;
 
       if (!start.value && !end.value) {
         return false;
@@ -1230,25 +1247,25 @@ function RDATE(_ref) {
 
       if (end.value) {
         var _$$$validateValue2 = $$.validateValue(end.value),
-            _year2 = _$$$validateValue2.year,
-            _month2 = _$$$validateValue2.month,
-            _day2 = _$$$validateValue2.day,
-            _hour2 = _$$$validateValue2.hour;
+            _year3 = _$$$validateValue2.year,
+            _month3 = _$$$validateValue2.month,
+            _day3 = _$$$validateValue2.day,
+            _hour3 = _$$$validateValue2.hour;
 
         if (unit === 'day') {
-          _hour2 = 0;
+          _hour3 = 0;
         }
 
         if (unit === 'month') {
-          _day2 = 1;
-          _hour2 = 0;
+          _day3 = 1;
+          _hour3 = 0;
         }
 
-        if ($$.calc.isGreater(date, [_year2, _month2, _day2, _hour2])) {
+        if ($$.calc.isGreater(date, [_year3, _month3, _day3, _hour3])) {
           return false;
         }
 
-        if ($$.calc.isEqual(date, [_year2, _month2, _day2, _hour2])) {
+        if ($$.calc.isEqual(date, [_year3, _month3, _day3, _hour3])) {
           return false;
         }
       }
@@ -1256,14 +1273,15 @@ function RDATE(_ref) {
       return true;
     },
     getCell: function getCell(date) {
-      var _getProps9 = getProps(),
-          theme = _getProps9.theme,
-          onChange = _getProps9.onChange,
-          getDateStyle = _getProps9.getDateStyle,
-          setDisabled = _getProps9.setDisabled,
-          Disabled = _getProps9.disabled,
-          calendarType = _getProps9.calendarType,
-          unit = _getProps9.unit;
+      var _getProps11 = getProps(),
+          _getProps11$theme = _getProps11.theme,
+          theme = _getProps11$theme === void 0 ? [] : _getProps11$theme,
+          onChange = _getProps11.onChange,
+          getDateStyle = _getProps11.getDateStyle,
+          setDisabled = _getProps11.setDisabled,
+          Disabled = _getProps11.disabled,
+          calendarType = _getProps11.calendarType,
+          unit = _getProps11.unit;
 
       var disabled = setDisabled($$.getDateDetails(date, unit), $$.calc);
 
@@ -1287,10 +1305,10 @@ function RDATE(_ref) {
       };
 
       if (!disabled) {
-        style.background = theme[1];
+        style.background = theme[2] || theme[1];
       }
 
-      if (className.indexOf('active') !== -1) {
+      if (className.indexOf('gah-active') !== -1) {
         style.background = theme[0];
         style.color = theme[1];
       }
@@ -1318,11 +1336,11 @@ function RDATE(_ref) {
       }, disabled ? /*#__PURE__*/_react.default.createElement("del", null, text) : text);
     },
     convertToString: function convertToString(date) {
-      var _getProps10 = getProps(),
-          unit = _getProps10.unit;
+      var _getProps12 = getProps(),
+          unit = _getProps12.unit;
 
-      var _getState6 = getState(),
-          splitter = _getState6.splitter;
+      var _getState5 = getState(),
+          splitter = _getState5.splitter;
 
       if (unit === 'hour') {
         return "".concat(date[0]).concat(splitter).concat(date[1]).concat(splitter).concat(date[2]).concat(splitter).concat(date[3]);
@@ -1337,11 +1355,11 @@ function RDATE(_ref) {
       }
     },
     isActive: function isActive(date) {
-      var _getProps11 = getProps(),
-          value = _getProps11.value,
-          multiselect = _getProps11.multiselect;
+      var _getProps13 = getProps(),
+          value = _getProps13.value,
+          type = _getProps13.type;
 
-      if (multiselect) {
+      if (type === 'multiselect') {
         return $$.getValues().indexOf($$.convertToString(date)) !== -1;
       }
 
@@ -1349,26 +1367,26 @@ function RDATE(_ref) {
         return false;
       }
 
-      var _getState7 = getState(),
-          year = _getState7.year,
-          month = _getState7.month,
-          day = _getState7.day,
-          hour = _getState7.hour;
+      var _getState6 = getState(),
+          year = _getState6.year,
+          month = _getState6.month,
+          day = _getState6.day,
+          hour = _getState6.hour;
 
       return $$.convertToString([year, month, day, hour]) === $$.convertToString(date);
     },
     getCellClassName: function getCellClassName(date, disabled) {
-      var _getProps12 = getProps(),
-          calendarType = _getProps12.calendarType;
+      var _getProps14 = getProps(),
+          calendarType = _getProps14.calendarType;
 
       var str = 'gah-cell';
 
       if (disabled) {
-        str += ' disabled';
+        str += ' gah-disabled';
       }
 
       if ($$.isActive(date)) {
-        str += ' active';
+        str += ' gah-active';
       }
 
       if ($$.convertToString($$.calc.getToday(calendarType)) === $$.convertToString(date)) {
@@ -1383,9 +1401,9 @@ function RDATE(_ref) {
     changeActivePage_month: function changeActivePage_month(value, _ref6) {
       var activeYear = _ref6.activeYear;
 
-      var _getState8 = getState(),
-          startYear = _getState8.startYear,
-          endYear = _getState8.endYear;
+      var _getProps15 = getProps(),
+          startYear = _getProps15.startYear,
+          endYear = _getProps15.endYear;
 
       if (value === 1) {
         if (activeYear === endYear) {
@@ -1409,9 +1427,9 @@ function RDATE(_ref) {
       var activeYear = _ref7.activeYear,
           activeMonth = _ref7.activeMonth;
 
-      var _getState9 = getState(),
-          startYear = _getState9.startYear,
-          endYear = _getState9.endYear;
+      var _getProps16 = getProps(),
+          startYear = _getProps16.startYear,
+          endYear = _getProps16.endYear;
 
       if (value === 1) {
         if (activeMonth === 12) {
@@ -1447,12 +1465,12 @@ function RDATE(_ref) {
           activeMonth = _ref8.activeMonth,
           activeDay = _ref8.activeDay;
 
-      var _getState10 = getState(),
-          startYear = _getState10.startYear,
-          endYear = _getState10.endYear;
+      var _getProps17 = getProps(),
+          startYear = _getProps17.startYear,
+          endYear = _getProps17.endYear;
 
-      var _getProps13 = getProps(),
-          calendarType = _getProps13.calendarType;
+      var _getProps18 = getProps(),
+          calendarType = _getProps18.calendarType;
 
       if (value === 1) {
         var daysLength = $$.calc.getMonthDaysLength(activeYear, activeMonth, calendarType);
@@ -1499,14 +1517,12 @@ function RDATE(_ref) {
       };
     },
     getGridStyle: function getGridStyle() {
-      var platform = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'react';
-
-      var _getProps14 = getProps(),
-          size = _getProps14.size,
-          calendarType = _getProps14.calendarType,
-          unit = _getProps14.unit,
-          _getProps14$theme = _getProps14.theme,
-          theme = _getProps14$theme === void 0 ? [] : _getProps14$theme;
+      var _getProps19 = getProps(),
+          size = _getProps19.size,
+          calendarType = _getProps19.calendarType,
+          unit = _getProps19.unit,
+          _getProps19$theme = _getProps19.theme,
+          theme = _getProps19$theme === void 0 ? [] : _getProps19$theme;
 
       var columnCount = {
         hour: 4,
@@ -1539,31 +1555,22 @@ function RDATE(_ref) {
       }
 
       var direction = calendarType === 'gregorian' ? 'ltr' : 'rtl';
-
-      if (platform === 'react') {
-        return {
-          gridTemplateColumns: gridTemplateColumns,
-          gridTemplateRows: gridTemplateRows,
-          direction: direction,
-          padding: padding,
-          fontSize: fontSize,
-          background: theme[1],
-          color: theme[0]
-        };
-      } else if (platform === 'jquery') {
-        return "grid-template-columns:".concat(gridTemplateColumns, ";grid-template-rows:").concat(gridTemplateRows, ";direction:").concat(direction, ";padding:").concat(padding, "px;font-size:").concat(fontSize, "px;");
-      }
+      return {
+        gridTemplateColumns: gridTemplateColumns,
+        gridTemplateRows: gridTemplateRows,
+        direction: direction,
+        padding: padding,
+        fontSize: fontSize
+      };
     },
     getGridHeaderValue: function getGridHeaderValue(activeYear, activeMonth, activeDay, _onChange2) {
-      var _getProps15 = getProps(),
-          calendarType = _getProps15.calendarType,
-          unit = _getProps15.unit,
-          _getProps15$theme = _getProps15.theme,
-          theme = _getProps15$theme === void 0 ? [] : _getProps15$theme,
-          size = _getProps15.size;
-
-      var _getState11 = getState(),
-          years = _getState11.years;
+      var _getProps20 = getProps(),
+          calendarType = _getProps20.calendarType,
+          unit = _getProps20.unit,
+          _getProps20$theme = _getProps20.theme,
+          theme = _getProps20$theme === void 0 ? [] : _getProps20$theme,
+          size = _getProps20.size,
+          years = _getProps20.years;
 
       var D = '';
       var M = '';
@@ -1683,8 +1690,8 @@ function RDATE(_ref) {
     renderWeekDays: function renderWeekDays() {
       var platform = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'react';
 
-      var _getProps16 = getProps(),
-          calendarType = _getProps16.calendarType;
+      var _getProps21 = getProps(),
+          calendarType = _getProps21.calendarType;
 
       var weekDays = $$.calc.getWeekDays(calendarType),
           cls = 'gah-weekday gah-cell';
@@ -1729,8 +1736,8 @@ function RDATE(_ref) {
     renderSpaces: function renderSpaces(activeYear, activeMonth) {
       var platform = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'react';
 
-      var _getProps17 = getProps(),
-          calendarType = _getProps17.calendarType;
+      var _getProps22 = getProps(),
+          calendarType = _getProps22.calendarType;
 
       var firstDayWeekDayIndex = $$.calc.getWeekDay([activeYear, activeMonth, 1], calendarType).index;
 
@@ -1756,15 +1763,15 @@ function RDATE(_ref) {
       }
     },
     getTodayContent: function getTodayContent(details) {
-      var _getProps18 = getProps(),
-          multiselect = _getProps18.multiselect,
-          calendarType = _getProps18.calendarType,
-          size = _getProps18.size,
-          unit = _getProps18.unit,
-          _getProps18$theme = _getProps18.theme,
-          theme = _getProps18$theme === void 0 ? [] : _getProps18$theme,
-          _onChange3 = _getProps18.onChange,
-          showTag = _getProps18.showTag;
+      var _getProps23 = getProps(),
+          type = _getProps23.type,
+          calendarType = _getProps23.calendarType,
+          size = _getProps23.size,
+          unit = _getProps23.unit,
+          _getProps23$theme = _getProps23.theme,
+          theme = _getProps23$theme === void 0 ? [] : _getProps23$theme,
+          _onChange3 = _getProps23.onChange,
+          showTag = _getProps23.showTag;
 
       var month = details.todayMonthString;
       var week = details.todayWeekDay;
@@ -1774,10 +1781,10 @@ function RDATE(_ref) {
         className: "gah-today",
         style: {
           width: size / 2,
-          color: theme[3] || theme[1],
-          background: theme[2] || theme[0]
+          color: theme[1],
+          background: theme[0]
         }
-      }, multiselect && /*#__PURE__*/_react.default.createElement(_aioButton.default, {
+      }, type === 'multiselect' && /*#__PURE__*/_react.default.createElement(_aioButton.default, {
         type: "select",
         openRelatedTo: ".gah-popup",
         style: {
@@ -1845,29 +1852,25 @@ function RDATE(_ref) {
       }, today[3] + ':00'));
     },
     getPopupStyle: function getPopupStyle() {
-      var platform = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'react';
+      var _getProps24 = getProps(),
+          size = _getProps24.size,
+          disabled = _getProps24.disabled,
+          _getProps24$theme = _getProps24.theme,
+          theme = _getProps24$theme === void 0 ? [] : _getProps24$theme;
 
-      var _getProps19 = getProps(),
-          size = _getProps19.size,
-          disabled = _getProps19.disabled;
-
-      if (platform === 'react') {
-        return {
-          width: size,
-          fontSize: size / 17,
-          cursor: disabled ? 'not-allowed' : undefined
-        };
-      }
-
-      if (platform === 'jquery') {
-        return "width:".concat(size, "px;font-size:").concat(size / 17, "px;").concat(disabled ? ' cursor:not-allowed;' : '');
-      }
+      return {
+        width: size,
+        fontSize: size / 17,
+        cursor: disabled ? 'not-allowed' : undefined,
+        background: theme[2] || theme[1],
+        color: theme[3] || theme[0]
+      };
     },
     getValues: function getValues() {
-      var _getProps20 = getProps(),
-          unit = _getProps20.unit,
-          _getProps20$values = _getProps20.values,
-          values = _getProps20$values === void 0 ? [] : _getProps20$values;
+      var _getProps25 = getProps(),
+          unit = _getProps25.unit,
+          _getProps25$values = _getProps25.values,
+          values = _getProps25$values === void 0 ? [] : _getProps25$values;
 
       var result = [];
 
@@ -1910,13 +1913,13 @@ function RDATE(_ref) {
       return values;
     },
     renderFooter: function renderFooter(details) {
-      var _getProps21 = getProps(),
-          onClear = _getProps21.onClear,
-          disabled = _getProps21.disabled,
-          size = _getProps21.size,
-          calendarType = _getProps21.calendarType,
-          _getProps21$theme = _getProps21.theme,
-          theme = _getProps21$theme === void 0 ? [] : _getProps21$theme;
+      var _getProps26 = getProps(),
+          onClear = _getProps26.onClear,
+          disabled = _getProps26.disabled,
+          size = _getProps26.size,
+          calendarType = _getProps26.calendarType,
+          _getProps26$theme = _getProps26.theme,
+          theme = _getProps26$theme === void 0 ? [] : _getProps26$theme;
 
       if (disabled) {
         return '';
@@ -1926,13 +1929,12 @@ function RDATE(_ref) {
         padding: "".concat(size / 20, "px 0")
       };
       return /*#__PURE__*/_react.default.createElement("div", {
-        className: "gah-calendar-footer",
+        className: "gah-footer",
         style: {
-          fontSize: size / 13,
-          background: theme[1],
-          color: theme[0]
+          fontSize: size / 13
         }
       }, onClear && /*#__PURE__*/_react.default.createElement("button", {
+        className: "gah-button",
         style: buttonStyle,
         onClick: function onClick() {
           return onClear(details);
@@ -1941,6 +1943,7 @@ function RDATE(_ref) {
         'gregorian': 'Clear',
         'jalali': 'حذف'
       }[calendarType]), /*#__PURE__*/_react.default.createElement("button", {
+        className: "gah-button",
         style: buttonStyle,
         onClick: function onClick() {
           return $$.onToday();

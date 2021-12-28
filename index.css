@@ -24,6 +24,8 @@ body{
     justify-content: center;
     align-items: center;
     position:relative;
+    background:dodgerblue;
+    color:#fff;
   }
   .gah-calendar{
     user-select:none;
@@ -31,37 +33,39 @@ body{
     direction: ltr;
     display:flex;
     flex-direction: column;
+    stroke:#333;
   }
-    .gah-calendar-header{
+    .gah-header{
       display:flex;
       align-items: center;
       justify-content: center;
       position:relative;
       direction:lrt;
     }
-      .gah-calendar-header-icon{
+      .gah-next{
         display:flex;
         align-items: center;
         z-index:1;
         justify-content: center;
         border-radius:100%;
+        stroke:inherit;
       }
-    .gah-calendar-footer{
-      display:flex;
-      justify-content: flex-end;
-      direction:ltr;
-    }
-  .gah-calendar-footer button{
-    background:none;
-    font-weight: bold;
-    border:none;
-    font-size:inherit;
-    cursor:pointer;
-    outline:none;
-    flex:1;
-    margin:0 1px;
-    color:inherit;
-  }
+.gah-footer{
+display:flex;
+justify-content: flex-end;
+direction:ltr;
+}
+.gah-button{
+background:none;
+font-weight: bold;
+border:none;
+font-size:inherit;
+cursor:pointer;
+outline:none;
+flex:1;
+margin:0 1px;
+color:inherit;
+}
   .gah-calendar option{
     font-size:16px;
     padding:6px 0;
@@ -80,21 +84,7 @@ body{
     width:100%;
     align-items: center;
   }
-  
-  
-  .gah-step{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor:pointer;
-  }
-  .gah-step svg{
-    opacity:0.3;
-  }
-  .gah-step:hover svg{
-    opacity:1;
-  }
-  .gah-month{
+  .gah-select{
     flex:1;
     display: flex;
     align-items: center;
@@ -102,7 +92,7 @@ body{
     z-index:1;
     cursor:pointer;
   }
-  .gah-calendar-grid{
+  .gah-body{
     display:grid;
     flex:1 1;
     position: relative;
@@ -137,14 +127,19 @@ body{
     justify-content: center;
     position: relative; 
     outline:none;
+    background:#fff;
   }
-  .gah-cell.disabled{
+  .gah-cell.gah-disabled{
     box-shadow:none;
     border-radius:0;
     opacity:0.3;
     background:rgba(128,128,128,.8);
     color:#fff;
     cursor:not-allowed !important;
+  }
+  .gah-cell.gah-active{
+    background:dodgerblue;
+    color:#fff;
   }
   
   .gah-weekday{
@@ -177,7 +172,7 @@ body{
       border:none !important;
       background:none !important;
   }
-.gah-cell:not(.gah-weekday):not(.gah-space):not(.disabled):hover{
+.gah-cell:not(.gah-weekday):not(.gah-space):not(.gah-disabled):hover{
   position: relative;
   transform: scale(1.2);
   box-shadow:2px 2px 5px 0 rgba(0,0,0,.3);

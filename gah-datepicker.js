@@ -4,10 +4,22 @@ import './index.css';
 export default class GAH extends Component{
   constructor(props){
     super(props);
-    this.calc = new dateCalculator();
+    this.fn = new RDATE({
+      getProps:()=>{
+        let {startYear,endYear,years} = this.state;
+        return {...this.props,startYear,endYear,years}
+      }
+    })
+    let {calendarType,prevYears,nextYears} = this.props;
+    let today = this.fn.calc.getToday(calendarType);
+    let startYear = today[0] - prevYears;
+    let endYear = today[0] + nextYears;
+    let years = [];
+    for(var i = startYear; i <= endYear; i++){years.push(i);}
+    this.state = {startYear,endYear,years};
   }
-  getDateStyle(type,obj){
-    let {getDateStyle = ()=>{return {}}} = this.props;
+  getDateStyleRangeMode(type,obj){
+    let {getDateStyle} = this.props;
     let {getDateStyle:GetDateStyle = ()=>{return {}}} = this.props[type]
     let selfDateStyle = GetDateStyle(obj) || {}
     selfDateStyle = typeof selfDateStyle === 'object'?selfDateStyle:{};
@@ -15,19 +27,26 @@ export default class GAH extends Component{
     allDateStyle = typeof allDateStyle === 'object'?allDateStyle:{};
     return {...allDateStyle,...selfDateStyle}
   }
-  setDisabled(type,obj){
-    let {start,end,setDisabled = ()=>false} = this.props;
-    if(type === 'start' && this.calc.isGreater(obj.dateString,end.value)){return true}
-    if(type === 'end' && this.calc.isLess(obj.dateString,start.value)){return true}
-    if(setDisabled(obj,this.calc) === true){return true}
+  setDisabledRangeMode(type,obj){
+    let {start,end,setDisabled} = this.props;
+    if(type === 'start'){
+      let {year,month,day,hour} = this.fn.validateValue(end.value);
+      if(this.fn.calc.isGreater(obj.dateString,[year,month,day,hour])){return true}
+    }
+    if(type === 'end'){
+      let {year,month,day,hour} = this.fn.validateValue(start.value);
+      if(this.fn.calc.isLess(obj.dateString,[year,month,day,hour])){return true}
+    }
+    if(setDisabled(obj,this.fn.calc) === true){return true}
     let {setDisabled:SetDisabled = ()=>false} = this.props[type];
-    if(SetDisabled(obj,this.calc) === true){return true}
+    if(SetDisabled(obj,this.fn.calc) === true){return true}
     return false
   }
   render(){
-    let {range} = this.props;
-    if(range){
-      let {start,end,calendarType = 'gregorian',unit = 'day'} = this.props;
+    let {type} = this.props;
+    let {startYear,endYear,years} = this.state;
+    if(type === 'range'){
+      let {start,end,calendarType,unit} = this.props;
       if(typeof start !== 'object'){
         console.error('gah datepicker error => in range mode, start props should be an object');
         return null
@@ -43,8 +62,8 @@ export default class GAH extends Component{
             {...this.props}
             {...start} 
             value={start.value} 
-            setDisabled={(obj)=>this.setDisabled('start',obj)}
-            getDateStyle={(obj)=>this.getDateStyle('start',obj)}
+            setDisabled={(obj)=>this.setDisabledRangeMode('start',obj)}
+            getDateStyle={(obj)=>this.getDateStyleRangeMode('start',obj)}
             editValue={(text)=>{
               if(start.editValue){return start.editValue(text)}
               if(calendarType === 'gregorian'){return 'From' + ' : ' + text;}
@@ -52,34 +71,41 @@ export default class GAH extends Component{
               
             }}
             onChange={start.onChange?(obj)=>start.onChange(obj):undefined}
-            multiselect={false}
             unit={unit}
             calendarType={calendarType}
-            rangeSide='start'
+            startYear={startYear}
+            endYear={endYear}
+            years={years}
           />
           <GAHBase 
             placeHolder={calendarType === 'jalali'?'تا تاریخ':'To Date'}
             {...this.props}
             {...end} 
             value={end.value}
-            setDisabled={(obj)=>this.setDisabled('end',obj)}
-            getDateStyle={(obj)=>this.getDateStyle('end',obj)}
+            setDisabled={(obj)=>this.setDisabledRangeMode('end',obj)}
+            getDateStyle={(obj)=>this.getDateStyleRangeMode('end',obj)}
             editValue={(text)=>{
               if(end.editValue){return end.editValue(text)}
               if(calendarType === 'gregorian'){return 'To' + ' : ' + text;}
               if(calendarType === 'jalali'){return 'تا' + ' : ' + text;}
             }}
             onChange={end.onChange?(obj)=>end.onChange(obj):undefined}
-            multiselect={false}
             unit={unit}
             calendarType={calendarType}
-            rangeSide='end'
+            startYear={startYear}
+            endYear={endYear}
+            years={years}
           />
         </div>
       )
     }
-    else{return <GAHBase {...this.props} rangeSide={false}/>}
+    else{return <GAHBase {...this.props} startYear={startYear} endYear={endYear} years={years}/>}
   }
+}
+GAH.defaultProps = {
+  size:180,calendarType:'gregorian',disabled:false,
+  prevYears:10,nextYears:20,unit:'day',
+  setDisabled:()=>false,getDateStyle:()=>{return {}}
 }
 class GAHBase extends Component{
   constructor(props){
@@ -92,7 +118,7 @@ class GAHBase extends Component{
       getProps:()=>this.props,
       setState:(obj,send)=>this.SetState(obj,send)
     });
-    var {prevYears,nextYears,calendarType,value,theme = []} = this.props;
+    var {value,theme = []} = this.props;
     this.icons = {
       minus:(
         <svg style={{width:"24px",height:"24px"}} width={24} height={24} stroke={theme[0]}>
@@ -105,28 +131,23 @@ class GAHBase extends Component{
         </svg>
       )
     }
-    let today = this.fn.calc.getToday(calendarType);
-    let startYear = today[0] - prevYears;
-    let endYear = today[0] + nextYears;
-    let years = [];
-    for(var i = startYear; i <= endYear; i++){years.push(i);}
-    this.state = {prevValue:JSON.stringify(value),startYear,endYear,years};
-    this.updateState();
-  }
-  updateState(setState = false,value = this.props.value){
-    var obj = this.fn.validateValue(value);
-    if(setState){this.setState({...obj,activeYear:obj.year,activeMonth:obj.month,activeDay:obj.day})}
-    else{this.state = {...this.state,...obj};}
+    this.state = {prevValue:JSON.stringify(value),...this.fn.validateValue(value)};
   }
   SetState(obj,sendChanges){
-    var {onChange,multiselect} = this.props;
+    var {onChange,type} = this.props;
     let callback = ()=>{};
     if(sendChanges && onChange){
-      callback = ()=>onChange(multiselect?this.fn.updateValues(this.values,this.details.dateString):this.details)
+      callback = ()=>onChange(type === 'multiselect'?this.fn.updateValues(this.values,this.details.dateString):this.details)
     }
     this.setState(obj,callback);
   }
-  componentDidUpdate(){if(this.update){this.updateState(true);}}
+  componentDidUpdate(){
+    if(this.update){
+      let {value} = this.props;
+      let obj = this.fn.validateValue(value);
+      this.setState({...obj,activeYear:obj.year,activeMonth:obj.month,activeDay:obj.day})
+    }
+  }
   getPopup(){
     return (
       <div className='gah-popup' style={{display:'flex'}}>
@@ -189,8 +210,8 @@ class GAHBase extends Component{
   }
   render(){
     this.update = false;
-    var {calendarType,className,icon,multiselect,onChange = ()=>{},justCalendar,swipe} = this.props;
-    if(multiselect){return this.renderMultiselect()}
+    var {calendarType,className,icon,type,onChange = ()=>{},justCalendar,swipe} = this.props;
+    if(type === 'multiselect'){return this.renderMultiselect()}
     if(JSON.stringify(this.props.value) !== this.state.prevValue){
       this.state.prevValue = JSON.stringify(this.props.value);
       this.update = true;
@@ -221,20 +242,14 @@ class GAHBase extends Component{
     )
   }
 }
-GAHBase.defaultProps = {
-  size:180,calendarType:'gregorian',disabled:false,
-  prevYears:10,nextYears:20,unit:'day',theme:['dodgerblue','#fff'],
-  setDisabled:()=>false,getDateStyle:()=>{return {}}
-}
-
 var GAHContext = createContext();
 class GAHDatePickerPopup extends Component {
   render(){
-    var {years,details,fn,activeYear = details.year,activeMonth = details.month,activeDay = details.day,details} = this.props;
-    var context = {...this.props,years}
+    var {details,fn,activeYear = details.year,activeMonth = details.month,activeDay = details.day,details} = this.props;
+    var context = {...this.props}
     return (
       <GAHContext.Provider value={context}>
-        <div className={`gah-calendar`} style={{...fn.getPopupStyle('react')}}>
+        <div className='gah-calendar' style={{...fn.getPopupStyle('react')}}>
           <GAHDatePickerGrid details={details} activeYear={activeYear} activeMonth={activeMonth} activeDay={activeDay}/>
           {fn.renderFooter(details)}
         </div>
@@ -278,7 +293,7 @@ class GAHDatePickerGrid extends Component{
     var {activeYear,activeMonth,activeDay} = this.props;
     return (
       <div 
-        className='gah-calendar-header-icon' 
+        className='gah-next' 
         onClick={()=>SetState(fn.changeActivePage(sign,unit,{activeYear,activeMonth,activeDay}))}
         style={{width:size / 7,height:size / 7}}
       >{icon}</div>
@@ -292,9 +307,9 @@ class GAHDatePickerGrid extends Component{
       SetState(obj)
     }
     return (
-      <div className='gah-calendar-header' style={{height:size / 4,padding:`0 ${size / 12.5}px`,background:theme[1],color:theme[0]}}>
+      <div className='gah-header' style={{height:size / 4,padding:`0 ${size / 12.5}px`}}>
           {this.getArrow(-sign,icons.minus)}
-          <div className='gah-month' onClick={()=>{}} style={{fontSize:Math.floor(size / 12)}}>
+          <div className='gah-select' onClick={()=>{}} style={{fontSize:Math.floor(size / 12)}}>
             {fn.getGridHeaderValue(activeYear,activeMonth,activeDay,(obj)=>onChange(obj))}
           </div>
           {this.getArrow(sign,icons.plus)}
@@ -317,7 +332,7 @@ class GAHDatePickerGrid extends Component{
     return (
       <>
         {this.getHeader()}
-        <div className='gah-calendar-grid' style={fn.getGridStyle('react')}>{this['getContent' + unit]()}</div>
+        <div className='gah-body' style={fn.getGridStyle('react')}>{this['getContent' + unit]()}</div>
       </>
     )
   }
@@ -326,8 +341,7 @@ class GAHDatePickerGrid extends Component{
 export function RDATE({getState,getProps,setState}){
   let $$ = {
     validateValue(value){
-      let Value,{unit,calendarType} = getProps();
-      let {startYear,endYear} = getState();
+      let Value,{unit,calendarType,startYear,endYear} = getProps();
       let today = $$.calc.getToday(calendarType);
       let splitter = '/';
       if(typeof value === 'string'){
@@ -364,7 +378,8 @@ export function RDATE({getState,getProps,setState}){
       return $$.getDateDetails_day(o,true);
     },
     getDateDetails_day([year,month,day,hour],hourType){
-      let {startYear,endYear,splitter} = getState();
+      let {startYear,endYear} = getProps();
+      let {splitter} = getState();
       var {calendarType,unit} = getProps();
       var {weekDay,index:weekDayIndex} = $$.calc.getWeekDay([year,month,day],calendarType);
       var {weekDay:monthFirstDayWeekDay} = $$.calc.getWeekDay([year,month,1],calendarType);
@@ -397,7 +412,8 @@ export function RDATE({getState,getProps,setState}){
       }
     },
     getDateDetails_month([year,month]){
-      let {startYear,endYear,splitter} = getState();
+      let {startYear,endYear} = getProps();
+      let {splitter} = getState();
       var {calendarType,unit} = getProps();
       var today = $$.calc.getToday(calendarType,unit);
       var {weekDay:todayWeekDay,index:todayWeekDayIndex} = $$.calc.getWeekDay(today,calendarType);
@@ -503,7 +519,7 @@ export function RDATE({getState,getProps,setState}){
       return true;
     },
     getCell(date){
-      let {theme,onChange,getDateStyle,setDisabled,disabled:Disabled,calendarType,unit} = getProps();
+      let {theme = [],onChange,getDateStyle,setDisabled,disabled:Disabled,calendarType,unit} = getProps();
       let disabled = setDisabled($$.getDateDetails(date,unit),$$.calc);
       if(Disabled === true){disabled = true}
       let className = $$.getCellClassName(date,disabled);
@@ -511,8 +527,8 @@ export function RDATE({getState,getProps,setState}){
       let style = {};
       let styleObj = getDateStyle($$.getDateDetails(date,unit),$$.calc) || {};
       style={...style,...styleObj} 
-      if(!disabled){style.background = theme[1];}
-      if(className.indexOf('active') !== -1){
+      if(!disabled){style.background = theme[2] || theme[1];}
+      if(className.indexOf('gah-active') !== -1){
         style.background = theme[0];
         style.color = theme[1];
       }
@@ -536,8 +552,8 @@ export function RDATE({getState,getProps,setState}){
       if(unit === 'month'){return `${date[0]}${splitter}${date[1]}`;} 
     },
     isActive(date){
-      let {value,multiselect} = getProps();
-      if(multiselect){return $$.getValues().indexOf($$.convertToString(date)) !== -1;}
+      let {value,type} = getProps();
+      if(type === 'multiselect'){return $$.getValues().indexOf($$.convertToString(date)) !== -1;}
       if(!value){return false}
       let {year,month,day,hour} = getState();
       return $$.convertToString([year,month,day,hour]) === $$.convertToString(date)
@@ -545,14 +561,14 @@ export function RDATE({getState,getProps,setState}){
     getCellClassName(date,disabled){
       let {calendarType} = getProps();
       var str = 'gah-cell';
-      if(disabled){str += ' disabled'}
-      if($$.isActive(date)){str += ' active';}
+      if(disabled){str += ' gah-disabled'}
+      if($$.isActive(date)){str += ' gah-active';}
       if($$.convertToString($$.calc.getToday(calendarType)) === $$.convertToString(date)){str += ' today';}
       return str;
     },
     changeActivePage(value,unit,obj){return $$['changeActivePage_' + unit](value,obj);},
     changeActivePage_month(value,{activeYear}){
-      var {startYear,endYear} = getState();
+      var {startYear,endYear} = getProps();
       if(value === 1){
           if(activeYear === endYear){return;}
           activeYear++;
@@ -564,7 +580,7 @@ export function RDATE({getState,getProps,setState}){
       return {activeYear};
     },
     changeActivePage_day(value,{activeYear,activeMonth}){
-      var {startYear,endYear} = getState();
+      var {startYear,endYear} = getProps();
       if(value === 1){
         if(activeMonth === 12){
           if(activeYear === endYear){return;}
@@ -584,7 +600,7 @@ export function RDATE({getState,getProps,setState}){
       return {activeYear,activeMonth};
     },
     changeActivePage_hour(value,{activeYear,activeMonth,activeDay}){
-      var {startYear,endYear} = getState();
+      var {startYear,endYear} = getProps();
       var {calendarType} = getProps();
       if(value === 1){
         let daysLength = $$.calc.getMonthDaysLength(activeYear,activeMonth,calendarType)
@@ -625,7 +641,7 @@ export function RDATE({getState,getProps,setState}){
       }
       return {activeYear,activeMonth,activeDay};
     },
-    getGridStyle(platform = 'react'){
+    getGridStyle(){
       let {size,calendarType,unit,theme = []} = getProps();
       var columnCount = {hour:4,day:7,month:3}[unit];
       var rowCount = {hour:6,day:7,month:4}[unit]; 
@@ -641,16 +657,10 @@ export function RDATE({getState,getProps,setState}){
         gridTemplateRows += (rowHeight) + 'px' + (i !== rowCount?' ':'')
       }
       let direction = calendarType === 'gregorian'?'ltr':'rtl';
-      if(platform === 'react'){
-        return{gridTemplateColumns,gridTemplateRows,direction,padding,fontSize,background:theme[1],color:theme[0]}
-      }
-      else if(platform === 'jquery'){
-        return `grid-template-columns:${gridTemplateColumns};grid-template-rows:${gridTemplateRows};direction:${direction};padding:${padding}px;font-size:${fontSize}px;`
-      }
+      return{gridTemplateColumns,gridTemplateRows,direction,padding,fontSize}
     },
     getGridHeaderValue(activeYear,activeMonth,activeDay,onChange){
-      var {calendarType,unit,theme = [],size} = getProps();
-      let {years} = getState();
+      var {calendarType,unit,theme = [],size,years} = getProps();
       let D = '';
       let M = '';
       if(unit === 'hour'){
@@ -728,15 +738,15 @@ export function RDATE({getState,getProps,setState}){
       }
     },
     getTodayContent(details){
-      let {multiselect,calendarType,size,unit,theme = [],onChange,showTag} = getProps();
+      let {type,calendarType,size,unit,theme = [],onChange,showTag} = getProps();
       let month = details.todayMonthString;
       let week = details.todayWeekDay;
       let today = details.today;
       let values = $$.getValues();
       return (
-        <div className='gah-today' style={{width:size / 2,color:theme[3] || theme[1],background:theme[2] || theme[0]}}>
+        <div className='gah-today' style={{width:size / 2,color:theme[1],background:theme[0]}}>
           {
-            multiselect &&
+            type === 'multiselect' &&
             <AIOButton
               type='select'
               openRelatedTo='.gah-popup'
@@ -768,14 +778,9 @@ export function RDATE({getState,getProps,setState}){
         </div>
       )
     },
-    getPopupStyle(platform = 'react'){
-      var {size,disabled} = getProps();
-      if(platform === 'react'){
-        return {width:size,fontSize:size / 17,cursor:disabled?'not-allowed':undefined};
-      }
-      if(platform === 'jquery'){
-        return `width:${size}px;font-size:${size / 17}px;${disabled?' cursor:not-allowed;':''}`;
-      }
+    getPopupStyle(){
+      var {size,disabled,theme = []} = getProps();
+      return {width:size,fontSize:size / 17,cursor:disabled?'not-allowed':undefined,background:theme[2] || theme[1],color:theme[3] || theme[0]};
     },
     getValues(){
       let {unit,values = []} = getProps();
@@ -810,14 +815,14 @@ export function RDATE({getState,getProps,setState}){
       if(disabled){return ''}
       let buttonStyle = {padding:`${size / 20}px 0`};
       return (
-        <div className='gah-calendar-footer' style={{fontSize:size / 13,background:theme[1],color:theme[0]}}>
+        <div className='gah-footer' style={{fontSize:size / 13}}>
           {
             onClear &&  
-            <button style={buttonStyle} onClick={()=>onClear(details)}>
+            <button className='gah-button' style={buttonStyle} onClick={()=>onClear(details)}>
               {{'gregorian':'Clear','jalali':'حذف'}[calendarType]}
             </button>
           }
-          <button style={buttonStyle} onClick={()=>$$.onToday()}>{$$.getTodayText()}</button>
+          <button className='gah-button' style={buttonStyle} onClick={()=>$$.onToday()}>{$$.getTodayText()}</button>
         </div>
       )
     }
