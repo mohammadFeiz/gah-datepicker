@@ -100,6 +100,35 @@ open | boolean | false | show calendar in first render.
 
 # css styling
 - ##### styling datepicker by css based on elements classes.
+```javascript
+.gah-cell{
+  color:#333;
+  background:lightseagreen
+}
+.gah-cell.gah-disabled{
+  background: midnightblue; 
+}
+.gah-cell.gah-active{
+  background:yellow;
+  color:#333;
+}
+.gah-today{
+  background:red;
+  color:#fff;
+}
+.gah-header{
+  background:steelblue;
+  color:orange;
+  stroke:orange;
+}
+.gah-body{
+  background: chartreuse;
+}
+.gah-footer{
+  color:#666;
+  background:lightcoral
+}
+```
 ![alt text](/images/34.jpg)
 
 
