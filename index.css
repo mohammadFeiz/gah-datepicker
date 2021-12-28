@@ -132,8 +132,7 @@ color:inherit;
   .gah-cell.gah-disabled{
     box-shadow:none;
     border-radius:0;
-    opacity:0.3;
-    background:rgba(128,128,128,.8);
+    background:rgba(128,128,128,.2);
     color:#fff;
     cursor:not-allowed !important;
   }
