@@ -10,7 +10,7 @@ npm i gah-datepicker
 
 ```unit='month'``` | ```unit='day'``` | ```unit='hour'```
 ------------------ | ---------------- | -----------------
-![alt text](/images/3.jpg) | ![alt text](/images/16.jpg) | ![alt text](/images/25.jpg) 
+![alt text](/images/16.jpg) | ![alt text](/images/3.jpg) | ![alt text](/images/25.jpg) 
 
 ```range={true}``` | ```multiselect={true}```
 ------------------ | ------------------------
@@ -111,8 +111,8 @@ export default class App extends Component{
     return (
       <GAH
         value={date}
-        onChange={(obj)=>{
-          this.setState({date:obj.dateString})
+        onChange={(dateObject)=>{
+          this.setState({date:dateObject.dateString})
         }}
       />
     )
@@ -120,7 +120,7 @@ export default class App extends Component{
 }
 
 ```
-- ##### onChange props get obj as parameter. see obj json:
+- ##### onChange props get dateObject as parameter. see dateObject json:
 ```javascript
 {
     "year": 2020,
@@ -170,8 +170,8 @@ export default class App extends Component{
       <GAH
         calendarType='jalali'
         value={date}
-        onChange={(obj)=>{
-          this.setState({date:obj.dateString})
+        onChange={(dateObject)=>{
+          this.setState({date:dateObject.dateString})
         }}
       />
     )
@@ -179,7 +179,7 @@ export default class App extends Component{
 }
 
 ```
-- ##### obj:
+- ##### dateObject structure in jalali mode:
 ```javascript
 {
     "year": 1400,
