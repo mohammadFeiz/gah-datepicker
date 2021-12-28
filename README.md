@@ -12,7 +12,7 @@ npm i gah-datepicker
 ------------------ | ---------------- | -----------------
 ![alt text](/images/16.jpg) | ![alt text](/images/3.jpg) | ![alt text](/images/25.jpg) 
 
-```range={true}``` | ```multiselect={true}```
+```type='range'``` | ```type='multiselect'```
 ------------------ | ------------------------
 ![alt text](/images/6.gif) | ![alt text](/images/4.gif)
 
@@ -80,8 +80,7 @@ nextYears | number | 20 | numeber of years that can select after this year.
 value | string or array | false | value of datepicker
 onChange | function | Required | change value event. get an object as parameter contain changed value properties.
 disabled | boolean | false | make date picker disabled. block actions.
-multiselect | boolean | false | enable multiselect mode.
-range | boolean | false | enable range mode.
+type | string ('default' or 'range' or 'multiselect') | 'default' | set date picker on default or range or multiselect mode.
 setDisabled | function | optional | will called For each date and get the date object as parameter, must return a boolean to determine whether the date is disabled or not.
 getDateStyle | function | optional | will called For each date and get the date object as parameter, must return an css object as style of date.
 icon | html or jsx | optional | use icon in datepicker button.
@@ -262,6 +261,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/3.jpg)
 # multiselect
+- ##### for multiselect mode set type = 'multiselect'
 - ##### simple multiselect:
 ```javascript
 import React,{Component} from "react";
@@ -279,7 +279,7 @@ export default class App extends Component{
     let {dates} = this.state; 
     return (
       <GAH
-        multiselect={true}
+        type='multiselect'
         values={dates}
         onChange={(values)=>this.setState({dates:values})} 
       />
@@ -290,7 +290,7 @@ export default class App extends Component{
 ```
 ![alt text](/images/4.gif)
 # range
-- ##### for range mode set range = true
+- ##### for range mode set type = 'range'
 - ##### range mode get start and end props and will render 2 datepicker
 - ##### start and end can get most main props
 ```javascript
@@ -305,7 +305,7 @@ export default class App extends Component{
     let {startDate,endDate} = this.state; 
     return (
       <GAH 
-        range={true}
+        type='range'
         start={{
           value:startDate,
           onChange:({dateString})=>{
