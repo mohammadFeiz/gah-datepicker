@@ -1,4 +1,5 @@
 # gah-datepicker(react js)
+```#datepicker #rangepicker #monthpicker #hourpicker #multidatepicker```
 # install
 ```javascript
 npm i gah-datepicker
@@ -70,31 +71,34 @@ import GAH from 'gah-datepicker';
 var GAH = require('gah-datepicker');
 ```
 
-### all props
+### main props
 prop | type | default | Description
 ---- | ---- | ------- | -----------
-calendarType | 'gregorian' or 'jalali' | 'gregorian' | set datepicker type(برای تقویم فارسی کافیست این پروپرتی را روی جلالی تنظیم کنید)
-unit | 'month' or 'day' or 'hour' | 'day' | for select month , set unit as 'month' and for select hour set ubit as 'hour'.
-prevYears | number | 10 | numeber of years that can select before this year.
-nextYears | number | 20 | numeber of years that can select after this year.
 value | string or array | false | value of datepicker
 onChange | function | Required | change value event. get an object as parameter contain changed value properties.
+onClear | function | optional | place clear button in bottom of datepicker. user can call onClear function by click on clear button.
+className | 'string' | optional | custom className of datepicker.
+id | 'string' | optional | id of datepicker.
+style | css object | optional | inline css style of datepicker button.
 disabled | boolean | false | make date picker disabled. block actions.
 type | string ('default' or 'range' or 'multiselect') | 'default' | set date picker on default or range or multiselect mode.
+calendarType | 'gregorian' or 'jalali' | 'gregorian' | set datepicker type(برای تقویم فارسی کافیست این پروپرتی را روی جلالی تنظیم کنید)
+unit | 'month' or 'day' or 'hour' | 'day' | for select month , set unit as 'month' and for select hour set ubit as 'hour'.
+
+### other props
+prop | type | default | Description
+---- | ---- | ------- | -----------
+prevYears | number | 10 | numeber of years that can select before this year.
+nextYears | number | 20 | numeber of years that can select after this year.
 setDisabled | function | optional | will called For each date and get the date object as parameter, must return a boolean to determine whether the date is disabled or not.
 getDateStyle | function | optional | will called For each date and get the date object as parameter, must return an css object as style of date.
 icon | html or jsx | optional | use icon in datepicker button.
-className | 'string' | optional | custom className of datepicker.
-id | 'string' | optional | id of datepicker.
-style | css object | optional | css style of datepicker button.
 caret | boolean or html or jsx | true (default caret) | set caret icon of datepicker button.
-onClear | function | optional | place clear button in bottom of datepicker. user can call onClear function by click on clear button.
 size | number | 180 | set size of datepicker
 placeHolder | 'string' | 'Select Date' in gregorian mode and 'انتخاب تاریخ' in jalali mode | show text on button when value is false or undefined
 theme | array of 2 color string | optional | set theme color of datepicker by define 2 color
 swipe | boolean | false | change date by swipe mouse vertically.
 justCalendar | boolean | false | show just calendar alwais visible without datepicker button.
-types | array of objects | optional | use in multiselect mode . make multiselect as multi color
 animate | boolean | false | open calendar with animation
 open | boolean | false | show calendar in first render.
 
