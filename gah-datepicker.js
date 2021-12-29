@@ -527,7 +527,7 @@ export function RDATE({getState,getProps,setState}){
       let style = {};
       let styleObj = getDateStyle($$.getDateDetails(date,unit),$$.calc) || {};
       style={...style,...styleObj} 
-      if(!disabled){style.background = theme[2] || theme[1];}
+      if(!disabled){style.background = theme[1];}
       if(className.indexOf('gah-active') !== -1){
         style.background = theme[0];
         style.color = theme[1];
@@ -698,36 +698,32 @@ export function RDATE({getState,getProps,setState}){
       return <>{Y}{M}{D}</>;
     },
     renderWeekDays(platform = 'react'){
-      var {calendarType} = getProps();
+      var {calendarType,theme = []} = getProps();
       let weekDays = $$.calc.getWeekDays(calendarType),cls = 'gah-weekday gah-cell';
       if(platform === 'react'){
-        return weekDays.map((w,i)=><div key={'weekDay' + i} className={cls}><span>{w.slice(0,calendarType === 'gregorian'?2:1)}</span></div>)
+        return weekDays.map((w,i)=><div key={'weekDay' + i} className={cls} style={{background:theme[1],color:theme[0]}}>
+            <span>{w.slice(0,calendarType === 'gregorian'?2:1)}</span>
+        </div>)
       }
       else if(platform === 'jquery'){
         return weekDays.map((w,i)=>`<div class='${cls}'><span>${w.slice(0,calendarType === 'gregorian'?2:1)}</span></div>`).join(' ');
       }
     },
     renderEndSpaces(length,platform = 'react'){
-      if(platform === 'react'){
+        let {theme = []} = getProps();
         let Spaces = [];
         for(let i = 0; i < length; i++){
-          Spaces.push(<div key={'endspace' + i} className='gah-space gah-cell'></div>)
+          Spaces.push(<div key={'endspace' + i} className='gah-space gah-cell' style={{background:theme[1],color:theme[0]}}></div>)
         }
         return Spaces;
-      }
-      else if(platform === 'jquery'){
-        let Spaces = '';
-        for(let i = 0; i < length; i++){Spaces += `<div class='gah-space gah-cell'></div>`;}
-        return Spaces;
-      }
     },
     renderSpaces(activeYear,activeMonth,platform = 'react'){
-      var {calendarType} = getProps();
+      var {calendarType,theme = []} = getProps();
       var firstDayWeekDayIndex = $$.calc.getWeekDay([activeYear,activeMonth,1],calendarType).index;
       if(platform === 'react'){
         let Spaces = [];
         for(let i = 0; i < firstDayWeekDayIndex; i++){
-          Spaces.push(<div key={'space' + i} className='gah-space gah-cell'></div>)
+          Spaces.push(<div key={'space' + i} className='gah-space gah-cell' style={{background:theme[1],color:theme[0]}}></div>)
         }
         return Spaces;
       }
@@ -780,7 +776,7 @@ export function RDATE({getState,getProps,setState}){
     },
     getPopupStyle(){
       var {size,disabled,theme = []} = getProps();
-      return {width:size,fontSize:size / 17,cursor:disabled?'not-allowed':undefined,background:theme[2] || theme[1],color:theme[3] || theme[0]};
+      return {width:size,fontSize:size / 17,cursor:disabled?'not-allowed':undefined,background:theme[1],color:theme[0],stroke:theme[0]};
     },
     getValues(){
       let {unit,values = []} = getProps();

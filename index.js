@@ -1305,7 +1305,7 @@ function RDATE(_ref) {
       };
 
       if (!disabled) {
-        style.background = theme[2] || theme[1];
+        style.background = theme[1];
       }
 
       if (className.indexOf('gah-active') !== -1) {
@@ -1691,7 +1691,9 @@ function RDATE(_ref) {
       var platform = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'react';
 
       var _getProps21 = getProps(),
-          calendarType = _getProps21.calendarType;
+          calendarType = _getProps21.calendarType,
+          _getProps21$theme = _getProps21.theme,
+          theme = _getProps21$theme === void 0 ? [] : _getProps21$theme;
 
       var weekDays = $$.calc.getWeekDays(calendarType),
           cls = 'gah-weekday gah-cell';
@@ -1700,7 +1702,11 @@ function RDATE(_ref) {
         return weekDays.map(function (w, i) {
           return /*#__PURE__*/_react.default.createElement("div", {
             key: 'weekDay' + i,
-            className: cls
+            className: cls,
+            style: {
+              background: theme[1],
+              color: theme[0]
+            }
           }, /*#__PURE__*/_react.default.createElement("span", null, w.slice(0, calendarType === 'gregorian' ? 2 : 1)));
         });
       } else if (platform === 'jquery') {
@@ -1712,32 +1718,32 @@ function RDATE(_ref) {
     renderEndSpaces: function renderEndSpaces(length) {
       var platform = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'react';
 
-      if (platform === 'react') {
-        var Spaces = [];
+      var _getProps22 = getProps(),
+          _getProps22$theme = _getProps22.theme,
+          theme = _getProps22$theme === void 0 ? [] : _getProps22$theme;
 
-        for (var i = 0; i < length; i++) {
-          Spaces.push( /*#__PURE__*/_react.default.createElement("div", {
-            key: 'endspace' + i,
-            className: "gah-space gah-cell"
-          }));
-        }
+      var Spaces = [];
 
-        return Spaces;
-      } else if (platform === 'jquery') {
-        var _Spaces = '';
-
-        for (var _i6 = 0; _i6 < length; _i6++) {
-          _Spaces += "<div class='gah-space gah-cell'></div>";
-        }
-
-        return _Spaces;
+      for (var i = 0; i < length; i++) {
+        Spaces.push( /*#__PURE__*/_react.default.createElement("div", {
+          key: 'endspace' + i,
+          className: "gah-space gah-cell",
+          style: {
+            background: theme[1],
+            color: theme[0]
+          }
+        }));
       }
+
+      return Spaces;
     },
     renderSpaces: function renderSpaces(activeYear, activeMonth) {
       var platform = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'react';
 
-      var _getProps22 = getProps(),
-          calendarType = _getProps22.calendarType;
+      var _getProps23 = getProps(),
+          calendarType = _getProps23.calendarType,
+          _getProps23$theme = _getProps23.theme,
+          theme = _getProps23$theme === void 0 ? [] : _getProps23$theme;
 
       var firstDayWeekDayIndex = $$.calc.getWeekDay([activeYear, activeMonth, 1], calendarType).index;
 
@@ -1747,31 +1753,35 @@ function RDATE(_ref) {
         for (var i = 0; i < firstDayWeekDayIndex; i++) {
           Spaces.push( /*#__PURE__*/_react.default.createElement("div", {
             key: 'space' + i,
-            className: "gah-space gah-cell"
+            className: "gah-space gah-cell",
+            style: {
+              background: theme[1],
+              color: theme[0]
+            }
           }));
         }
 
         return Spaces;
       } else if (platform === 'jquery') {
-        var _Spaces2 = '';
+        var _Spaces = '';
 
-        for (var _i7 = 0; _i7 < firstDayWeekDayIndex; _i7++) {
-          _Spaces2 += "<div class='gah-space gah-cell'></div>";
+        for (var _i6 = 0; _i6 < firstDayWeekDayIndex; _i6++) {
+          _Spaces += "<div class='gah-space gah-cell'></div>";
         }
 
-        return _Spaces2;
+        return _Spaces;
       }
     },
     getTodayContent: function getTodayContent(details) {
-      var _getProps23 = getProps(),
-          type = _getProps23.type,
-          calendarType = _getProps23.calendarType,
-          size = _getProps23.size,
-          unit = _getProps23.unit,
-          _getProps23$theme = _getProps23.theme,
-          theme = _getProps23$theme === void 0 ? [] : _getProps23$theme,
-          _onChange3 = _getProps23.onChange,
-          showTag = _getProps23.showTag;
+      var _getProps24 = getProps(),
+          type = _getProps24.type,
+          calendarType = _getProps24.calendarType,
+          size = _getProps24.size,
+          unit = _getProps24.unit,
+          _getProps24$theme = _getProps24.theme,
+          theme = _getProps24$theme === void 0 ? [] : _getProps24$theme,
+          _onChange3 = _getProps24.onChange,
+          showTag = _getProps24.showTag;
 
       var month = details.todayMonthString;
       var week = details.todayWeekDay;
@@ -1852,25 +1862,26 @@ function RDATE(_ref) {
       }, today[3] + ':00'));
     },
     getPopupStyle: function getPopupStyle() {
-      var _getProps24 = getProps(),
-          size = _getProps24.size,
-          disabled = _getProps24.disabled,
-          _getProps24$theme = _getProps24.theme,
-          theme = _getProps24$theme === void 0 ? [] : _getProps24$theme;
+      var _getProps25 = getProps(),
+          size = _getProps25.size,
+          disabled = _getProps25.disabled,
+          _getProps25$theme = _getProps25.theme,
+          theme = _getProps25$theme === void 0 ? [] : _getProps25$theme;
 
       return {
         width: size,
         fontSize: size / 17,
         cursor: disabled ? 'not-allowed' : undefined,
-        background: theme[2] || theme[1],
-        color: theme[3] || theme[0]
+        background: theme[1],
+        color: theme[0],
+        stroke: theme[0]
       };
     },
     getValues: function getValues() {
-      var _getProps25 = getProps(),
-          unit = _getProps25.unit,
-          _getProps25$values = _getProps25.values,
-          values = _getProps25$values === void 0 ? [] : _getProps25$values;
+      var _getProps26 = getProps(),
+          unit = _getProps26.unit,
+          _getProps26$values = _getProps26.values,
+          values = _getProps26$values === void 0 ? [] : _getProps26$values;
 
       var result = [];
 
@@ -1913,13 +1924,13 @@ function RDATE(_ref) {
       return values;
     },
     renderFooter: function renderFooter(details) {
-      var _getProps26 = getProps(),
-          onClear = _getProps26.onClear,
-          disabled = _getProps26.disabled,
-          size = _getProps26.size,
-          calendarType = _getProps26.calendarType,
-          _getProps26$theme = _getProps26.theme,
-          theme = _getProps26$theme === void 0 ? [] : _getProps26$theme;
+      var _getProps27 = getProps(),
+          onClear = _getProps27.onClear,
+          disabled = _getProps27.disabled,
+          size = _getProps27.size,
+          calendarType = _getProps27.calendarType,
+          _getProps27$theme = _getProps27.theme,
+          theme = _getProps27$theme === void 0 ? [] : _getProps27$theme;
 
       if (disabled) {
         return '';
