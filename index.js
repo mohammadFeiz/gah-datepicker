@@ -52,7 +52,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -293,6 +293,9 @@ GAH.defaultProps = {
   prevYears: 10,
   nextYears: 20,
   unit: 'day',
+  translate: function translate(text) {
+    return text;
+  },
   setDisabled: function setDisabled() {
     return false;
   },
@@ -824,6 +827,11 @@ function RDATE(_ref) {
         Value = value.split(splitter).map(function (o, i) {
           return o ? parseInt(o) : today[i];
         });
+
+        if (calendarType === 'gregorian') {
+          var a = new Date("".concat(Value[0]).concat(splitter).concat(Value[1]).concat(splitter).concat(Value[2]));
+          Value = [a.getFullYear(), a.getMonth() + 1, a.getDate(), Value[3]];
+        }
       } else {
         Value = today;
       }
@@ -1063,7 +1071,8 @@ function RDATE(_ref) {
           _getProps6$editValue = _getProps6.editValue,
           editValue = _getProps6$editValue === void 0 ? function (text) {
         return text;
-      } : _getProps6$editValue;
+      } : _getProps6$editValue,
+          translate = _getProps6.translate;
 
       var _getState3 = getState(),
           splitter = _getState3.splitter,
@@ -1089,7 +1098,7 @@ function RDATE(_ref) {
       }
 
       if (unit === 'month') {
-        return editValue($$.calc.getMonths(calendarType)[month - 1] + ' ' + year);
+        return editValue(translate($$.calc.getMonths(calendarType)[month - 1]) + ' ' + year);
       }
     },
     onToday: function onToday() {
@@ -1570,7 +1579,8 @@ function RDATE(_ref) {
           _getProps20$theme = _getProps20.theme,
           theme = _getProps20$theme === void 0 ? [] : _getProps20$theme,
           size = _getProps20.size,
-          years = _getProps20.years;
+          years = _getProps20.years,
+          translate = _getProps20.translate;
 
       var D = '';
       var M = '';
@@ -1634,7 +1644,7 @@ function RDATE(_ref) {
           },
           options: months.map(function (o, i) {
             return {
-              text: o,
+              text: translate(o),
               value: i + 1,
               style: {
                 height: size / 6,
@@ -1693,7 +1703,8 @@ function RDATE(_ref) {
       var _getProps21 = getProps(),
           calendarType = _getProps21.calendarType,
           _getProps21$theme = _getProps21.theme,
-          theme = _getProps21$theme === void 0 ? [] : _getProps21$theme;
+          theme = _getProps21$theme === void 0 ? [] : _getProps21$theme,
+          translate = _getProps21.translate;
 
       var weekDays = $$.calc.getWeekDays(calendarType),
           cls = 'gah-weekday gah-cell';
@@ -1707,7 +1718,7 @@ function RDATE(_ref) {
               background: theme[1],
               color: theme[0]
             }
-          }, /*#__PURE__*/_react.default.createElement("span", null, w.slice(0, calendarType === 'gregorian' ? 2 : 1)));
+          }, /*#__PURE__*/_react.default.createElement("span", null, translate(w.slice(0, calendarType === 'gregorian' ? 2 : 1))));
         });
       } else if (platform === 'jquery') {
         return weekDays.map(function (w, i) {
@@ -1781,7 +1792,8 @@ function RDATE(_ref) {
           _getProps24$theme = _getProps24.theme,
           theme = _getProps24$theme === void 0 ? [] : _getProps24$theme,
           _onChange3 = _getProps24.onChange,
-          showTag = _getProps24.showTag;
+          showTag = _getProps24.showTag,
+          translate = _getProps24.translate;
 
       var month = details.todayMonthString;
       var week = details.todayWeekDay;
@@ -1834,11 +1846,11 @@ function RDATE(_ref) {
         style: {
           fontSize: size / 13
         }
-      }, $$.getTodayText()), (unit === 'day' || unit === 'hour') && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+      }, translate($$.getTodayText())), (unit === 'day' || unit === 'hour') && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
         style: {
           fontSize: size / 11
         }
-      }, calendarType === 'gregorian' ? week.slice(0, 3) : week), /*#__PURE__*/_react.default.createElement("div", {
+      }, translate(calendarType === 'gregorian' ? week.slice(0, 3) : week)), /*#__PURE__*/_react.default.createElement("div", {
         style: {
           fontSize: size / 12 * 4,
           height: size / 12 * 4
@@ -1847,11 +1859,11 @@ function RDATE(_ref) {
         style: {
           fontSize: size / 11
         }
-      }, calendarType === 'gregorian' ? month.slice(0, 3) : month)), unit === 'month' && /*#__PURE__*/_react.default.createElement("div", {
+      }, translate(calendarType === 'gregorian' ? month.slice(0, 3) : month))), unit === 'month' && /*#__PURE__*/_react.default.createElement("div", {
         style: {
           fontSize: size / 8
         }
-      }, calendarType === 'gregorian' ? month.slice(0, 3) : month), /*#__PURE__*/_react.default.createElement("div", {
+      }, translate(calendarType === 'gregorian' ? month.slice(0, 3) : month)), /*#__PURE__*/_react.default.createElement("div", {
         style: {
           fontSize: size / 11
         }
@@ -1930,7 +1942,8 @@ function RDATE(_ref) {
           size = _getProps27.size,
           calendarType = _getProps27.calendarType,
           _getProps27$theme = _getProps27.theme,
-          theme = _getProps27$theme === void 0 ? [] : _getProps27$theme;
+          theme = _getProps27$theme === void 0 ? [] : _getProps27$theme,
+          translate = _getProps27.translate;
 
       if (disabled) {
         return '';
@@ -1959,7 +1972,7 @@ function RDATE(_ref) {
         onClick: function onClick() {
           return $$.onToday();
         }
-      }, $$.getTodayText()));
+      }, translate($$.getTodayText())));
     }
   };
   $$.calc = new dateCalculator();
@@ -2393,7 +2406,7 @@ function dateCalculator() {
     getWeekDays: function getWeekDays(calendarType) {
       return {
         jalali: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'],
-        gregorian: ['SUNDAY', 'MONDAY', 'THUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
+        gregorian: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
       }[calendarType];
     },
     getMonths: function getMonths(calendarType) {

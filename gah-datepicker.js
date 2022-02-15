@@ -104,7 +104,7 @@ export default class GAH extends Component{
 }
 GAH.defaultProps = {
   size:180,calendarType:'gregorian',disabled:false,
-  prevYears:10,nextYears:20,unit:'day',
+  prevYears:10,nextYears:20,unit:'day',translate:(text)=>text,
   setDisabled:()=>false,getDateStyle:()=>{return {}}
 }
 class GAHBase extends Component{
@@ -347,6 +347,10 @@ export function RDATE({getState,getProps,setState}){
       if(typeof value === 'string'){
         splitter = $$.calc.getSplitter(value);
         Value = value.split(splitter).map((o,i)=>o?parseInt(o):today[i])
+        if(calendarType === 'gregorian'){
+          let a = new Date(`${Value[0]}${splitter}${Value[1]}${splitter}${Value[2]}`)
+          Value = [a.getFullYear(),a.getMonth()+1,a.getDate(),Value[3]]
+        }
       }
       else {Value = today;}  
       var [year,month,day,hour] = Value;
@@ -441,7 +445,7 @@ export function RDATE({getState,getProps,setState}){
       }
     },
     getValue(){
-      var {calendarType,unit,value,placeHolder,editValue = (text)=>text} = getProps();
+      var {calendarType,unit,value,placeHolder,editValue = (text)=>text,translate} = getProps();
       let {splitter,year,month,day,hour} = getState();
       if(!value){
         if(placeHolder){return placeHolder}
@@ -449,7 +453,7 @@ export function RDATE({getState,getProps,setState}){
       }
       if(unit === 'hour'){return editValue(year + splitter + month + splitter + day + ' ' + hour + ':00')}
       if(unit === 'day'){return editValue(year + splitter + month + splitter + day)}
-      if(unit === 'month'){return editValue($$.calc.getMonths(calendarType)[month - 1] + ' ' + year);}
+      if(unit === 'month'){return editValue(translate($$.calc.getMonths(calendarType)[month - 1]) + ' ' + year);}
     },
     onToday(){
       var {unit,calendarType} = getProps();
@@ -660,7 +664,7 @@ export function RDATE({getState,getProps,setState}){
       return{gridTemplateColumns,gridTemplateRows,direction,padding,fontSize}
     },
     getGridHeaderValue(activeYear,activeMonth,activeDay,onChange){
-      var {calendarType,unit,theme = [],size,years} = getProps();
+      var {calendarType,unit,theme = [],size,years,translate} = getProps();
       let D = '';
       let M = '';
       if(unit === 'hour'){
@@ -683,7 +687,7 @@ export function RDATE({getState,getProps,setState}){
         M = (
           <AIOButton caret={false}
           type='select' value={activeMonth} style={{background:'none',color:'inherit',fontSize:'inherit',padding:'0 3px'}}
-          options={months.map((o,i)=>{return {text:o,value:i + 1,style:{height:size / 6,background:theme[1],color:theme[0]}}})} popupStyle={{maxHeight:size * 1.2}}
+          options={months.map((o,i)=>{return {text:translate(o),value:i + 1,style:{height:size / 6,background:theme[1],color:theme[0]}}})} popupStyle={{maxHeight:size * 1.2}}
           onChange={(value)=>{onChange({activeMonth:value})}}
         />
         )
@@ -698,11 +702,11 @@ export function RDATE({getState,getProps,setState}){
       return <>{Y}{M}{D}</>;
     },
     renderWeekDays(platform = 'react'){
-      var {calendarType,theme = []} = getProps();
+      var {calendarType,theme = [],translate} = getProps();
       let weekDays = $$.calc.getWeekDays(calendarType),cls = 'gah-weekday gah-cell';
       if(platform === 'react'){
         return weekDays.map((w,i)=><div key={'weekDay' + i} className={cls} style={{background:theme[1],color:theme[0]}}>
-            <span>{w.slice(0,calendarType === 'gregorian'?2:1)}</span>
+            <span>{translate(w.slice(0,calendarType === 'gregorian'?2:1))}</span>
         </div>)
       }
       else if(platform === 'jquery'){
@@ -734,7 +738,7 @@ export function RDATE({getState,getProps,setState}){
       }
     },
     getTodayContent(details){
-      let {type,calendarType,size,unit,theme = [],onChange,showTag} = getProps();
+      let {type,calendarType,size,unit,theme = [],onChange,showTag,translate} = getProps();
       let month = details.todayMonthString;
       let week = details.todayWeekDay;
       let today = details.today;
@@ -759,16 +763,16 @@ export function RDATE({getState,getProps,setState}){
               }}
             />
           }
-          <div style={{fontSize:size / 13}}>{$$.getTodayText()}</div>
+          <div style={{fontSize:size / 13}}>{translate($$.getTodayText())}</div>
           {
             (unit === 'day' || unit === 'hour') &&
             <>
-              <div style={{fontSize:size / 11}}>{calendarType === 'gregorian'?week.slice(0,3):week}</div>
+              <div style={{fontSize:size / 11}}>{translate(calendarType === 'gregorian'?week.slice(0,3):week)}</div>
               <div style={{fontSize:size / 12 * 4,height:size/12 * 4}}>{today[2]}</div>
-              <div style={{fontSize:size / 11}}>{calendarType === 'gregorian'?month.slice(0,3):month}</div>
+              <div style={{fontSize:size / 11}}>{translate(calendarType === 'gregorian'?month.slice(0,3):month)}</div>
             </>
           }
-          {unit === 'month' && <div style={{fontSize:size / 8}}>{calendarType === 'gregorian'?month.slice(0,3):month}</div>}
+          {unit === 'month' && <div style={{fontSize:size / 8}}>{translate(calendarType === 'gregorian'?month.slice(0,3):month)}</div>}
           <div style={{fontSize:size / 11}}>{today[0]}</div>
           {unit === 'hour' && <div style={{fontSize:size / 10}}>{today[3] + ':00'}</div>}
         </div>
@@ -807,7 +811,7 @@ export function RDATE({getState,getProps,setState}){
       return values
     },
     renderFooter(details){
-      let {onClear,disabled,size,calendarType,theme = []} = getProps();
+      let {onClear,disabled,size,calendarType,theme = [],translate} = getProps();
       if(disabled){return ''}
       let buttonStyle = {padding:`${size / 20}px 0`};
       return (
@@ -818,7 +822,7 @@ export function RDATE({getState,getProps,setState}){
               {{'gregorian':'Clear','jalali':'حذف'}[calendarType]}
             </button>
           }
-          <button className='gah-button' style={buttonStyle} onClick={()=>$$.onToday()}>{$$.getTodayText()}</button>
+          <button className='gah-button' style={buttonStyle} onClick={()=>$$.onToday()}>{translate($$.getTodayText())}</button>
         </div>
       )
     }
@@ -1012,7 +1016,7 @@ function dateCalculator(){
     getWeekDays(calendarType){
       return {
         jalali:['شنبه','یکشنبه','دوشنبه','سه شنبه','چهارشنبه','پنجشنبه','جمعه'],
-        gregorian:['SUNDAY','MONDAY','THUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY']
+        gregorian:['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY']
       }[calendarType]
     },
     getMonths(calendarType){
