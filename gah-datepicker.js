@@ -449,7 +449,7 @@ export function RDATE({getState,getProps,setState}){
       let {splitter,year,month,day,hour} = getState();
       if(!value){
         if(placeHolder){return placeHolder}
-        return calendarType === 'gregorian'?'Select Date':'انتخاب تاریخ'; 
+        return translate(calendarType === 'gregorian'?'Select Date':'انتخاب تاریخ'); 
       }
       if(unit === 'hour'){return editValue(year + splitter + month + splitter + day + ' ' + hour + ':00')}
       if(unit === 'day'){return editValue(year + splitter + month + splitter + day)}

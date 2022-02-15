@@ -1086,7 +1086,7 @@ function RDATE(_ref) {
           return placeHolder;
         }
 
-        return calendarType === 'gregorian' ? 'Select Date' : 'انتخاب تاریخ';
+        return translate(calendarType === 'gregorian' ? 'Select Date' : 'انتخاب تاریخ');
       }
 
       if (unit === 'hour') {
