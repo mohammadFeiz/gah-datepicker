@@ -4,19 +4,30 @@ import './index.css';
 export default class GAH extends Component{
   constructor(props){
     super(props);
+    let {startYear,endYear} = this.props;
     this.fn = new RDATE({
       getProps:()=>{
-        let {startYear,endYear,years} = this.state;
-        return {...this.props,startYear,endYear,years}
+        let {years} = this.state;
+        return {...this.props,years}
       }
     })
-    let {calendarType,prevYears,nextYears} = this.props;
+    this.state = {years:this.getYears(),prevStartYear:startYear,prevEndYear:endYear};
+  }
+  getYears(){
+    let start,end;
+    let {calendarType,startYear,endYear} = this.props;
     let today = this.fn.calc.getToday(calendarType);
-    let startYear = today[0] - prevYears;
-    let endYear = today[0] + nextYears;
+    if(typeof startYear === 'string' && startYear.indexOf('-') === 0){
+      start = today[0] - parseInt(startYear.slice(1,startYear.length));
+    }
+    else{start = parseInt(startYear);}
+    if(typeof endYear === 'string' && endYear.indexOf('+') === 0){
+      end = today[0] + parseInt(endYear.slice(1,endYear.length));
+    }
+    else{end = parseInt(endYear);}
     let years = [];
-    for(var i = startYear; i <= endYear; i++){years.push(i);}
-    this.state = {startYear,endYear,years};
+    for(var i = start; i <= end; i++){years.push(i);}
+    return years;
   }
   getDateStyleRangeMode(type,obj){
     let {getDateStyle} = this.props;
@@ -43,8 +54,11 @@ export default class GAH extends Component{
     return false
   }
   render(){
-    let {type} = this.props;
-    let {startYear,endYear,years} = this.state;
+    let {type,startYear,endYear} = this.props;
+    let {years,prevStartYear,prevEndYear} = this.state;
+    if(startYear !== prevStartYear || endYear !== prevEndYear){
+      setTimeout(()=>this.setState({years:this.getYears(),prevStartYear:startYear,prevEndYear:endYear}),0)
+    }
     if(type === 'range'){
       let {start,end,calendarType,unit} = this.props;
       if(typeof start !== 'object'){
@@ -73,8 +87,6 @@ export default class GAH extends Component{
             onChange={start.onChange?(obj)=>start.onChange(obj):undefined}
             unit={unit}
             calendarType={calendarType}
-            startYear={startYear}
-            endYear={endYear}
             years={years}
           />
           <GAHBase 
@@ -92,19 +104,17 @@ export default class GAH extends Component{
             onChange={end.onChange?(obj)=>end.onChange(obj):undefined}
             unit={unit}
             calendarType={calendarType}
-            startYear={startYear}
-            endYear={endYear}
             years={years}
           />
         </div>
       )
     }
-    else{return <GAHBase {...this.props} startYear={startYear} endYear={endYear} years={years}/>}
+    else{return <GAHBase {...this.props} years={years}/>}
   }
 }
 GAH.defaultProps = {
   size:180,calendarType:'gregorian',disabled:false,
-  prevYears:10,nextYears:20,unit:'day',translate:(text)=>text,
+  startYear:'-10',endYear:'+20',unit:'day',translate:(text)=>text,
   setDisabled:()=>false,getDateStyle:()=>{return {}}
 }
 class GAHBase extends Component{
@@ -341,10 +351,10 @@ class GAHDatePickerGrid extends Component{
 export function RDATE({getState,getProps,setState}){
   let $$ = {
     validateValue(value){
-      let Value,{unit,calendarType,startYear,endYear} = getProps();
+      let Value,{unit,calendarType,years} = getProps();
       let today = $$.calc.getToday(calendarType);
       let splitter = '/';
-      if(typeof value === 'string'){
+      if(typeof value === 'string' && value){
         splitter = $$.calc.getSplitter(value);
         Value = value.split(splitter).map((o,i)=>o?parseInt(o):today[i])
         if(calendarType === 'gregorian'){
@@ -354,8 +364,8 @@ export function RDATE({getState,getProps,setState}){
       }
       else {Value = today;}  
       var [year,month,day,hour] = Value;
-      if(year < startYear){year = startYear;}
-      if(year > endYear){year = endYear;}
+      if(year < years[0]){year = years[0];}
+      if(year > years[years.length - 1]){year = years[years.length - 1];}
       if(month < 1){month = 1;}
       if(month > 12){month = 12;}
       if(unit === 'day' || unit === 'hour'){
@@ -382,7 +392,7 @@ export function RDATE({getState,getProps,setState}){
       return $$.getDateDetails_day(o,true);
     },
     getDateDetails_day([year,month,day,hour],hourType){
-      let {startYear,endYear} = getProps();
+      let {years} = getProps();
       let {splitter} = getState();
       var {calendarType,unit} = getProps();
       var {weekDay,index:weekDayIndex} = $$.calc.getWeekDay([year,month,day],calendarType);
@@ -405,7 +415,7 @@ export function RDATE({getState,getProps,setState}){
         weekDays:$$.calc.getWeekDays(calendarType),
         monthString:months[month - 1],
         todayMonthString:months[today[1] - 1],
-        startYear,endYear,
+        startYear:years[0],endYear:years[years.length - 1],
         dateString:year + splitter + month + splitter + day + (hourType?(splitter + hour):''),
         fullDateString:year + splitter + month + splitter + day + ' ' + weekDay,
         today,todayWeekDay,todayWeekDayIndex,...extra,
@@ -416,7 +426,7 @@ export function RDATE({getState,getProps,setState}){
       }
     },
     getDateDetails_month([year,month]){
-      let {startYear,endYear} = getProps();
+      let {years} = getProps();
       let {splitter} = getState();
       var {calendarType,unit} = getProps();
       var today = $$.calc.getToday(calendarType,unit);
@@ -435,7 +445,7 @@ export function RDATE({getState,getProps,setState}){
         weekDays:$$.calc.getWeekDays(calendarType),
         monthString:months[month - 1],
         todayMonthString:months[today[1] - 1],
-        startYear,endYear,
+        startYear:years[0],endYear:years[years.length - 1],
         dateString:year + splitter + month,
         today,todayWeekDay,todayWeekDayIndex,...extra,
         isLess:(o)=>$$.calc.isLess([year,month],o),
@@ -572,22 +582,22 @@ export function RDATE({getState,getProps,setState}){
     },
     changeActivePage(value,unit,obj){return $$['changeActivePage_' + unit](value,obj);},
     changeActivePage_month(value,{activeYear}){
-      var {startYear,endYear} = getProps();
+      var {years} = getProps();
       if(value === 1){
-          if(activeYear === endYear){return;}
+          if(activeYear === years[years.length - 1]){return;}
           activeYear++;
       }
       else{
-          if(activeYear === startYear){return;}
+          if(activeYear === years[0]){return;}
           activeYear--;
       }
       return {activeYear};
     },
     changeActivePage_day(value,{activeYear,activeMonth}){
-      var {startYear,endYear} = getProps();
+      var {years} = getProps();
       if(value === 1){
         if(activeMonth === 12){
-          if(activeYear === endYear){return;}
+          if(activeYear === years[years.length - 1]){return;}
           activeYear++;
           activeMonth = 1;
         }
@@ -595,7 +605,7 @@ export function RDATE({getState,getProps,setState}){
       }
       else{
         if(activeMonth === 1){
-          if(activeYear === startYear){return;}
+          if(activeYear === years[0]){return;}
           activeYear--;
           activeMonth = 12;
         }
@@ -604,13 +614,13 @@ export function RDATE({getState,getProps,setState}){
       return {activeYear,activeMonth};
     },
     changeActivePage_hour(value,{activeYear,activeMonth,activeDay}){
-      var {startYear,endYear} = getProps();
+      var {years} = getProps();
       var {calendarType} = getProps();
       if(value === 1){
         let daysLength = $$.calc.getMonthDaysLength(activeYear,activeMonth,calendarType)
         if(activeDay === daysLength){
           if(activeMonth === 12){
-            if(activeYear === endYear){return;}
+            if(activeYear === years[years.length - 1]){return;}
             activeYear++;
             activeMonth = 1;
             activeDay = 1;
@@ -627,7 +637,7 @@ export function RDATE({getState,getProps,setState}){
       else{
         if(activeDay === 1){
           if(activeMonth === 1){
-            if(activeYear === startYear){return;}
+            if(activeYear === years[0]){return;}
             else{
               activeYear--;
               activeMonth = 12;

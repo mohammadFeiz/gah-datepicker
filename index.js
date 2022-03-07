@@ -77,43 +77,56 @@ var GAH = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, GAH);
 
     _this = _super.call(this, props);
+    var _this$props = _this.props,
+        startYear = _this$props.startYear,
+        endYear = _this$props.endYear;
     _this.fn = new RDATE({
       getProps: function getProps() {
-        var _this$state = _this.state,
-            startYear = _this$state.startYear,
-            endYear = _this$state.endYear,
-            years = _this$state.years;
+        var years = _this.state.years;
         return { ..._this.props,
-          startYear: startYear,
-          endYear: endYear,
           years: years
         };
       }
     });
-    var _this$props = _this.props,
-        calendarType = _this$props.calendarType,
-        prevYears = _this$props.prevYears,
-        nextYears = _this$props.nextYears;
-
-    var today = _this.fn.calc.getToday(calendarType);
-
-    var startYear = today[0] - prevYears;
-    var endYear = today[0] + nextYears;
-    var years = [];
-
-    for (var i = startYear; i <= endYear; i++) {
-      years.push(i);
-    }
-
     _this.state = {
-      startYear: startYear,
-      endYear: endYear,
-      years: years
+      years: _this.getYears(),
+      prevStartYear: startYear,
+      prevEndYear: endYear
     };
     return _this;
   }
 
   _createClass(GAH, [{
+    key: "getYears",
+    value: function getYears() {
+      var start, end;
+      var _this$props2 = this.props,
+          calendarType = _this$props2.calendarType,
+          startYear = _this$props2.startYear,
+          endYear = _this$props2.endYear;
+      var today = this.fn.calc.getToday(calendarType);
+
+      if (typeof startYear === 'string' && startYear.indexOf('-') === 0) {
+        start = today[0] - parseInt(startYear.slice(1, startYear.length));
+      } else {
+        start = parseInt(startYear);
+      }
+
+      if (typeof endYear === 'string' && endYear.indexOf('+') === 0) {
+        end = today[0] + parseInt(endYear.slice(1, endYear.length));
+      } else {
+        end = parseInt(endYear);
+      }
+
+      var years = [];
+
+      for (var i = start; i <= end; i++) {
+        years.push(i);
+      }
+
+      return years;
+    }
+  }, {
     key: "getDateStyleRangeMode",
     value: function getDateStyleRangeMode(type, obj) {
       var getDateStyle = this.props.getDateStyle;
@@ -132,10 +145,10 @@ var GAH = /*#__PURE__*/function (_Component) {
   }, {
     key: "setDisabledRangeMode",
     value: function setDisabledRangeMode(type, obj) {
-      var _this$props2 = this.props,
-          start = _this$props2.start,
-          end = _this$props2.end,
-          setDisabled = _this$props2.setDisabled;
+      var _this$props3 = this.props,
+          start = _this$props3.start,
+          end = _this$props3.end,
+          setDisabled = _this$props3.setDisabled;
 
       if (end.value && type === 'start') {
         var _this$fn$validateValu = this.fn.validateValue(end.value),
@@ -181,18 +194,31 @@ var GAH = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var type = this.props.type;
-      var _this$state2 = this.state,
-          startYear = _this$state2.startYear,
-          endYear = _this$state2.endYear,
-          years = _this$state2.years;
+      var _this$props4 = this.props,
+          type = _this$props4.type,
+          startYear = _this$props4.startYear,
+          endYear = _this$props4.endYear;
+      var _this$state = this.state,
+          years = _this$state.years,
+          prevStartYear = _this$state.prevStartYear,
+          prevEndYear = _this$state.prevEndYear;
+
+      if (startYear !== prevStartYear || endYear !== prevEndYear) {
+        setTimeout(function () {
+          return _this2.setState({
+            years: _this2.getYears(),
+            prevStartYear: startYear,
+            prevEndYear: endYear
+          });
+        }, 0);
+      }
 
       if (type === 'range') {
-        var _this$props3 = this.props,
-            start = _this$props3.start,
-            end = _this$props3.end,
-            calendarType = _this$props3.calendarType,
-            unit = _this$props3.unit;
+        var _this$props5 = this.props,
+            start = _this$props5.start,
+            end = _this$props5.end,
+            calendarType = _this$props5.calendarType,
+            unit = _this$props5.unit;
 
         if (_typeof(start) !== 'object') {
           console.error('gah datepicker error => in range mode, start props should be an object');
@@ -237,8 +263,6 @@ var GAH = /*#__PURE__*/function (_Component) {
           } : undefined,
           unit: unit,
           calendarType: calendarType,
-          startYear: startYear,
-          endYear: endYear,
           years: years
         })), /*#__PURE__*/_react.default.createElement(GAHBase, _extends({
           placeHolder: calendarType === 'jalali' ? 'تا تاریخ' : 'To Date'
@@ -268,14 +292,10 @@ var GAH = /*#__PURE__*/function (_Component) {
           } : undefined,
           unit: unit,
           calendarType: calendarType,
-          startYear: startYear,
-          endYear: endYear,
           years: years
         })));
       } else {
         return /*#__PURE__*/_react.default.createElement(GAHBase, _extends({}, this.props, {
-          startYear: startYear,
-          endYear: endYear,
           years: years
         }));
       }
@@ -290,8 +310,8 @@ GAH.defaultProps = {
   size: 180,
   calendarType: 'gregorian',
   disabled: false,
-  prevYears: 10,
-  nextYears: 20,
+  startYear: '-10',
+  endYear: '+20',
   unit: 'day',
   translate: function translate(text) {
     return text;
@@ -337,10 +357,10 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
           return _this4.SetState(obj, send);
         }
       });
-      var _this$props4 = this.props,
-          value = _this$props4.value,
-          _this$props4$theme = _this$props4.theme,
-          theme = _this$props4$theme === void 0 ? [] : _this$props4$theme;
+      var _this$props6 = this.props,
+          value = _this$props6.value,
+          _this$props6$theme = _this$props6.theme,
+          theme = _this$props6$theme === void 0 ? [] : _this$props6$theme;
       this.icons = {
         minus: /*#__PURE__*/_react.default.createElement("svg", {
           style: {
@@ -383,9 +403,9 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
     value: function SetState(obj, sendChanges) {
       var _this5 = this;
 
-      var _this$props5 = this.props,
-          onChange = _this$props5.onChange,
-          type = _this$props5.type;
+      var _this$props7 = this.props,
+          onChange = _this$props7.onChange,
+          type = _this$props7.type;
 
       var callback = function callback() {};
 
@@ -432,13 +452,13 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
     value: function renderMultiselect() {
       var _this6 = this;
 
-      var _this$props6 = this.props,
-          justCalendar = _this$props6.justCalendar,
-          calendarType = _this$props6.calendarType,
-          className = _this$props6.className,
-          icon = _this$props6.icon,
-          _onChange = _this$props6.onChange,
-          unit = _this$props6.unit;
+      var _this$props8 = this.props,
+          justCalendar = _this$props8.justCalendar,
+          calendarType = _this$props8.calendarType,
+          className = _this$props8.className,
+          icon = _this$props8.icon,
+          _onChange = _this$props8.onChange,
+          unit = _this$props8.unit;
       this.details = this.fn.getDateDetails();
       this.values = this.fn.getValues();
 
@@ -499,18 +519,18 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
       }
 
       this.lastSwipe = dy;
-      var _this$props7 = this.props,
-          calendarType = _this$props7.calendarType,
-          unit = _this$props7.unit,
-          setDisabled = _this$props7.setDisabled,
-          disabled = _this$props7.disabled;
+      var _this$props9 = this.props,
+          calendarType = _this$props9.calendarType,
+          unit = _this$props9.unit,
+          setDisabled = _this$props9.setDisabled,
+          disabled = _this$props9.disabled;
 
       if (!this.startSwipe) {
-        var _this$state3 = this.state,
-            _year2 = _this$state3.year,
-            _month2 = _this$state3.month,
-            _day2 = _this$state3.day,
-            _hour2 = _this$state3.hour;
+        var _this$state2 = this.state,
+            _year2 = _this$state2.year,
+            _month2 = _this$state2.month,
+            _day2 = _this$state2.day,
+            _hour2 = _this$state2.hour;
         this.startSwipe = [_year2, _month2, _day2, _hour2];
       }
 
@@ -543,15 +563,15 @@ var GAHBase = /*#__PURE__*/function (_Component2) {
       var _this7 = this;
 
       this.update = false;
-      var _this$props8 = this.props,
-          calendarType = _this$props8.calendarType,
-          className = _this$props8.className,
-          icon = _this$props8.icon,
-          type = _this$props8.type,
-          _this$props8$onChange = _this$props8.onChange,
-          onChange = _this$props8$onChange === void 0 ? function () {} : _this$props8$onChange,
-          justCalendar = _this$props8.justCalendar,
-          swipe = _this$props8.swipe;
+      var _this$props10 = this.props,
+          calendarType = _this$props10.calendarType,
+          className = _this$props10.className,
+          icon = _this$props10.icon,
+          type = _this$props10.type,
+          _this$props10$onChang = _this$props10.onChange,
+          onChange = _this$props10$onChang === void 0 ? function () {} : _this$props10$onChang,
+          justCalendar = _this$props10.justCalendar,
+          swipe = _this$props10.swipe;
 
       if (type === 'multiselect') {
         return this.renderMultiselect();
@@ -613,16 +633,16 @@ var GAHDatePickerPopup = /*#__PURE__*/function (_Component3) {
   _createClass(GAHDatePickerPopup, [{
     key: "render",
     value: function render() {
-      var _this$props9 = this.props,
-          details = _this$props9.details,
-          fn = _this$props9.fn,
-          _this$props9$activeYe = _this$props9.activeYear,
-          activeYear = _this$props9$activeYe === void 0 ? details.year : _this$props9$activeYe,
-          _this$props9$activeMo = _this$props9.activeMonth,
-          activeMonth = _this$props9$activeMo === void 0 ? details.month : _this$props9$activeMo,
-          _this$props9$activeDa = _this$props9.activeDay,
-          activeDay = _this$props9$activeDa === void 0 ? details.day : _this$props9$activeDa,
-          details = _this$props9.details;
+      var _this$props11 = this.props,
+          details = _this$props11.details,
+          fn = _this$props11.fn,
+          _this$props11$activeY = _this$props11.activeYear,
+          activeYear = _this$props11$activeY === void 0 ? details.year : _this$props11$activeY,
+          _this$props11$activeM = _this$props11.activeMonth,
+          activeMonth = _this$props11$activeM === void 0 ? details.month : _this$props11$activeM,
+          _this$props11$activeD = _this$props11.activeDay,
+          activeDay = _this$props11$activeD === void 0 ? details.day : _this$props11$activeD,
+          details = _this$props11.details;
       var context = { ...this.props
       };
       return /*#__PURE__*/_react.default.createElement(GAHContext.Provider, {
@@ -658,10 +678,10 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
     key: "getCells_hour",
     value: function getCells_hour() {
       var fn = this.context.fn;
-      var _this$props10 = this.props,
-          activeYear = _this$props10.activeYear,
-          activeMonth = _this$props10.activeMonth,
-          activeDay = _this$props10.activeDay;
+      var _this$props12 = this.props,
+          activeYear = _this$props12.activeYear,
+          activeMonth = _this$props12.activeMonth,
+          activeDay = _this$props12.activeDay;
       var Hours = [];
 
       for (var hour = 0; hour < 24; hour++) {
@@ -673,9 +693,9 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
   }, {
     key: "getCells_day",
     value: function getCells_day() {
-      var _this$props11 = this.props,
-          activeYear = _this$props11.activeYear,
-          activeMonth = _this$props11.activeMonth;
+      var _this$props13 = this.props,
+          activeYear = _this$props13.activeYear,
+          activeMonth = _this$props13.activeMonth;
       var _this$context = this.context,
           calendarType = _this$context.calendarType,
           fn = _this$context.fn;
@@ -709,10 +729,10 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
           unit = _this$context2.unit,
           size = _this$context2.size,
           SetState = _this$context2.SetState;
-      var _this$props12 = this.props,
-          activeYear = _this$props12.activeYear,
-          activeMonth = _this$props12.activeMonth,
-          activeDay = _this$props12.activeDay;
+      var _this$props14 = this.props,
+          activeYear = _this$props14.activeYear,
+          activeMonth = _this$props14.activeMonth,
+          activeDay = _this$props14.activeDay;
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "gah-next",
         onClick: function onClick() {
@@ -739,10 +759,10 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
           SetState = _this$context3.SetState,
           _this$context3$theme = _this$context3.theme,
           theme = _this$context3$theme === void 0 ? [] : _this$context3$theme;
-      var _this$props13 = this.props,
-          activeYear = _this$props13.activeYear,
-          activeMonth = _this$props13.activeMonth,
-          activeDay = _this$props13.activeDay;
+      var _this$props15 = this.props,
+          activeYear = _this$props15.activeYear,
+          activeMonth = _this$props15.activeMonth,
+          activeDay = _this$props15.activeDay;
       var sign = calendarType === 'gregorian' ? 1 : -1;
 
       var onChange = function onChange(obj) {
@@ -774,9 +794,9 @@ var GAHDatePickerGrid = /*#__PURE__*/function (_Component4) {
     key: "getContentday",
     value: function getContentday() {
       var fn = this.context.fn;
-      var _this$props14 = this.props,
-          activeYear = _this$props14.activeYear,
-          activeMonth = _this$props14.activeMonth;
+      var _this$props16 = this.props,
+          activeYear = _this$props16.activeYear,
+          activeMonth = _this$props16.activeMonth;
       var Spaces = fn.renderSpaces(activeYear, activeMonth, 'react'),
           WeekDays = fn.renderWeekDays('react'),
           Days = this.getCells_day(),
@@ -816,13 +836,12 @@ function RDATE(_ref) {
           _getProps = getProps(),
           unit = _getProps.unit,
           calendarType = _getProps.calendarType,
-          startYear = _getProps.startYear,
-          endYear = _getProps.endYear;
+          years = _getProps.years;
 
       var today = $$.calc.getToday(calendarType);
       var splitter = '/';
 
-      if (typeof value === 'string') {
+      if (typeof value === 'string' && value) {
         splitter = $$.calc.getSplitter(value);
         Value = value.split(splitter).map(function (o, i) {
           return o ? parseInt(o) : today[i];
@@ -843,12 +862,12 @@ function RDATE(_ref) {
           day = _Value2[2],
           hour = _Value2[3];
 
-      if (year < startYear) {
-        year = startYear;
+      if (year < years[0]) {
+        year = years[0];
       }
 
-      if (year > endYear) {
-        year = endYear;
+      if (year > years[years.length - 1]) {
+        year = years[years.length - 1];
       }
 
       if (month < 1) {
@@ -922,8 +941,7 @@ function RDATE(_ref) {
           hour = _ref3[3];
 
       var _getProps2 = getProps(),
-          startYear = _getProps2.startYear,
-          endYear = _getProps2.endYear;
+          years = _getProps2.years;
 
       var _getState = getState(),
           splitter = _getState.splitter;
@@ -975,8 +993,8 @@ function RDATE(_ref) {
         weekDays: $$.calc.getWeekDays(calendarType),
         monthString: months[month - 1],
         todayMonthString: months[today[1] - 1],
-        startYear: startYear,
-        endYear: endYear,
+        startYear: years[0],
+        endYear: years[years.length - 1],
         dateString: year + splitter + month + splitter + day + (hourType ? splitter + hour : ''),
         fullDateString: year + splitter + month + splitter + day + ' ' + weekDay,
         today: today,
@@ -1003,8 +1021,7 @@ function RDATE(_ref) {
           month = _ref5[1];
 
       var _getProps4 = getProps(),
-          startYear = _getProps4.startYear,
-          endYear = _getProps4.endYear;
+          years = _getProps4.years;
 
       var _getState2 = getState(),
           splitter = _getState2.splitter;
@@ -1041,8 +1058,8 @@ function RDATE(_ref) {
         weekDays: $$.calc.getWeekDays(calendarType),
         monthString: months[month - 1],
         todayMonthString: months[today[1] - 1],
-        startYear: startYear,
-        endYear: endYear,
+        startYear: years[0],
+        endYear: years[years.length - 1],
         dateString: year + splitter + month,
         today: today,
         todayWeekDay: todayWeekDay,
@@ -1411,17 +1428,16 @@ function RDATE(_ref) {
       var activeYear = _ref6.activeYear;
 
       var _getProps15 = getProps(),
-          startYear = _getProps15.startYear,
-          endYear = _getProps15.endYear;
+          years = _getProps15.years;
 
       if (value === 1) {
-        if (activeYear === endYear) {
+        if (activeYear === years[years.length - 1]) {
           return;
         }
 
         activeYear++;
       } else {
-        if (activeYear === startYear) {
+        if (activeYear === years[0]) {
           return;
         }
 
@@ -1437,12 +1453,11 @@ function RDATE(_ref) {
           activeMonth = _ref7.activeMonth;
 
       var _getProps16 = getProps(),
-          startYear = _getProps16.startYear,
-          endYear = _getProps16.endYear;
+          years = _getProps16.years;
 
       if (value === 1) {
         if (activeMonth === 12) {
-          if (activeYear === endYear) {
+          if (activeYear === years[years.length - 1]) {
             return;
           }
 
@@ -1453,7 +1468,7 @@ function RDATE(_ref) {
         }
       } else {
         if (activeMonth === 1) {
-          if (activeYear === startYear) {
+          if (activeYear === years[0]) {
             return;
           }
 
@@ -1475,8 +1490,7 @@ function RDATE(_ref) {
           activeDay = _ref8.activeDay;
 
       var _getProps17 = getProps(),
-          startYear = _getProps17.startYear,
-          endYear = _getProps17.endYear;
+          years = _getProps17.years;
 
       var _getProps18 = getProps(),
           calendarType = _getProps18.calendarType;
@@ -1486,7 +1500,7 @@ function RDATE(_ref) {
 
         if (activeDay === daysLength) {
           if (activeMonth === 12) {
-            if (activeYear === endYear) {
+            if (activeYear === years[years.length - 1]) {
               return;
             }
 
@@ -1503,7 +1517,7 @@ function RDATE(_ref) {
       } else {
         if (activeDay === 1) {
           if (activeMonth === 1) {
-            if (activeYear === startYear) {
+            if (activeYear === years[0]) {
               return;
             } else {
               activeYear--;
