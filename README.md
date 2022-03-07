@@ -88,8 +88,8 @@ unit | 'month' or 'day' or 'hour' | 'day' | for select month , set unit as 'mont
 ### other props
 prop | type | default | Description
 ---- | ---- | ------- | -----------
-prevYears | number | 10 | numeber of years that can select before this year.
-nextYears | number | 20 | numeber of years that can select after this year.
+startYear | number or string | "-20" | startYear = "-20" means datepicker years start from 20 years ago. startYear = 2002 means datepicker years start from 2002.
+endYear | number or string | "+10" | endYear = "+10" means datepicker last year will be 10 years later. endYear = 2030 means datepicker last year will be 2030.
 setDisabled | function | optional | will called For each date and get the date object as parameter, must return a boolean to determine whether the date is disabled or not.
 getDateStyle | function | optional | will called For each date and get the date object as parameter, must return an css object as style of date.
 icon | html or jsx | optional | use icon in datepicker button.
