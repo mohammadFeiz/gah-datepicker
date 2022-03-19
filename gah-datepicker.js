@@ -82,7 +82,10 @@ export default class GAH extends Component{
               if(start.editValue){return start.editValue(text)}
               if(calendarType === 'gregorian'){return 'From' + ' : ' + text;}
               if(calendarType === 'jalali'){return 'از' + ' : ' + text}
-              
+            }}
+            onClear={!this.props.onClear && !start.onClear?undefined:()=>{
+              if(start.onClear){start.onClear()}
+              else{this.props.onClear()}
             }}
             onChange={start.onChange?(obj)=>start.onChange(obj):undefined}
             unit={unit}
@@ -100,6 +103,10 @@ export default class GAH extends Component{
               if(end.editValue){return end.editValue(text)}
               if(calendarType === 'gregorian'){return 'To' + ' : ' + text;}
               if(calendarType === 'jalali'){return 'تا' + ' : ' + text;}
+            }}
+            onClear={!this.props.onClear && !end.onClear?undefined:()=>{
+              if(end.onClear){end.onClear()}
+              else{this.props.onClear()}
             }}
             onChange={end.onChange?(obj)=>end.onChange(obj):undefined}
             unit={unit}

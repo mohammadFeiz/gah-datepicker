@@ -258,6 +258,13 @@ var GAH = /*#__PURE__*/function (_Component) {
               return 'از' + ' : ' + text;
             }
           },
+          onClear: !this.props.onClear && !start.onClear ? undefined : function () {
+            if (start.onClear) {
+              start.onClear();
+            } else {
+              _this2.props.onClear();
+            }
+          },
           onChange: start.onChange ? function (obj) {
             return start.onChange(obj);
           } : undefined,
@@ -285,6 +292,13 @@ var GAH = /*#__PURE__*/function (_Component) {
 
             if (calendarType === 'jalali') {
               return 'تا' + ' : ' + text;
+            }
+          },
+          onClear: !this.props.onClear && !end.onClear ? undefined : function () {
+            if (end.onClear) {
+              end.onClear();
+            } else {
+              _this2.props.onClear();
             }
           },
           onChange: end.onChange ? function (obj) {
