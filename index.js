@@ -846,11 +846,6 @@ function RDATE(_ref) {
         Value = value.split(splitter).map(function (o, i) {
           return o ? parseInt(o) : today[i];
         });
-
-        if (calendarType === 'gregorian') {
-          var a = new Date("".concat(Value[0]).concat(splitter).concat(Value[1]).concat(splitter).concat(Value[2]));
-          Value = [a.getFullYear(), a.getMonth() + 1, a.getDate(), Value[3]];
-        }
       } else {
         Value = today;
       }

@@ -357,10 +357,6 @@ export function RDATE({getState,getProps,setState}){
       if(typeof value === 'string' && value){
         splitter = $$.calc.getSplitter(value);
         Value = value.split(splitter).map((o,i)=>o?parseInt(o):today[i])
-        if(calendarType === 'gregorian'){
-          let a = new Date(`${Value[0]}${splitter}${Value[1]}${splitter}${Value[2]}`)
-          Value = [a.getFullYear(),a.getMonth()+1,a.getDate(),Value[3]]
-        }
       }
       else {Value = today;}  
       var [year,month,day,hour] = Value;
