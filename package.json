@@ -1,13 +1,13 @@
 {
   "name": "gah-datepicker",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "aio-button": "^2.1.1",
+    "aio-button": "^4.3.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
