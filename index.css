@@ -90,6 +90,12 @@
       z-index:1;
       cursor:pointer;
     }
+    .gah-select .aio-button{
+      background:none;
+      color:inherit;
+      font-size:inherit;
+      padding:0 3px;
+    }
     .gah-body{
       display:grid;
       flex:1 1;
@@ -163,7 +169,6 @@
       border:1px solid #ddd;
     }
     .gah-popup{
-      border:1px solid #ddd;
       width:fit-content;
     }
     .gah-popup button{
