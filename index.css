@@ -38,9 +38,9 @@
         align-items: center;
         justify-content: center;
         position:relative;
-        direction:lrt;
+        direction:ltr;
       }
-        .gah-next{
+        .gah-arrow{
           display:flex;
           align-items: center;
           z-index:1;
@@ -170,6 +170,9 @@
     }
     .gah-popup{
       width:fit-content;
+      height:fit-content;
+      background:#fff;
+      box-shadow:1px 1px 6px 0 rgba(0,0,0,.1)
     }
     .gah-popup button{
         width:unset !important; 
